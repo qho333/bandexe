@@ -1,97 +1,79 @@
-# BAND.EXE app (Phase 1)
+# BAND.EXE: free IELTS Writing checker
 
-Free IELTS Writing practice: write under exam timing, get an AI practice estimate with reviewed corrections, keep per-task results in the browser. Visual design is the approved `../mockups/` (tokens, five themes, components and copy reused).
+**Live site: https://bandexe.pages.dev**
 
-## Run
+BAND.EXE is a free practice site for IELTS Writing. Students write a Task 1 or Task 2 answer under exam timing and get an AI band estimate with criterion scores, reviewed corrections and next steps. There are no payments, upgrades or downloads, and no account is needed.
+
+The site is built and run by Quan Ho, a first-year college student, with AI coding help. It is a practice tool, not an official IELTS score.
+
+## What it does
+
+- **All three Writing tasks:** Academic Task 1 (charts), General Training Task 1 (letters) and Task 2 (essays), with 40 and 20 minute exam timers and word targets.
+- **Exam-style workspace:** the question and your answer side by side, with a timer, word count and checker panel. On Task 2 the question stays in view as you scroll.
+- **Band estimate:** four criterion bands (Task Response/Achievement, Coherence and Cohesion, Lexical Resource, Grammatical Range and Accuracy), an overall band and a likely range.
+- **Reviewed corrections:** every grammar fix and word-choice upgrade quotes your own text, and you can accept or reject each one. A code reviewer drops any fix that doesn't match your essay.
+- **Task 1 charts:** upload a chart image or use a built-in practice chart. The marker checks your figures against the chart.
+- **Practice questions:** 86 original questions (66 for Task 2, 20 General Training letters), checked so they don't copy existing published prompts.
+- **Helpers:** Coach, Synonyms and Ideas mascots for help while writing. Ideas never writes the essay for you.
+- **Progress:** per-task history and charts stored in your own browser, plus daily missions and collectibles.
+- **11 languages** for the interface and feedback: English, Vietnamese, Chinese, Japanese, Korean, Thai, Indonesian, Hindi, Spanish, Portuguese and Arabic.
+
+## How marking works
+
+Essays go to free AI models in this order, falling back when one is busy or out of free quota:
+
+1. Gemma 4 26B (Google AI Studio free tier)
+2. Groq free tier (Qwen 27B, gpt-oss-120b, gpt-oss-20b)
+3. OVH AI Endpoints (Llama 70B, Mistral)
+4. Cloudflare Workers AI
+5. OpenRouter free models (last resort, uncalibrated)
+
+Each model's raw bands are adjusted with a calibration fitted on **27 official IELTS sample scripts** that carry real examiner bands (IELTS.org 2023 Academic and General Training samples and computer-delivered samples). On those scripts, Gemma's calibrated overall band is within 0.5 of the examiner's on 87% and within 1 band on 95% (mean error 0.44 bands). 27 scripts is a small set, so treat these as rough figures. The overall band is computed in code, not by the AI, using the official half-band rounding.
+
+## Free limits
+
+To keep the site free for everyone, each browser gets 10 essay checks and 40 helper uses per day (UTC). An optional Google sign-in raises this to 15 checks and 60 helper uses. Limits are stored only as salted daily hashes, never as your IP address or browser ID.
+
+## Privacy
+
+- Essays are sent to the AI providers above for marking and are not stored by this site. Reviewed reports are cached for 24 hours so a repeat check costs nothing.
+- History, drafts and settings stay in your browser's local storage.
+- Each AI provider's own terms apply to the text it receives; the site's Privacy page explains this in all 11 languages.
+
+## Tech
+
+- **Frontend:** Vite, React 19, TypeScript, GSAP for number and chart animations.
+- **Backend:** Cloudflare Pages Functions (`functions/api/[[path]].ts`), D1 for daily allowances, KV for the report cache.
+- **Shared code** (`shared/`): marking prompts, model routing, validation, review and scoring, used by both the API and the browser.
+- **Tests:** Vitest, about 940 tests covering marking, review, scoring, limits, routing, history and UI helpers.
+
+```
+src/          React app: screens, components, i18n catalogues, practice charts
+functions/    Cloudflare Pages API (mark, helper, chart reading, accounts, allowances)
+shared/       Isomorphic marking, routing, prompts, scoring and limits
+server/       Local Node API for development, with fixture replies
+migrations/   D1 schema
+tests/        Vitest tests
+research-data/tools/  Calibration runner for the official scripts (the scripts themselves are not included)
+```
+
+The `*.md` files next to this README are development briefs and implementation notes.
+
+## Run locally
+
+Node 22 or newer.
 
 ```sh
-cd app
 npm install
-npm run dev          # reads the Gemini key from Keychain, starts API (127.0.0.1:8787) + Vite (http://localhost:5180)
-npm run dev:fixture  # same UI, site API replays a labelled fixture (no site quota used)
-npm test             # vitest: marking, review, own-key routing, persistence, fallback, history and UI helpers
-npm run build        # tsc + vite build into dist/
+npm run dev:fixture  # full UI with canned marking replies, no API keys needed
+npm test
+npm run build
 ```
 
-Key: `security add-generic-password -U -a "$USER" -s gemini-api-key -w`. `scripts/dev.js` reads it once with `security find-generic-password -s gemini-api-key -w`, passes it only to the API process (as `GEMINI_API_KEY`), never to Vite, never logs it. A key in the environment also works. Launch configs `app` and `app-fixture` are in `../.claude/launch.json`. Node 22+.
+`npm run dev` uses real models and needs your own free API keys (it reads `GEMINI_API_KEY` from the environment or the macOS Keychain). Never commit keys: `.dev.vars` and `.env*` are git-ignored.
 
-## Choose a checker
+## Not included
 
-New visitors open the writing workspace with **Free checker** selected. The default cloud pool
-tries Mistral's free Experiment plan, optional OpenRouter free models, then Cloudflare Workers AI.
-No age prompt, key or model download is needed. Pages checks require D1 and QUOTA_SALT and have a 10/IPv4-address-or-IPv6-/64/UTC-day allowance; helpers and study examples share a separate 40/day allowance. Optional Google sign-in raises these account limits to 15 checks and 60 helpers per UTC day and syncs summary-only progress. See DEPLOY_CLOUDFLARE.md for setup.
-New cloud operations pause with a retry message if allowance storage is unavailable; tester requests may continue. Cached reports use no provider calls or allowance. Everything stays free: no billing, purchases or paid upgrades.
-See [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md) for configuration and limits.
+Official IELTS sample scripts, the research database and AI-marked datasets are not in this repository. They belong to their publishers.
 
-The only optional checker is **Your own Gemini key (18+)**, under More options. It keeps its
-age confirmation and EU/EEA/CH/UK restrictions. Free checking and helpers are open to everyone.
-After pool exhaustion or a network failure, an already-available Chrome built-in model may give
-feedback only. It never requests a model installation. There are no student model-download controls.
-Legacy WebLLM adapters remain unreachable from the student UI and outside the production bundle.
-All device engines are feedback-only: no bands, range, criterion bands, celebration or chart points.
-
-For your own quota, open [Google AI Studio](https://aistudio.google.com/apikey), sign in, choose Create API key, and save it in the Write page's password field. Use only its free allowance. The key is stored only in this browser; anyone using this browser profile can use it. Remove it on shared computers. If storage is blocked, it is kept only for the current page session. Test key makes one small Flash-Lite request and displays Google's error if rejected.
-
-Own-key marking and helpers in a chosen Gemini mode go directly to Google using the `x-goog-api-key` header. The student's key never goes to `/api`, URLs or logs. Own-key marking uses the same Gemini model, prompts, repair, review and scoring as Site checker. Google's free quota still applies. Reports and saved history record the checker used. The server key remains in its environment; it is separate from browser keys.
-
-Scan scenarios in fixture mode: put `[fixture:NAME]` and/or `[delay:SECONDS]` anywhere in the essay (or set `MARK_FIXTURE_NAME` / `MARK_FIXTURE_DELAY`). Names: `sample` (default), `clean` (no issues), `one`, `many` (36 issues quoted from your own essay: first/last word, long wrapping phrase, adjacent, overlapping, repeated), `quota`, `offline`, `unreadable`, `limit`. See `server/lib/fixture.js`. Fixture mode applies to the site API only. A saved student key still makes real Google requests for own-key marking, helpers and Test key.
-
-Reports include on-demand Free study models, essay-scoped feedback chat (ten messages in page memory),
-print export, eleven feedback languages, and a local "Since last time" comparison of recurring themes.
-There are no report download buttons. Quotes and replacements stay English; history never changes a band.
-Study models are labelled as examples, never the student's own writing or a guaranteed score.
-
-## Structure
-
-```
-server/index.js            Local HTTP server: mark, helper, model-answer, health; logs method, status, task/role and counts only
-shared/                   isomorphic free pool / Gemini marking, study & helper prompts, languages, validation, review and scoring
-shared/prompts.generated.js generated from server/prompts/*.md by dev, build and test
-server/lib/helper.js       shared helper exports, server-only per-session limiter and fixture replies
-server/lib/validate.js     input checks (task, question, 50-1200 words, PNG/JPG chart <= 4 MB for Academic T1)
-server/lib/prompt.js       prompt_v2 method + Task 1 addendum (+ chart / GT notes) + prompt_report_v1
-server/lib/mark.js         Gemini call (gemini-3.6-flash, temperature 0, JSON), one repair retry, honest errors
-server/lib/review.js       reviewer: exact-substring originals, fix differs, valid criterion, whole bands 1-9
-server/lib/score.js        overall = mean of 4 bands rounded DOWN to the half band; range +/-1
-server/prompts/            copies of research-data/marker/{prompt_v2,task1_addendum_v2,prompt_report_v1}.md
-server/fixtures/           sample-report.fixture.json, clean.fixture.json (hand-written, prompt_report_v1 shape, NOT a real marking)
-server/lib/fixture.js      fixture-mode only: picks the fixture and reply delay per request
-src/App.tsx                screens (hash routes), draft, job state, history, Lenis on Results/Overview only
-src/components/            Boot, Login, Header (Display menu), Write (+Toolbox), Results, Celebrate, Overview, Mascots
-src/lib/                   spider (scan creature), scan (issue matching + report gate), helper (Datamuse + /api/helper), history, prefs, fixes, api, types
-src/lib/device*.ts         consent/state controller, pure report adapter, lazy WebLLM runtime and module worker
-tests/                     vitest unit tests
-```
-
-## Real vs placeholder
-
-Real:
-- Task 2, GT Task 1 letter, Academic Task 1 with chart upload (preview, sent as base64, forwarded to Gemini as inlineData so data accuracy can be checked). Minimums 250/150/150, timer presets 40/20/20.
-- Gemini marking + code reviewer + overall in code, labelled "AI practice estimate (provisional calibration)". A criterion that is still invalid after one repair retry is withheld (shown as "–"), and then no overall is shown. Never 0.
-- 429 shows "Free daily AI quota reached; try again later. No score was produced."; 5xx/network shows an honest unavailable message. No invented scores.
-- Results: overall decrypt (GSAP), ruler with range, criterion tiles with summaries and sub-skill bars, grammar corrections and word-choice upgrades with Accept/Reject (and Accept all/Reject all) that edit the draft, per-paragraph comments + How to rewrite, structure advice, strengths, top 3. Scanning spider (capsule body, 8 two-segment legs with amber knee/foot dots) scurries over the essay while the request is in flight, planting its feet on words; a foot or front-leg tap on a reviewed issue marks it (magenta box = grammar, yellow highlighter = word choice, criterion tag). The report opens only after every issue is marked, the spider reaches the bottom and the result is ready ("Skip animation" link; reduced motion shows marks in order with no spider). The report starts with the whole essay marked in place, with popovers (problem, fix, reason, Accept/Reject).
-- Personal-best celebration only when a new valid overall beats the previous best for the same task type. Fixture results are never saved or celebrated.
-- Overview: per-task-type tabs, chart + table, latest priorities, empty state, Delete history. Stored in localStorage: results only (bands, overall, range, words, priorities), never essay text.
-- Themes Mono (default) / Matrix / Amber / Cyan / Paper, effects (scanlines, glow, boot intro, running mascots, reduced motion) saved in localStorage.
-- Mascots Coach, Synonyms, Ideas run on a bottom track (walk, run, turn, hop up the left gutter on wide screens, hover hop, click opens a panel); they pause while typing, slide away if the editor reaches under the track or a mobile keyboard opens, stop when the tab is hidden, and sit in a static dock with reduced motion or "Running mascots" off. Synonyms looks up Datamuse (free; "band 7+" tag for less common words; click replaces the selected word). Ideas and Coach use the saved student key directly with Google when available; otherwise they call POST /api/helper (gemini-3.1-flash-lite, own per-session limit; Ideas never writes the essay). Fixture mode shows labelled canned helper replies; real helper calls not verified yet. Fixture mode also adds "Load sample answer (fixture test)" on Write.
-
-Placeholder / not yet:
-- Optional Google sign-in uses the official Google button, WebCrypto verification and a 30-day signed session. Without GOOGLE_CLIENT_ID the Coming soon card and guest mode remain. Account menus include sign-out and confirmed account deletion.
-- Range is +/-1 band because there is no Gemini calibration yet (measured within-1 agreement 88%, within-0.5 65% on the development set).
-- Mascot art is draft (owner has not chosen a family).
-- Chrome fallback is tested with mocked availability and generation; real-provider and hardware checks remain separate.
-- Privacy & terms is implemented; real-provider checks and open-model calibration remain deployment follow-up work.
-
-## Verification status (2026-10-25)
-
-- `npm test` (23 tests) and `npm run build` pass. UI checked in the browser with the fixture: login, write, scan + drone + highlights, report, accept/reject editing the draft, overview chart and empty state, Paper theme, phone width.
-- Real Gemini calls NOT verified: call 1 (Task 2) returned an upstream error (502 to the client, logged before upstream status logging was added); call 2 (GT letter) returned `429 RESOURCE_EXHAUSTED`. Both showed honest no-score messages. Run one real Task 2 and one GT check after the quota resets.
-- Celebration overlay logic is unit-tested; the overlay itself was not seen with a real result.
-
-## Next phase
-
-1. Helper bots: Synonyms via Datamuse, Grammar via LanguageTool, Spell via Hunspell (typo-js); Ideas via Gemini Flash-Lite with its own limit.
-2. Live Google OAuth smoke test after the owner configures GOOGLE_CLIENT_ID and applies migration 0003 (no Supabase or paid service).
-3. Verify the already-available Chrome feedback fallback on supported hardware.
-4. Extend official-script calibration with independent validation before narrowing the uncertainty range.
-5. Reviewer meaning checks with Flash-Lite, per-student daily limits and a queue, privacy and terms pages.
+IELTS is a registered trademark of the University of Cambridge, the British Council and IDP Education. This project is not affiliated with or endorsed by them.
