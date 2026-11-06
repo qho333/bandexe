@@ -1,0 +1,134 @@
+/* Helper mascots: bottom track, runners, nudge bubbles and the tucked handle.
+   Colours come only from theme tokens (--m-*, --fg, --line...), so all five themes work.
+   --track-h is set in app.css (64px desktop, 54px phone); --dock-h is measured by Mascots.tsx. */
+
+:root { --mascot-w: 56px; --mascot-art: 40px; }
+
+.mascot-track {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: flex; align-items: stretch; gap: var(--s-4);
+  height: calc(var(--track-h) + env(safe-area-inset-bottom, 0px));
+  padding: 0 var(--s-4) env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--line); background: var(--bg);
+  transition: transform 0.22s ease, visibility 0s linear 0s;
+}
+.mascot-track.is-tucked { transform: translateY(100%); visibility: hidden; transition: transform 0.22s ease, visibility 0s linear 0.22s; }
+html:not(.motion-ok) .mascot-track { transition: none; }
+
+/* Play space overlays the dock. The transparent layer never intercepts content input. */
+.mascot-lane { position: absolute; left: var(--s-4); right: 212px; bottom: env(safe-area-inset-bottom, 0px); height: calc(var(--track-h) + 48px); pointer-events: none; }
+.mascot-track.is-static .mascot-lane { display: flex; align-items: flex-end; gap: var(--s-2); padding-bottom: 3px; }
+
+.mascot-track .mascot-runner {
+  position: absolute; left: 0; bottom: 3px;
+  width: var(--mascot-w); padding: 2px 0; gap: 1px;
+  pointer-events: auto; will-change: transform; touch-action: none; user-select: none; min-height: 44px;
+}
+.mascot-track.is-static .mascot-runner { position: relative; bottom: auto; will-change: auto; }
+.mascot-runner:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.mascot-runner:disabled .mascot-runner__name { color: var(--fg-dim); }
+.mascot-runner.is-dragging { z-index: 3; cursor: grabbing; }
+.mascot-track:not(.is-static) .mascot-runner { cursor: grab; }
+.mascot-track.is-static .mascot-runner { touch-action: manipulation; }
+.mascot-runner__body { position: relative; display: block; }
+.mascot-runner__art { display: block; }
+.mascot-runner .mascot { display: block; width: var(--mascot-art); height: var(--mascot-art); }
+.mascot-runner__name { display: block; font-size: var(--t-11); line-height: 1.15; white-space: nowrap; max-width: 84px; margin-inline: auto; overflow: hidden; text-overflow: ellipsis; }
+.mascot-runner:hover .mascot-runner__name, .mascot-runner[aria-expanded="true"] .mascot-runner__name { color: var(--fg); }
+
+/* Thinking dots: square terminal pixels above the head while a panel waits for an answer. */
+.mascot-think { position: absolute; top: -2px; right: -6px; display: none; gap: 2px; }
+.mascot-think i { display: block; width: 3px; height: 3px; background: var(--m-line); }
+.mascot-runner.is-thinking .mascot-think { display: flex; }
+
+.mascot-dock-meta { margin-left: auto; flex: 0 0 180px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; padding-bottom: 4px; }
+.mascot-track .dock__label {
+  display: block; order: 3; width: 100%; margin: 0; padding-top: 3px;
+  white-space: nowrap; text-align: right; line-height: 1.25; pointer-events: none;
+}
+.mascot-floor { position: absolute; left: 0; right: 0; bottom: 0; height: var(--track-h); width: 100%; padding: 0; background: none; border: 0; cursor: crosshair; touch-action: manipulation; pointer-events: auto; }
+.mascot-floor:focus-visible { outline: 2px solid var(--focus); outline-offset: -3px; }
+.mascot-track.is-static .mascot-floor { display: none; }
+.mascot-runner { z-index: 1; }
+.mascot-help-tip { position: absolute; left: var(--s-3); bottom: calc(100% + 8px); display: flex; align-items: center; gap: var(--s-2); padding: 2px 2px 2px var(--s-3); max-width: calc(100vw - 24px); background: var(--panel); border: 1px solid var(--line-strong); color: var(--fg); font-size: var(--t-12); }
+.mascot-help-tip button { min-width: 44px; min-height: 44px; }
+.mascot-sleep, .mascot-dizzy { display: none; position: absolute; right: -3px; top: -8px; color: var(--m-line); font-family: var(--f-mono); font-size: var(--t-12); line-height: 1; pointer-events: none; }
+.mascot-sleep span { font-size: var(--t-10, 10px); vertical-align: super; }
+.mascot-track.is-sleeping .mascot-sleep, .mascot-runner.is-dizzy .mascot-dizzy { display: block; }
+.mascot-ball { position: absolute; left: 0; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); width: 8px; height: 8px; border: 1px solid var(--m-line); background: var(--m-body); border-radius: 50%; transform: scale(0); pointer-events: none; }
+.mascot-confetti { position: absolute; left: 0; bottom: calc(22px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
+.mascot-confetti i { position: absolute; width: 4px; height: 4px; background: var(--m-line); transform: scale(0); }
+.mascot-confetti i:nth-child(3n + 1) { background: var(--accent); }
+.mascot-confetti i:nth-child(3n + 2) { background: var(--fg); }
+.mascot-track.is-static .mascot-ball, .mascot-track.is-static .mascot-confetti { display: none; }
+
+/* One shared line weight at every size (flat 2D, no depth). GSAP blinks the runners; no CSS blink in the dock. */
+.mascot .m-body, .mascot .m-line { vector-effect: non-scaling-stroke; stroke-width: 1.5px; }
+.mascot--lg .m-body, .mascot--lg .m-line { stroke-width: 2.5px; }
+.mascot .m-face { stroke: var(--m-eye); }
+.mascot .m-tip { stroke: var(--m-line); stroke-width: 1.5px; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+html.motion-ok .mascot-track .mascot .m-eyes { animation: none; }
+
+/* Nudge bubble: rare, small, dismissible. */
+.mascot-bubbles { position: absolute; left: 0; right: 0; bottom: calc(100% + var(--action-h, 0px)); height: 0; }
+.mascot-bubble {
+  position: absolute; bottom: 8px; max-width: min(260px, calc(100vw - 32px));
+  display: flex; align-items: flex-start; gap: 2px;
+  padding: 2px 2px 2px 10px;
+  background: var(--panel); color: var(--fg); border: 1px solid var(--line-strong);
+  box-shadow: 0 4px 16px var(--shadow);
+  font-family: var(--f-read); font-size: var(--t-13); line-height: 1.4;
+}
+.mascot-bubble::after {
+  content: ""; position: absolute; top: 100%; left: var(--tail, 20px);
+  width: 8px; height: 8px; background: var(--panel);
+  border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong);
+  transform: translateY(-4px) rotate(45deg);
+}
+.mascot-bubble__text {
+  flex: 1; min-width: 0; min-height: 44px; padding: 6px 0; text-align: left;
+  background: none; border: 0; color: inherit; font: inherit; cursor: pointer; overflow-wrap: anywhere;
+}
+.mascot-bubble__text:hover { text-decoration: underline; text-underline-offset: 3px; }
+.mascot-bubble__x {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center;
+  background: none; border: 0; color: var(--fg-dim); font: inherit; font-size: var(--t-17); cursor: pointer;
+}
+.mascot-bubble__x:hover { color: var(--fg); }
+.mascot-bubble button:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+html.motion-ok .mascot-bubble { animation: mascot-bubble-in 0.18s ease-out; }
+@keyframes mascot-bubble-in { from { opacity: 0; transform: translateY(4px); } }
+
+/* Shown while the dock is tucked away for typing / the phone keyboard. */
+.mascot-handle {
+  position: fixed; right: var(--s-3); bottom: 0; z-index: 30;
+  display: none; align-items: center; gap: 6px;
+  height: calc(30px + env(safe-area-inset-bottom, 0px)); min-width: 44px;
+  padding: 0 var(--s-3) env(safe-area-inset-bottom, 0px);
+  background: var(--bg); color: var(--fg-dim); border: 1px solid var(--line); border-bottom: 0;
+  font-family: var(--f-mono); font-size: var(--t-11); cursor: pointer;
+}
+.mascot-handle.is-shown { display: inline-flex; }
+.mascot-handle:hover { color: var(--fg); border-color: var(--line-strong); }
+.mascot-handle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+@media (max-width: 600px) {
+  :root { --mascot-w: 56px; --mascot-art: 32px; }
+  .mascot-track { gap: var(--s-2); padding-inline: var(--s-2); }
+  .mascot-lane { left: var(--s-2); right: 110px; }
+  .mascot-dock-meta { flex-basis: 96px; }
+  .mascot-track .dock__label { font-size: 10px; line-height: 1.25; }
+  .mascot-runner__name { font-size: 10px; letter-spacing: 0; }
+}
+
+@media print { .mascot-handle { display: none !important; } }
+
+/* The live preference is applied before the stage is recreated; no transient decorations in static mode. */
+@media (prefers-reduced-motion: reduce) {
+  .mascot-track { transition: none; }
+  .mascot-track *, .mascot-track *::after { animation: none !important; transition: none !important; }
+}
+@media (max-width: 340px) {
+  .mascot-dock-meta { flex-basis: 88px; }
+  .mascot-lane { right: 100px; }
+}

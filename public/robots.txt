@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bandexe.pages.dev/sitemap.xml

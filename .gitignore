@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+.dev.vars.*
+.env*
+*.tsbuildinfo
+.DS_Store
+research-data/downloads/
+research-data/marker/
+*.jsonl

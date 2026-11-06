@@ -1,0 +1,31 @@
+name = "bandexe"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+# Wrangler 4.149.0 Pages config does not support ratelimits (Workers only).
+# See DEPLOY_CLOUDFLARE.md for limits and the optional binding contract.
+
+# Server secrets: GROQ_API_KEY (set), optional OPENROUTER_API_KEY; MISTRAL_API_KEY is legacy/last.
+# Set with wrangler pages secret put; never put key values in this file.
+[ai]
+binding = "AI"
+
+# Public Google OAuth web client ID (Google Cloud project "bandexe-sign-in"); not a secret.
+# QUOTA_SALT already derives account UIDs and session signatures; no client secret.
+[vars]
+GOOGLE_CLIENT_ID = "422867662838-c150asobn41526ojbmc4hk9l9uv842u1.apps.googleusercontent.com"
+# Gemma on the owner's free AI Studio key (Google may use free-tier data; disclosed on the Privacy page).
+FREE_GEMMA = "1"
+# OVHcloud AI Endpoints (keyless, EU, contract: inputs not reused or backed up). Chart reader and marker.
+FREE_OVH = "1"
+
+# KV stores reviewed reports for 24 hours. D1 stores allowances, aggregates and account summaries.
+[[kv_namespaces]]
+binding = "QUOTA"
+id = "aeb7f334093f4df99289588d9444f8d3"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bandexe"
+database_id = "6952c136-3456-479a-8cb7-45a9cd1a325d"
+migrations_dir = "migrations"

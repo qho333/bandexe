@@ -1,0 +1,22 @@
+{
+ "_note": "FIXTURE: hand-written sample data for UI work only, NOT a real marking. A report with no corrections or upgrades (the 'perfect essay' scan). The 'one' and 'many' fixtures reuse it and add issues quoted from the submitted essay.",
+ "criteria": {
+  "tr": {"band": 8, "summary": "Fixture summary: the answer addresses every part of the task with a clear position.",
+         "subskills": {"relevance_to_prompt": 8, "clarity_of_position": 8, "depth_of_ideas": 8, "examples_and_support": 7, "format_and_length": 8}},
+  "cc":  {"band": 8, "summary": "Fixture summary: ideas are logically sequenced and paragraphing is clear.",
+         "subskills": {"logical_organisation": 8, "introduction_and_conclusion": 8, "paragraphing": 8, "cohesive_devices": 7, "referencing": 8}},
+  "lr":  {"band": 8, "summary": "Fixture summary: a wide, precise range of vocabulary.",
+         "subskills": {"range": 8, "precision_and_collocation": 8, "spelling_and_word_formation": 8}},
+  "gra": {"band": 8, "summary": "Fixture summary: a wide range of structures, almost always accurate.",
+         "subskills": {"range_of_structures": 8, "accuracy": 8, "punctuation": 8}}
+ },
+ "grammar_corrections": [],
+ "word_choice_upgrades": [],
+ "paragraphs": [
+  {"label": "Opening", "comments": {"tr": "Fixture comment: the position is clear.", "cc": "Fixture comment: leads well into the body.", "lr": "", "gra": ""}, "how_to_rewrite": ""},
+  {"label": "Body", "comments": {"tr": "Fixture comment: ideas are supported.", "cc": "", "lr": "Fixture comment: precise word choice.", "gra": "Fixture comment: accurate complex sentences."}, "how_to_rewrite": ""}
+ ],
+ "structure_advice": "Fixture advice: keep the same structure.",
+ "strengths": ["Fixture strength: clear position.", "Fixture strength: accurate grammar."],
+ "top_3_priorities": ["Fixture priority: add one more specific example.", "Fixture priority: vary linking phrases.", "Fixture priority: check the word count."]
+}

@@ -1,0 +1,163 @@
+/* The chosen background: one fixed layer behind everything, slow on purpose.
+   Only transform and opacity move, except the Graph Paper line (a small stroke). */
+.bgx { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; contain: strict; }
+.bgx svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bgx svg * { transform-box: fill-box; transform-origin: center; vector-effect: non-scaling-stroke; }
+.bgx .write { vector-effect: none; stroke-width: .8; stroke-dasharray: 150; }
+.bgx--thumb, .bgx--preview { position: absolute; z-index: 0; }
+.bgx--thumb, .bgx--thumb *, html:not(.motion-ok) .bgx, html:not(.motion-ok) .bgx * { animation: none !important; }
+
+.bgx .ruled, .bgx .dots, .bgx .graph { position: absolute; inset: -48px; }
+.bgx .stripes { position: absolute; inset: 0 -64px; background: repeating-linear-gradient(90deg, #fde7dc 0 32px, #fff5ef 32px 64px); animation: bg-stripes 120s linear infinite; }
+.bgx .ruled { background: repeating-linear-gradient(0deg, #9db8dd 0 1px, transparent 1px 24px); animation: bg-drifty 110s linear infinite; }
+.bgx .dots { background: radial-gradient(#a78bc9 1.4px, transparent 2px) 0 0 / 16px 16px; animation: bg-driftd 120s linear infinite; }
+.bgx .graph { background: linear-gradient(#a7d4bd 1px, transparent 1px) 0 0 / 24px 24px, linear-gradient(90deg, #a7d4bd 1px, transparent 1px) 0 0 / 24px 24px; animation: bg-driftx 130s linear infinite; }
+.bgx .cl1, .bgx .cl2 { position: absolute; }
+.bgx .cl1 { left: 0; top: 0; width: 70%; height: 100%; background: radial-gradient(closest-side, rgba(138,92,214,.5), transparent); animation: bg-cloud 80s ease-in-out infinite; }
+.bgx .cl2 { right: 0; top: 20%; width: 60%; height: 80%; background: radial-gradient(closest-side, rgba(66,120,214,.42), transparent); animation: bg-cloud 110s ease-in-out -40s infinite; }
+.bgx .au { position: absolute; left: -10%; width: 120%; height: 50%; -webkit-mask-image: linear-gradient(transparent, #000 50%, transparent); mask-image: linear-gradient(transparent, #000 50%, transparent); animation: bg-aur 70s ease-in-out infinite; }
+.bgx .au1 { top: 4%; background: linear-gradient(90deg, transparent, rgba(66,224,160,.6), rgba(100,120,240,.5), transparent); }
+.bgx .au2 { top: 30%; background: linear-gradient(90deg, transparent, rgba(170,90,230,.5), rgba(66,224,160,.5), transparent); animation-duration: 95s; animation-delay: -40s; }
+
+.bgx .caret { animation: bg-caret 6s steps(1) infinite; }
+.bgx .write { animation: bg-write 30s ease-in-out infinite; }
+.bgx .gl1 { animation: bg-glow 45s ease-in-out infinite; }
+.bgx .gl2 { animation: bg-glow 60s ease-in-out -20s infinite; }
+.bgx .gl3 { animation: bg-glow 75s ease-in-out -40s infinite; }
+.bgx .rain { animation: bg-fall 45s linear infinite; }
+.bgx .rain2 { animation: bg-fall 62s linear -20s infinite; }
+.bgx .rp1 { animation: bg-ripple 14s ease-out infinite; }
+.bgx .rp2 { animation: bg-ripple 14s ease-out -7s infinite; }
+.bgx .fl1 { animation: bg-float 70s ease-in-out infinite; }
+.bgx .fl2 { animation: bg-float 95s ease-in-out -30s infinite; }
+.bgx .fl3 { animation: bg-float 120s ease-in-out -60s infinite; }
+.bgx .wn1 { animation: bg-wander 50s ease-in-out infinite; }
+.bgx .wn2 { animation: bg-wander 68s ease-in-out -24s infinite; }
+.bgx .flut { animation: bg-flutter 9s ease-in-out infinite; }
+.bgx .w1 { animation: bg-wave 60s linear infinite; }
+.bgx .w2 { animation: bg-wave 85s linear infinite; }
+.bgx .w3 { animation: bg-wave 110s linear infinite; }
+.bgx .boat { animation: bg-boat 10s ease-in-out infinite; }
+.bgx .moon { animation: bg-rise 180s ease-in-out infinite; }
+.bgx .halo { animation: bg-glow 40s ease-in-out infinite; }
+.bgx .shoot { animation: bg-shoot 40s linear infinite; }
+.bgx .spark { offset-path: path("M180 166 L112 96 L104 62 L134 36 L180 62 L226 36 L256 62 L248 96 Z"); animation: bg-travel 36s linear infinite; }
+
+.bgx .hw1 { animation: bg-hrise 70s ease-in-out infinite; }
+.bgx .hw2 { animation: bg-hrise 95s ease-in-out -30s infinite; }
+.bgx .hw3 { animation: bg-hrise 120s ease-in-out -60s infinite; }
+.bgx .hw4 { animation: bg-hrise 85s ease-in-out -15s infinite; }
+.bgx .beat { animation: bg-beat 6s ease-in-out infinite; }
+.bgx .hw2b { animation-delay: -2s; } .bgx .hw3b { animation-delay: -4s; } .bgx .hw4b { animation-delay: -1s; }
+.bgx .hm1 { animation: bg-hup 30s ease-out infinite; }
+.bgx .hm2 { animation: bg-hup 38s ease-out -12s infinite; }
+.bgx .hm3 { animation: bg-hup 34s ease-out -22s infinite; }
+.bgx .hm4 { animation: bg-hup 42s ease-out -5s infinite; }
+html:not(.motion-ok) .bgx .hm1, html:not(.motion-ok) .bgx .hm2, html:not(.motion-ok) .bgx .hm3, html:not(.motion-ok) .bgx .hm4 { display: none; }
+
+.bgx .bob1 { animation: bg-bob 30s ease-in-out infinite; }
+.bgx .bob2 { animation: bg-bob 40s ease-in-out -14s infinite; }
+.bgx .bob3 { animation: bg-bob 35s ease-in-out -24s infinite; }
+.bgx .curl { transform-origin: 0 100%; animation: bg-curl 12s ease-in-out infinite; }
+.bgx .lf1 { animation: bg-leaf 36s linear infinite; }
+.bgx .lf2 { animation: bg-leaf 46s linear -14s infinite; }
+.bgx .lf3 { animation: bg-leaf 40s linear -26s infinite; }
+.bgx .lf4 { animation: bg-leaf 52s linear -36s infinite; }
+.bgx .pl1 { animation: bg-plane 48s linear infinite; }
+.bgx .pl2 { animation: bg-plane 66s linear -30s infinite; }
+.bgx .cx1 { animation: bg-cloudx 90s linear infinite; }
+.bgx .cx2 { animation: bg-cloudx 130s linear -60s infinite; }
+.bgx .cx3 { animation: bg-cloudx 110s linear -30s infinite; }
+.bgx .bl1 { animation: bg-balloon 70s linear infinite; }
+.bgx .bl2 { animation: bg-balloon 90s linear -30s infinite; }
+.bgx .bl3 { animation: bg-balloon 80s linear -55s infinite; }
+.bgx .sw { transform-origin: 50% 0; animation: bg-sway 14s ease-in-out infinite; }
+.bgx .sn1 { animation: bg-snow 60s linear infinite; }
+.bgx .sn2 { animation: bg-snow 85s linear -40s infinite; }
+.bgx .smoke { animation: bg-smoke 30s ease-out infinite; }
+.bgx .jl1 { animation: bg-jelly 24s ease-in-out infinite; }
+.bgx .jl2 { animation: bg-jelly 32s ease-in-out -12s infinite; }
+.bgx .bub1 { animation: bg-bubble 26s ease-out infinite; }
+.bgx .bub2 { animation: bg-bubble 36s ease-out -16s infinite; }
+.bgx rect.wn1 { animation: bg-win 50s steps(1) infinite; }
+.bgx rect.wn2 { animation: bg-win 70s steps(1) -30s infinite; }
+.bgx rect.wn3 { animation: bg-win 60s steps(1) -45s infinite; }
+
+@keyframes bg-drifty { to { transform: translateY(48px); } }
+@keyframes bg-driftd { to { transform: translate(32px, 32px); } }
+@keyframes bg-driftx { to { transform: translateX(48px); } }
+@keyframes bg-stripes { to { transform: translateX(64px); } }
+@keyframes bg-caret { 0%, 45% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@keyframes bg-write { 0% { stroke-dashoffset: 150; } 70%, 100% { stroke-dashoffset: 0; } }
+@keyframes bg-fall { from { transform: translateY(-200px); } to { transform: translateY(200px); } }
+@keyframes bg-ripple { 0% { transform: scale(.2); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes bg-float { 0%, 100% { transform: translate(0, 0) rotate(-7deg); } 50% { transform: translate(10px, -20px) rotate(7deg); } }
+@keyframes bg-flutter { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes bg-wander { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(18px, -14px); } 66% { transform: translate(-12px, 10px); } }
+@keyframes bg-glow { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+@keyframes bg-beat { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.05); } 24% { transform: scale(1); } 36% { transform: scale(1.03); } 48% { transform: scale(1); } }
+@keyframes bg-hrise { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-44px) rotate(5deg); } }
+@keyframes bg-hup { 0% { transform: translateY(40px) scale(.7); opacity: 0; } 20% { opacity: .8; } 100% { transform: translateY(-420px) scale(1); opacity: 0; } }
+@keyframes bg-cloud { 0%, 100% { transform: translate(-14%, 4%) scale(1); } 50% { transform: translate(14%, -8%) scale(1.15); } }
+@keyframes bg-wave { to { transform: translateX(-200px); } }
+@keyframes bg-boat { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-5px) rotate(4deg); } }
+@keyframes bg-rise { 0%, 100% { transform: translateY(30px); } 50% { transform: translateY(-12px); } }
+@keyframes bg-shoot { 0%, 88% { transform: translate(0, 0); opacity: 0; } 90% { opacity: 1; } 100% { transform: translate(170px, 70px); opacity: 0; } }
+@keyframes bg-travel { to { offset-distance: 100%; } }
+@keyframes bg-bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+@keyframes bg-curl { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
+@keyframes bg-leaf { 0% { transform: translate(0, -40px) rotate(0); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translate(50px, 240px) rotate(260deg); opacity: 0; } }
+@keyframes bg-plane { 0% { transform: translate(-90px, 50px) rotate(-8deg); opacity: 0; } 10%, 90% { opacity: 1; } 100% { transform: translate(440px, -70px) rotate(-8deg); opacity: 0; } }
+@keyframes bg-cloudx { from { transform: translateX(-170px); } to { transform: translateX(380px); } }
+@keyframes bg-balloon { from { transform: translateY(240px); } to { transform: translateY(-240px); } }
+@keyframes bg-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes bg-aur { 0%, 100% { transform: translateX(-12%) skewX(-8deg) scaleY(1); opacity: .55; } 50% { transform: translateX(12%) skewX(8deg) scaleY(1.2); opacity: .95; } }
+@keyframes bg-snow { from { transform: translate(0, -210px); } to { transform: translate(26px, 210px); } }
+@keyframes bg-jelly { 0%, 100% { transform: translateY(16px) scaleY(1); } 50% { transform: translateY(-22px) scaleY(.92); } }
+@keyframes bg-win { 0%, 40% { opacity: .15; } 50%, 90% { opacity: .95; } 100% { opacity: .15; } }
+@keyframes bg-smoke { 0% { transform: translateY(0) scale(.8); opacity: 0; } 15% { opacity: .75; } 100% { transform: translateY(-70px) scale(1.5); opacity: 0; } }
+@keyframes bg-bubble { 0% { transform: translateY(180px) scale(.8); opacity: 0; } 15% { opacity: .75; } 100% { transform: translateY(-30px) scale(1.1); opacity: 0; } }
+
+/* Text sitting directly on a scene could land on any colour, so it gets a panel of its own.
+   --veil is solid by default; "Blur behind panels" frosts it. Nested panels skip the filter, it is costly. */
+html[data-bg="on"] { --veil: var(--panel); }
+html[data-bg="on"][data-panels="blur"] { --veil: color-mix(in srgb, var(--panel) 50%, transparent); --veil-filter: blur(10px) saturate(1.3); }
+/* Dark scenes: a thin veil, and the filter dims whatever is behind it so moons and snow can't wash out the text. */
+html[data-bg="on"][data-panels="blur"]:not([data-theme="paper"]) { --veil: color-mix(in srgb, var(--panel) 28%, transparent); --veil-filter: blur(10px) saturate(1.5) brightness(.68); --fg-dim: var(--fg); }
+/* Phones: blur cost grows with the radius and these panels re-blur on every frame of a moving scene. */
+@media (max-width: 640px) {
+  html[data-bg="on"][data-panels="blur"] { --veil-filter: blur(5px) saturate(1.3); }
+  html[data-bg="on"][data-panels="blur"]:not([data-theme="paper"]) { --veil-filter: blur(5px) saturate(1.5) brightness(.68); }
+}
+/* The page colour shows until the scene has loaded, so there is no dark flash on light scenes. */
+html[data-bg="on"] { background: var(--bg); }
+html[data-bg="on"] body { background: transparent; }
+/* The blur makes each panel its own layer, so the header has to be lifted or its menu opens behind them. */
+html[data-bg="on"] .app-head { position: relative; z-index: 40; }
+html[data-bg="on"] :is(.app-head, .app-footer, .privacy, .picker, .login__intro, html[data-screen="results"] main, html[data-screen="overview"] main, .collection > .frame-head, .collection__top, .collection > .mission__hint, .trade) { background: var(--veil); }
+html[data-bg="on"] :is(.privacy, .picker, .login__intro, .collection > .frame-head, .collection__top, .collection > .mission__hint) { padding: var(--s-4); }
+html[data-bg="on"] .odds li:not(.rf9) { background: var(--panel); }
+html[data-bg="on"][data-panels="blur"] :is(.frame:not(.helper-pop), .odds li:not(.rf9), .app-head, .app-footer, .privacy, .picker, .login__intro, html[data-screen="results"] main, html[data-screen="overview"] main, .collection > .frame-head, .collection__top, .collection > .mission__hint, .trade) {
+  -webkit-backdrop-filter: var(--veil-filter); backdrop-filter: var(--veil-filter);
+}
+/* The helper chat floats over the essay, so it stays solid. */
+html[data-bg="on"][data-panels="blur"] .frame:not(.helper-pop) { background: var(--veil); }
+html[data-bg="on"][data-panels="blur"] :is(html[data-screen="results"] main, html[data-screen="overview"] main) .frame,
+html[data-bg="on"][data-panels="blur"] .frame .frame { -webkit-backdrop-filter: none; backdrop-filter: none; background: transparent; }
+html[data-bg="on"][data-panels="blur"] .frame :is(.editor, .field input, .field textarea, .practice-chart) { background: transparent; }
+html[data-bg="on"][data-panels="blur"] .odds li:not(.rf9) { background: var(--veil); }
+/* See-through: nothing behind the panels at all, only a soft outline on the text so it stays readable on any colour. */
+html[data-bg="on"][data-panels="clear"] { --veil: transparent; --fg-dim: var(--fg); }
+html[data-bg="on"][data-panels="clear"] .frame:not(.helper-pop), html[data-bg="on"][data-panels="clear"] .frame:not(.helper-pop) :is(.editor, .field input, .field textarea, .practice-chart, .ccard, .btile, .trade) { background: transparent; }
+html[data-bg="on"][data-panels="clear"] :is(.odds li:not(.rf9), .ccard:not(.fx9):not(.fx6), .btile, .trade, .machine__screen, .machine__tray) { background: transparent; }
+html[data-bg="on"][data-panels="clear"] .screen { text-shadow: 0 0 1px var(--bg), 0 0 2px var(--bg), 0 0 3px var(--bg), 0 0 6px var(--bg), 0 0 10px var(--bg); }
+/* Inputs ignore inherited shadows, so the essay needs its outline set directly. */
+html[data-bg="on"][data-panels="clear"] .screen :is(textarea, input) { text-shadow: inherit; }
+html[data-bg="on"][data-panels="clear"] :is(.fx-panel, .helper-pop, .mk-pop, .fx9, .rf9, .btn--primary, .mission[data-done] .mission__box, dialog) { text-shadow: none; }
+/* The helper bar and the phone action bar float over the page: they blur the scene instead of covering it. */
+html[data-bg="on"]:not([data-panels="solid"]) :is(.mascot-track, .screen .write-actions) {
+  background: color-mix(in srgb, var(--panel) 18%, transparent); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+  text-shadow: 0 0 1px var(--bg), 0 0 3px var(--bg), 0 0 6px var(--bg);
+}
+html[data-bg="on"][data-panels="solid"] .mascot-track { background: var(--panel); }
+@media print { .bgx { display: none; } html[data-bg="on"] body { background: var(--bg); } }

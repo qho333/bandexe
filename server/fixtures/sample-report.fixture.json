@@ -1,0 +1,34 @@
+{
+ "_note": "FIXTURE: hand-written sample data in the prompt_report_v1 JSON shape, for UI work only. It is NOT a real marking and must never be shown as one. It matches the sample essay in src/content.ts.",
+ "criteria": {
+  "tr": {"band": 7, "summary": "The essay answers the outweigh question directly (\"I believe that the advantages are more significant\") and keeps that position. The point about young staff learning faster is left without an example.",
+         "subskills": {"relevance_to_prompt": 8, "clarity_of_position": 8, "depth_of_ideas": 6, "examples_and_support": 7, "format_and_length": 7}},
+  "cc":  {"band": 6, "summary": "Paragraphing is logical with one idea per body paragraph. The fixed phrase \"In the other hand\" is wrong and linking relies on a few common connectors.",
+         "subskills": {"logical_organisation": 7, "introduction_and_conclusion": 6, "paragraphing": 7, "cohesive_devices": 6, "referencing": 6}},
+  "lr":  {"band": 7, "summary": "Vocabulary is mostly precise (\"flexible arrangements\", \"practical solutions\") with some imprecise choices such as \"the border between work and home\".",
+         "subskills": {"range": 7, "precision_and_collocation": 6, "spelling_and_word_formation": 8}},
+  "gra": {"band": 6, "summary": "A mix of complex and simple sentences, but slips such as \"has became\" and \"they has\" recur.",
+         "subskills": {"range_of_structures": 7, "accuracy": 5, "punctuation": 7}}
+ },
+ "grammar_corrections": [
+  {"original": "has became", "corrected": "has become", "reason": "After has, use the past participle: become."},
+  {"original": "less cars", "corrected": "fewer cars", "reason": "Cars are countable, so use fewer."},
+  {"original": "In the other hand", "corrected": "On the other hand", "reason": "The fixed linking phrase is on the other hand.", "criterion": "CC"},
+  {"original": "they has", "corrected": "they have", "reason": "The plural subject they takes have."},
+  {"original": "this sentence is not in the essay", "corrected": "dropped by the reviewer", "reason": "Fixture item that the reviewer must remove."}
+ ],
+ "word_choice_upgrades": [
+  {"original": "the border between work and home", "better": "the boundary between work and home", "reason": "Boundary is the usual word for an abstract dividing line."},
+  {"original": "lower pollution", "better": "reduced air pollution", "reason": "Names the type of pollution and shows a change."},
+  {"original": "most obvious benefit", "better": "most obvious benefit", "reason": "Fixture item identical to the original; the reviewer must remove it."}
+ ],
+ "paragraphs": [
+  {"label": "Introduction", "original_start": "In recent years, a growing number of employees", "comments": {"tr": "Clear position that answers the question.", "cc": "Good paraphrase leading into the thesis.", "lr": "Accurate topic vocabulary.", "gra": "Accurate complex sentence."}, "how_to_rewrite": "Name your two main reasons in the thesis so the reader can predict the body paragraphs."},
+  {"label": "Body 1", "original_start": "The most obvious benefit is the time and money", "comments": {"tr": "Well developed with a specific example.", "cc": "The pollution point is added at the end without support.", "lr": "Mostly precise.", "gra": "Two slips: has became, less cars."}, "how_to_rewrite": "Keep the colleague example and give the pollution idea one more sentence of explanation, or move it to its own point."},
+  {"label": "Body 2", "original_start": "In the other hand, working remotely can make", "comments": {"tr": "Fair counter-argument linked back to your opinion.", "cc": "Wrong fixed phrase at the start.", "lr": "Border should be boundary.", "gra": "Subject-verb slip: they has."}, "how_to_rewrite": "Add one concrete case after experienced colleagues, then show how team days solve that problem."},
+  {"label": "Conclusion", "original_start": "In conclusion, while home working can lead", "comments": {"tr": "Restates the position.", "cc": "The final recommendation is a new idea.", "lr": "Appropriate.", "gra": "Accurate."}, "how_to_rewrite": "Reuse the question wording to answer directly and leave out the new recommendation."}
+ ],
+ "structure_advice": "The four-paragraph structure suits the question. Make the thesis preview both body paragraphs and keep new ideas out of the conclusion.",
+ "strengths": ["Clear position stated in the introduction and repeated in the conclusion.", "A specific example: the colleague who stopped commuting.", "One main idea per body paragraph."],
+ "top_3_priorities": ["Check subject and verb agreement (\"they has\").", "Support every body idea with an example.", "Learn fixed linking phrases (\"On the other hand\")."]
+}

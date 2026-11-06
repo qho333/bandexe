@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free IELTS Writing Checker | BAND.EXE</title>
+<meta name="description" content="Free IELTS writing checker with AI band estimates, grammar corrections and paragraph feedback for essays, reports and letters. No sign-up or ads.">
+<link rel="canonical" href="https://bandexe.pages.dev/ielts-writing-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BAND.EXE">
+<meta property="og:title" content="Free IELTS Writing Checker | BAND.EXE">
+<meta property="og:description" content="Free IELTS writing checker with AI band estimates, grammar corrections and paragraph feedback for essays, reports and letters. No sign-up or ads.">
+<meta property="og:url" content="https://bandexe.pages.dev/ielts-writing-checker/">
+<meta property="og:image" content="https://bandexe.pages.dev/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="BAND.EXE. Write. Check. Try again. Free IELTS writing practice.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free IELTS Writing Checker | BAND.EXE">
+<meta name="twitter:description" content="Free IELTS writing checker with AI band estimates, grammar corrections and paragraph feedback for essays, reports and letters. No sign-up or ads.">
+<meta name="twitter:image" content="https://bandexe.pages.dev/og-preview.png">
+<meta name="twitter:image:alt" content="BAND.EXE. Write. Check. Try again. Free IELTS writing practice.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Azeret+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:root { color-scheme: dark; --bg: #000; --fg: #f2f2f2; --muted: #bfbfbf; --line: #fff; --mono: "Azeret Mono", ui-monospace, monospace; --read: "Atkinson Hyperlegible", system-ui, sans-serif; }
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 18px/1.65 var(--read); }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 2px solid var(--fg); outline-offset: 5px; }
+.shell { width: min(100% - 48px, 1120px); margin-inline: auto; }
+.top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 24px; border-bottom: 1px solid var(--line); padding-block: 16px; }
+.brand, .eyebrow, .top > a, .crumbs, .cta, .related a { font-family: var(--mono); }
+.brand { font-weight: 600; letter-spacing: -.05em; }
+.top a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
+.crumbs { font-size: 12px; padding-block: 16px; color: var(--muted); }
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 0; margin: 0; list-style: none; }
+.crumbs a { display: inline-block; padding-block: 10px; }
+.crumbs li:last-child { display: flex; align-items: center; gap: 12px; }
+.crumbs li + li::before { content: "/"; }
+.hero { padding: 40px 0 48px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-size: 12px; letter-spacing: .06em; color: var(--muted); }
+h1, h2, h3 { font-family: var(--mono); line-height: 1.3; font-weight: 500; overflow-wrap: anywhere; }
+h1 { max-width: 24ch; margin: 16px 0 24px; font-size: clamp(30px, 5vw, 56px); letter-spacing: -.045em; }
+h2 { font-size: clamp(21px, 3vw, 27px); margin: 0 0 20px; letter-spacing: -.03em; }
+h3 { font-size: 17px; margin: 0 0 12px; }
+p { margin: 0 0 20px; }
+.intro { font-size: 21px; max-width: 62ch; }
+.cta { display: inline-flex; justify-content: center; align-items: center; min-height: 48px; padding: 12px 20px; border: 1px solid var(--line); background: var(--fg); color: var(--bg); font-size: 14px; text-decoration: none; text-align: center; }
+.cta:hover { background: var(--bg); color: var(--fg); }
+.note { margin: 16px 0 0; color: var(--muted); font-size: 16px; }
+.reading { max-width: 76ch; margin-inline: auto; padding-block: 48px; }
+.reading section + section { margin-top: 48px; }
+li { margin-bottom: 12px; }
+ul, ol { padding-left: 24px; }
+.example { border: 1px solid var(--line); padding: 24px; }
+.example p:last-child, section > p:last-child { margin-bottom: 0; }
+q { font-style: italic; }
+.faq-item { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 24px; }
+.next { border-top: 1px solid var(--line); padding-block: 32px; }
+.related { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.related a { display: flex; align-items: center; min-height: 56px; border: 1px solid var(--line); padding: 12px 16px; font-size: 13px; }
+.related a:hover { background: var(--fg); color: var(--bg); }
+footer { border-top: 1px solid var(--line); padding-block: 32px; color: var(--muted); font-size: 16px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+footer nav a { padding-block: 10px; }
+.skip { position: absolute; top: -100px; left: 16px; background: var(--fg); color: var(--bg); padding: 12px; z-index: 1; }
+.skip:focus { top: 12px; }
+@media (max-width: 560px) { .shell { width: calc(100% - 32px); } .hero { padding-top: 24px; } .reading { padding-block: 32px; } .related { grid-template-columns: 1fr; } .example { padding: 20px; } .cta { width: 100%; } }
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"BAND.EXE","item":"https://bandexe.pages.dev/"},{"@type":"ListItem","position":2,"name":"Free IELTS Writing Checker","item":"https://bandexe.pages.dev/ielts-writing-checker/"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the IELTS writing checker free?","acceptedAnswer":{"@type":"Answer","text":"Yes. BAND.EXE has no sign-up, payment or ads. There are 10 free checks per person per day."}},{"@type":"Question","name":"Which writing tasks can I check?","acceptedAnswer":{"@type":"Answer","text":"Task 2 essays, General Training Task 1 letters and Academic Task 1 reports. Academic reports can use a chart image upload or a typed description."}},{"@type":"Question","name":"Is the band estimate an IELTS result?","acceptedAnswer":{"@type":"Answer","text":"It is an AI practice estimate, not an official IELTS score. Use the comments to guide revision rather than predict an exam result."}},{"@type":"Question","name":"How long does feedback take, and are essays stored?","acceptedAnswer":{"@type":"Answer","text":"Results take about 20–60 seconds. The checker works in the browser, and essays are not stored by the site."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"BAND.EXE","url":"https://bandexe.pages.dev/ielts-writing-checker/","description":"Free IELTS writing checker. AI practice estimate, not an official IELTS score.","applicationCategory":"EducationalApplication","operatingSystem":"Web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top shell"><a class="brand" href="/" aria-label="BAND.EXE home">BAND.EXE</a><a href="/#write">Open writing screen ↗</a></header>
+<nav class="crumbs shell" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Writing checker</li></ol></nav>
+<main id="main" class="shell">
+<div class="hero">
+<div class="eyebrow">WRITE. CHECK. TRY AGAIN.</div>
+<h1>Free IELTS Writing Checker</h1>
+<p class="intro">Turn a finished draft into a focused revision plan. Check an essay, report or letter and see which parts of your writing need attention.</p>
+<a class="cta" href="/#write">Check my writing — free</a>
+<p class="note">AI practice estimate, not an official IELTS score.</p>
+</div>
+<article class="reading" aria-label="Free IELTS Writing Checker guide">
+
+<section aria-labelledby="report"><h2 id="report">What your writing report gives you</h2>
+<p>BAND.EXE is a free IELTS writing band score checker that works in your browser. There is no sign-up, payment or advertising. You can make 10 free checks per person per day, and essays are not stored by the site. Results take about 20–60 seconds. Every result is an <strong>AI practice estimate, not an official IELTS score</strong>.</p>
+<p>The report separates Task Achievement or Task Response, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy. You get an estimated band for each criterion and an overall estimate. This helps you distinguish a weak argument from a language problem: adding sophisticated vocabulary will not repair an unanswered question.</p>
+<p>Grammar corrections and word-choice upgrades quote your exact words so you can compare the suggestion with your sentence. Per-paragraph comments and a rewrite give you material to study after the score. The exam timer supports timed practice, and export lets you take the report into your revision routine.</p></section>
+<section aria-labelledby="choose"><h2 id="choose">Choose the task you are practising</h2>
+<ul><li><strong>Task 2 essays:</strong> use the <a href="/ielts-task-2-checker/">IELTS Task 2 checker</a> to review how your position, explanations and examples answer the question.</li>
+<li><strong>Academic Task 1:</strong> use the <a href="/ielts-task-1-checker/">IELTS Task 1 checker</a> for reports. Upload the chart image or type a description of its labels, units, figures and main features.</li>
+<li><strong>General Training Task 1:</strong> the same Task 1 guide covers the IELTS letter checker. Include the situation and bullet points so you can assess whether your letter fulfils its purpose.</li></ul></section>
+<section aria-labelledby="use"><h2 id="use">How to make a check useful</h2>
+<ol><li>Open the writing screen, select your task type and enter the complete question. For an Academic report, supply the visual information as well as your answer.</li>
+<li>Write or paste your draft. If you are practising under time pressure, use the exam timer and leave the original errors in place for review.</li>
+<li>Run the check and read the criterion comments before the rewrite. Pick a problem you can point to in your own text.</li>
+<li>Revise that passage yourself, then compare it with the suggested rewrite. Export the feedback if you want a record of what you practised.</li></ol>
+<p>Read the <a href="/ielts-writing-band-descriptors/">IELTS Writing marking criteria explained</a> guide if the criterion names feel abstract. Use each comment as a question to investigate, rather than treating a band estimate as a verdict on your ability.</p></section>
+<section class="example" aria-labelledby="example"><h2 id="example">A small correction, with a reason</h2>
+<p>This teaching example is illustrative: <q>Many student prefers online lessons because it save time.</q> A correction is <q>Many students prefer online lessons because they save time.</q> The plural noun needs <q>students</q>, its verb is <q>prefer</q>, and <q>they</q> clearly refers to the lessons.</p>
+<p>Next, develop the idea: <q>Students who commute can use the saved travel time to review their notes.</q> That sentence adds an explanation. It does a different job from fixing agreement, so practise both skills instead of simply copying a polished paragraph.</p></section>
+<section aria-labelledby="estimate"><h2 id="estimate">Put the estimate in context</h2>
+<p>Scores are calibrated against IELTS.org examiner-marked sample scripts. After calibration, the main checker was within ±1 band of the examiner on 88–90% of small official sample sets of 17–20 scripts. Those small sets do not establish how it will score every new answer or predict an exam result.</p>
+<p>Use the feedback to choose your next exercise. For example, if a paragraph lacks support, add a concrete explanation before replacing individual words. For the assessment framework behind the criterion names, see <a href="https://ielts.org/take-a-test/your-results/ielts-scoring-in-detail">IELTS.org’s scoring explanation</a>.</p></section>
+
+<section aria-labelledby="faq"><h2 id="faq">Frequently asked questions</h2>
+<div class="faq-item"><h3>Is the IELTS writing checker free?</h3><p>Yes. BAND.EXE has no sign-up, payment or ads. There are 10 free checks per person per day.</p></div>
+<div class="faq-item"><h3>Which writing tasks can I check?</h3><p>Task 2 essays, General Training Task 1 letters and Academic Task 1 reports. Academic reports can use a chart image upload or a typed description.</p></div>
+<div class="faq-item"><h3>Is the band estimate an IELTS result?</h3><p>It is an AI practice estimate, not an official IELTS score. Use the comments to guide revision rather than predict an exam result.</p></div>
+<div class="faq-item"><h3>How long does feedback take, and are essays stored?</h3><p>Results take about 20–60 seconds. The checker works in the browser, and essays are not stored by the site.</p></div>
+</section>
+</article>
+<section class="next" aria-labelledby="next-step"><h2 id="next-step">Put the feedback to work</h2><a class="cta" href="/#write">Check my writing — free</a>
+<nav class="related" aria-label="More IELTS writing guides"><a href="/ielts-writing-checker/" aria-current="page">Free IELTS Writing Checker</a>
+<a href="/ielts-task-2-checker/">IELTS Task 2 Essay Checker</a>
+<a href="/ielts-task-1-checker/">IELTS Task 1 Checker</a>
+<a href="/ielts-writing-band-descriptors/">IELTS Writing marking criteria explained</a></nav></section>
+</main>
+<footer class="shell"><p>BAND.EXE is not affiliated with IELTS, British Council, IDP or Cambridge. AI practice estimate, not an official IELTS score.</p><nav aria-label="Site information"><a href="/">Home</a><a href="/#privacy">Privacy</a><a href="/#about">About BAND.EXE</a></nav></footer>
+</body>
+</html>

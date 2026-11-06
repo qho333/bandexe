@@ -1,0 +1,173 @@
+/* Collection page. Band frames carry rarity without colour, so every theme works. */
+.collection { display: grid; gap: var(--s-6); min-width: 0; }
+.collection h1 { font-size: var(--t-32); }
+.collection h2 { font-size: var(--t-17); border-bottom: 1px solid var(--line); padding-bottom: var(--s-2); }
+.collection__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-3); }
+.coinbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); margin: 0; }
+.coinbar .coin { width: 24px; height: 24px; }
+.machines { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: var(--s-4); }
+.machine__body { display: grid; gap: var(--s-3); }
+.machine__screen { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-2); padding: var(--s-3); border: 1px solid var(--line-strong); border-radius: 6px; }
+.reel { display: grid; place-items: center; height: 92px; overflow: hidden; font-size: 34px; font-weight: 800; border: 1px solid var(--line); }
+.reel span { display: block; }
+.reel__strip { align-self: start; width: 100%; text-align: center; }
+.reel__strip b { display: grid; place-items: center; height: 88px; }
+html.motion-ok .reel__strip { animation: reel-spin .42s linear infinite; }
+html.motion-ok .reel__land { animation: reel-land .3s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes reel-spin { to { transform: translateY(-85.714%); } }
+@keyframes reel-land { from { transform: translateY(-40%) scale(1.25); } to { transform: none; } }
+.rf5 { border: 2px dotted var(--line-strong); }
+.rf6 { border: 2px dashed var(--muted, var(--line-strong)); }
+.rf7 { border: 2px solid var(--fg); }
+.rf8 { border: 6px double var(--fg); }
+.rf9 { border: 2px solid var(--fg); background: var(--fg); color: var(--bg); }
+.machine__tray { display: grid; place-items: center; min-height: 92px; padding: var(--s-3); border: 1px dashed var(--line); text-align: center; }
+.prize { display: grid; justify-items: center; gap: var(--s-2); width: 100%; }
+html.motion-ok .prize { animation: prize-pop .36s cubic-bezier(.2, 1.4, .4, 1); }
+@keyframes prize-pop { from { transform: translateY(16px) scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+.prize .ccard, .prize .btile { width: min(100%, 190px); }
+.prize__tag { margin: 0; font-size: var(--t-12); }
+.odds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: var(--s-2); }
+.odds li { display: grid; gap: 2px; padding: var(--s-2) var(--s-3); font-size: var(--t-12); }
+.trade { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2); padding: var(--s-2) var(--s-3); border: 1px solid var(--line); background: var(--panel); }
+.picker { display: grid; gap: var(--s-4); }
+.picker__group { display: grid; gap: var(--s-2); }
+.picker__group h3 { font-size: var(--t-12); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 150px), 1fr)); gap: var(--s-2); }
+.grid-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 190px), 1fr)); gap: var(--s-2); }
+.panel-look { max-width: 320px; }
+
+.ccard, .btile { position: relative; overflow: hidden; isolation: isolate; font: inherit; color: var(--fg); background: var(--panel); text-align: center; cursor: pointer; }
+.ccard { display: flex; flex-direction: column; align-items: center; gap: var(--s-1); padding: var(--s-3) var(--s-2); border: 1px solid var(--line-strong); content-visibility: auto; contain-intrinsic-size: auto 190px; }
+.ccard > * { position: relative; z-index: 1; }
+.ccard__art .mascot { display: block; width: 84px; height: 84px; }
+.ccard__name { font-weight: 700; }
+.ccard__line { font-size: var(--t-12); line-height: 1.35; color: var(--muted, inherit); }
+button.ccard:hover:not(:disabled), button.btile:hover:not(:disabled) { outline: 1px solid var(--fg); }
+button.ccard:focus-visible, button.btile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ccard[aria-pressed="true"], .btile[aria-pressed="true"] { outline: 3px solid var(--accent); outline-offset: 2px; }
+.ccard[aria-pressed="true"]::marker { content: ""; }
+.btile--sealed { cursor: not-allowed; }
+.lock { display: inline-block; width: 12px; height: 12px; vertical-align: -1px; }
+.ccard--locked.rf9 { background: var(--panel); color: var(--fg); }
+.ccard--locked .ccard__art { opacity: .55; }
+/* Sealed: only a hint of the shape shows through the dark blur. */
+.ccard--sealed .ccard__art { position: relative; opacity: 1; filter: blur(5px) brightness(.45); }
+.seal { position: absolute; z-index: 2; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, .55); color: #f2f2f2; }
+.seal .lock { width: 30px; height: 30px; }
+.ccard--sealed .seal { inset: 0 0 auto; height: 108px; }
+.btile--sealed .bgx--thumb { filter: blur(7px) brightness(.5); }
+
+.fx5 { border: 2px dotted var(--line-strong); }
+.fx6 { border: 2px solid transparent; background: linear-gradient(90deg, var(--fg) 50%, transparent 0) 0 0 / 12px 2px repeat-x, linear-gradient(90deg, var(--fg) 50%, transparent 0) 0 100% / 12px 2px repeat-x, linear-gradient(0deg, var(--fg) 50%, transparent 0) 0 0 / 2px 12px repeat-y, linear-gradient(0deg, var(--fg) 50%, transparent 0) 100% 0 / 2px 12px repeat-y, var(--panel); background-origin: border-box; }
+.fx7 { border: 2px solid var(--fg); }
+.fx8 { border: 6px double var(--fg); }
+.fx9 { border: 2px solid var(--fg); background: var(--fg); color: var(--bg); --m-body: var(--fg); --m-line: var(--bg); --m-eye: var(--bg); }
+.fx9 .ccard__line { color: inherit; }
+.fx9 .rays { position: absolute; z-index: 0; left: 50%; top: 54px; width: 230%; aspect-ratio: 1; margin-left: -115%; translate: 0 -50%; background: repeating-conic-gradient(color-mix(in srgb, var(--bg) 14%, transparent) 0 12deg, transparent 12deg 30deg); }
+.fx9 .orbit { position: absolute; z-index: 2; left: 50%; top: 54px; width: 96px; height: 96px; margin: -48px 0 0 -48px; pointer-events: none; }
+.fx9 .orbit i { position: absolute; width: 8px; height: 8px; background: var(--bg); transform: rotate(45deg); }
+.fx9 .orbit i:nth-child(1) { left: 44px; top: -4px; } .fx9 .orbit i:nth-child(2) { left: 92px; top: 44px; }
+.fx9 .orbit i:nth-child(3) { left: 44px; top: 92px; } .fx9 .orbit i:nth-child(4) { left: -4px; top: 44px; }
+html.motion-ok .fx5 .mascot { animation: cc-bob 3.2s ease-in-out infinite; }
+html.motion-ok .fx6 .mascot { animation: cc-bob 2.4s ease-in-out infinite; }
+html.motion-ok .fx6 { animation: cc-march 1.1s linear infinite; }
+html.motion-ok .fx7 .mascot { animation: cc-bob 2.2s ease-in-out infinite; }
+html.motion-ok .fx7::before { content: ""; position: absolute; z-index: 0; left: 0; right: 0; top: 0; height: 30%; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--fg) 28%, transparent) 85%, var(--fg)); animation: cc-sweep 2.6s linear infinite; }
+html.motion-ok .fx8 .mascot { animation: cc-sway 2s ease-in-out infinite; }
+html.motion-ok .fx8::before { content: ""; position: absolute; z-index: 0; left: 50%; top: 50%; width: 240%; aspect-ratio: 1; margin: -120% 0 0 -120%; background: conic-gradient(transparent 0 72%, color-mix(in srgb, var(--fg) 50%, transparent) 92%, var(--fg)); animation: cc-spin 3.4s linear infinite; }
+html.motion-ok .fx8::after { content: ""; position: absolute; z-index: 0; inset: 3px; background: var(--panel); }
+html.motion-ok .fx9 { animation: cc-pulse 2.2s ease-out infinite; }
+html.motion-ok .fx9 .mascot { animation: cc-sway 1.7s ease-in-out infinite; }
+html.motion-ok .fx9 .ccard__name { animation: cc-glitch 3.6s steps(1) infinite; }
+html.motion-ok .fx9 .rays { animation: cc-spin 11s linear infinite; }
+html.motion-ok .fx9 .orbit { animation: cc-spinback 4.2s linear infinite; }
+html.motion-ok .fx9 .orbit i { animation: cc-spark 1.4s ease-in-out infinite; }
+html.motion-ok .fx9 .orbit i:nth-child(2) { animation-delay: .35s; } html.motion-ok .fx9 .orbit i:nth-child(3) { animation-delay: .7s; } html.motion-ok .fx9 .orbit i:nth-child(4) { animation-delay: 1.05s; }
+@keyframes cc-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes cc-sway { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-6px) rotate(2deg); } }
+@keyframes cc-march { to { background-position: 24px 0, -24px 100%, 0 -24px, 100% 24px, 0 0; } }
+@keyframes cc-sweep { 0% { transform: translateY(-120%); } 60%, 100% { transform: translateY(420%); } }
+@keyframes cc-spin { to { transform: rotate(360deg); } }
+@keyframes cc-spinback { to { transform: rotate(-360deg); } }
+@keyframes cc-spark { 0%, 100% { opacity: .25; transform: rotate(45deg) scale(.6); } 50% { opacity: 1; transform: rotate(45deg) scale(1.15); } }
+@keyframes cc-glitch { 0%, 91%, 100% { transform: none; clip-path: none; } 92% { transform: translate(-3px, 1px); clip-path: inset(10% 0 55% 0); } 94% { transform: translate(3px, -1px); clip-path: inset(55% 0 12% 0); } 96% { transform: translate(-2px, 0); clip-path: none; } 98% { transform: translate(2px, 1px); } }
+@keyframes cc-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--fg) 55%, transparent); } 50% { box-shadow: 0 0 0 9px transparent; } }
+
+.btile { display: grid; align-content: start; padding: 0 0 var(--s-2); border: 1px solid var(--line-strong); content-visibility: auto; contain-intrinsic-size: auto 170px; }
+.btile__view { position: relative; display: block; height: 110px; overflow: hidden; }
+.btile--none .btile__view { background: var(--bg); }
+.btile__name { padding: var(--s-1) var(--s-2) 0; font-weight: 600; font-size: var(--t-12); overflow-wrap: anywhere; }
+.btile__band { padding: 0 var(--s-2); font-size: var(--t-12); opacity: .75; }
+.btile.rf9 { background: var(--panel); color: var(--fg); }
+.fxb5, .fxb6, .fxb7, .fxb8, .fxb9 { cursor: default; }
+.test-panel__row { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+.preview { width: min(640px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 0; border: 1px solid var(--line-strong); background: var(--panel); color: var(--fg); overflow: auto; }
+.preview::backdrop { background: rgba(0, 0, 0, .7); }
+html.motion-ok .preview[open] { animation: prize-pop .28s ease-out; }
+.preview__stage { position: relative; height: min(52dvh, 360px); overflow: hidden; display: grid; place-items: center; padding: var(--s-4); color: var(--fg); background: var(--bg); }
+.preview__stage--character .ccard { width: min(100%, 220px); }
+.preview__stage--character .mascot { width: 130px; height: 130px; }
+.preview__panel { position: relative; z-index: 1; width: min(100%, 420px); padding: var(--s-3); border: 1px solid var(--line-strong); background: var(--panel); font-size: var(--t-12); line-height: 1.5; }
+.preview__panel p { margin: var(--s-2) 0 0; }
+.preview__stage[data-panels="blur"] .preview__panel { background: color-mix(in srgb, var(--panel) 50%, transparent); -webkit-backdrop-filter: blur(10px) saturate(1.3); backdrop-filter: blur(10px) saturate(1.3); }
+.preview__stage[data-panels="blur"]:not([data-theme="paper"]) .preview__panel { background: color-mix(in srgb, var(--panel) 28%, transparent); -webkit-backdrop-filter: blur(10px) saturate(1.5) brightness(.68); backdrop-filter: blur(10px) saturate(1.5) brightness(.68); }
+.preview__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-2); padding: var(--s-3); border-top: 1px solid var(--line); }
+.preview__stage[data-theme="mono"] { --bg: #000000; --panel: #000000; --fg: #f2f2f2; --fg-dim: #a6a6a6; --line: #3d3d3d; --line-strong: #8a8a8a; }
+
+/* The machine: coin drops in, lever pulls, cabinet rattles; a rare prize makes it shake harder. */
+.machine__cabinet { position: relative; padding-inline-end: 26px; }
+.machine__lever { position: absolute; inset-inline-end: 2px; top: 26px; width: 14px; height: 64px; }
+.machine__lever::before { content: ""; position: absolute; left: 6px; top: 8px; width: 2px; height: 56px; background: var(--fg); transform-origin: 50% 100%; }
+.machine__lever i { position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--fg); }
+.machine__coin { position: absolute; inset-inline-start: calc(50% - 22px); top: -4px; opacity: 0; color: var(--fg); }
+.machine__coin .coin { width: 22px; height: 22px; }
+html.motion-ok .is-rolling .machine__coin { animation: machine-coin .5s ease-in; }
+html.motion-ok .is-rolling .machine__lever::before { animation: lever-stick .55s ease-in-out; }
+html.motion-ok .is-rolling .machine__lever i { animation: lever-ball .55s ease-in-out; }
+html.motion-ok .is-rolling .machine__cabinet { animation: machine-rattle .16s linear .5s 3; }
+html.motion-ok .is-tense .machine__cabinet { animation: machine-shake .12s linear 1.2s infinite; }
+html.motion-ok .is-tense .machine__screen { animation: machine-alarm .5s steps(2) 1.2s infinite; }
+@keyframes machine-coin { 0% { opacity: 0; transform: translateY(-28px) scaleX(1); } 25% { opacity: 1; } 60% { opacity: 1; transform: translateY(4px) scaleX(.2); } 100% { opacity: 0; transform: translateY(16px) scaleX(1); } }
+@keyframes lever-stick { 40%, 60% { transform: scaleY(-.2); } }
+@keyframes lever-ball { 40%, 60% { transform: translateY(46px); } }
+@keyframes machine-rattle { 25% { transform: translateX(-1.5px); } 75% { transform: translateX(1.5px); } }
+@keyframes machine-shake { 25% { transform: translate(-3px, 1px) rotate(-.4deg); } 75% { transform: translate(3px, -1px) rotate(.4deg); } }
+@keyframes machine-alarm { 50% { box-shadow: 0 0 0 3px var(--fg); } }
+
+/* Cutscene for Band 8 and 9. Only transform and opacity move, and there is a single soft flash. */
+.cutscene { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: var(--s-4); border: 0; overflow: hidden; background: #000; color: #f2f2f2; font-family: var(--f-mono); }
+.cutscene::backdrop { background: #000; }
+.cutscene__build, .cutscene__reveal { position: relative; height: 100%; display: grid; place-items: center; align-content: center; gap: var(--s-3); text-align: center; }
+.cutscene__line { margin: 0; font-size: var(--t-17); letter-spacing: .08em; opacity: 0; animation: cut-line .35s ease-out .15s forwards; }
+.cutscene__line--2 { font-weight: 800; animation-delay: .9s; }
+.cutscene--9 .cutscene__line--2 { font-size: var(--t-32); animation-delay: 1.4s; }
+.cutscene__core { position: relative; display: grid; place-items: center; width: min(70vw, 320px); aspect-ratio: 1; }
+.cutscene__core i { position: absolute; inset: 22%; border: 2px solid #f2f2f2; border-radius: 50%; opacity: 0; animation: cut-ring 1.5s ease-out .8s infinite; }
+.cutscene__core i:nth-child(2) { animation-delay: 1.3s; } .cutscene__core i:nth-child(3) { animation-delay: 1.8s; }
+.cutscene--9 .cutscene__core i { border-style: dashed; border-width: 3px; }
+.cutscene__shadow { --m-body: #000; --m-line: #000; --m-eye: #000; display: block; filter: brightness(0) drop-shadow(0 0 14px #f2f2f2); animation: cut-shadow 3s ease-in .6s both; }
+.cutscene__shadow .mascot { display: block; width: 130px; height: 130px; }
+.cutscene__shadow--scene { width: 130px; height: 90px; background: #000; border: 2px solid #f2f2f2; }
+.cutscene--9 .cutscene__shadow { animation-duration: 4.2s; }
+.cutscene__skip { position: absolute; inset-block-end: 0; inset-inline-end: 0; color: #f2f2f2; background: #000; border-color: #8a8a8a; }
+.cutscene__reveal { animation: cut-flash .9s ease-out; }
+.cutscene__rays { position: absolute; left: 50%; top: 50%; width: max(180vw, 180vh); aspect-ratio: 1; margin: calc(max(180vw, 180vh) / -2) 0 0 calc(max(180vw, 180vh) / -2); background: repeating-conic-gradient(rgba(242, 242, 242, .13) 0 10deg, transparent 10deg 30deg); animation: cc-spin 24s linear infinite; }
+.cutscene--8 .cutscene__rays { background: conic-gradient(transparent 0 70%, rgba(242, 242, 242, .35) 92%, transparent); animation-duration: 5s; }
+.cutscene__prize { position: relative; z-index: 1; width: min(100%, 300px); padding: var(--s-3); background: var(--panel); color: var(--fg); border: 1px solid var(--line-strong); animation: cut-prize .55s cubic-bezier(.2, 1.5, .4, 1) .1s both; }
+.cutscene__prize .ccard, .cutscene__prize .btile { width: 100%; }
+.cutscene__prize .mascot { width: 130px; height: 130px; }
+.cutscene__close { position: relative; z-index: 1; color: #f2f2f2; background: #000; border-color: #8a8a8a; }
+@keyframes cut-line { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes cut-ring { 0% { opacity: .8; transform: scale(.5); } 100% { opacity: 0; transform: scale(1.7); } }
+@keyframes cut-shadow { 0% { opacity: 0; transform: scale(.7); } 30% { opacity: 1; } 90% { transform: scale(1); } 94% { transform: scale(1.04) translateX(-3px); } 97% { transform: scale(1.04) translateX(3px); } 100% { opacity: 1; transform: scale(1.1); } }
+@keyframes cut-flash { 0% { background: #f2f2f2; } 100% { background: transparent; } }
+@keyframes cut-prize { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: none; } }
+
+/* Band 9 orbit: keep the sparks clear of the name, and centred on the larger art in previews and cutscenes. */
+.fx9 .ccard__art { margin-bottom: 10px; }
+:is(.preview__stage--character, .cutscene__prize) .fx9 .ccard__art { margin-bottom: 26px; }
+:is(.preview__stage--character, .cutscene__prize) .fx9 :is(.orbit, .rays) { top: 77px; }
+:is(.preview__stage--character, .cutscene__prize) .fx9 .orbit { scale: 1.5; }
+.preview__stage[data-panels="clear"] .preview__panel { background: transparent; text-shadow: 0 0 1px var(--bg), 0 0 2px var(--bg), 0 0 3px var(--bg), 0 0 6px var(--bg), 0 0 10px var(--bg); }
