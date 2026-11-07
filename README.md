@@ -13,7 +13,7 @@ The site is built and run by Quan Ho, a first-year college student, with AI codi
 - **Band estimate:** four criterion bands (Task Response/Achievement, Coherence and Cohesion, Lexical Resource, Grammatical Range and Accuracy), an overall band and a likely range.
 - **Reviewed corrections:** every grammar fix and word-choice upgrade quotes your own text, and you can accept or reject each one. A code reviewer drops any fix that doesn't match your essay.
 - **Task 1 charts:** upload a chart image or use a built-in practice chart. The marker checks your figures against the chart.
-- **Practice questions:** 86 original questions (66 for Task 2, 20 General Training letters), checked so they don't copy existing published prompts.
+- **Practice questions:** 328 original questions: 208 for Task 2, 80 General Training letters and 40 Academic Task 1 charts with invented data. Task 2 questions are checked so they don't copy existing published prompts.
 - **Helpers:** Coach, Synonyms and Ideas mascots for help while writing. Ideas never writes the essay for you.
 - **Progress:** per-task history and charts stored in your own browser, plus daily missions and collectibles.
 - **11 languages** for the interface and feedback: English, Vietnamese, Chinese, Japanese, Korean, Thai, Indonesian, Hindi, Spanish, Portuguese and Arabic.
