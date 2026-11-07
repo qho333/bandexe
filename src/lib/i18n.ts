@@ -19,6 +19,9 @@ const loaders: Record<Exclude<UILanguage, "en">, () => Promise<{ default: Catalo
 export const catalogues = { en } as Record<UILanguage, Catalogue>;
 let language: UILanguage = "en";
 const listeners = new Set<() => void>();
+// Bumped on every change and when a language finishes downloading, so React redraws even though the code is unchanged.
+let version = 0;
+const notify = () => { version++; listeners.forEach((listener) => listener()); };
 export const getUILanguage = () => language;
 export const subscribeLanguage = (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener); }; };
 export function setUILanguage(value: unknown) {
@@ -29,8 +32,8 @@ export function setUILanguage(value: unknown) {
   }
   if (language === next) return;
   language = next;
-  listeners.forEach((listener) => listener());
-  if (!catalogues[next]) void loadLanguage(next).then(() => { if (language === next) listeners.forEach((listener) => listener()); });
+  notify();
+  if (!catalogues[next]) void loadLanguage(next).then(() => { if (language === next) notify(); });
 }
 /** Resolves once this language's text is ready. A failed download leaves English in place. */
 export async function loadLanguage(value: unknown) {
@@ -41,7 +44,8 @@ export async function loadLanguage(value: unknown) {
     await (await import("../content/pages")).loadPageContent(value);
   } catch { /* English fallback */ }
 }
-export const useUILanguage = () => useSyncExternalStore(subscribeLanguage, getUILanguage, getUILanguage);
+export const getLanguageVersion = () => version;
+export const useUILanguage = () => { useSyncExternalStore(subscribeLanguage, getLanguageVersion, getLanguageVersion); return language; };
 export const useTranslation = () => { useUILanguage(); return t; };
 export type MessageVars = Record<string, unknown>;
 /** Replacement callbacks preserve literal dollar signs and markup in user-provided names. */
