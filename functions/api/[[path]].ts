@@ -1,4 +1,4 @@
-import { AuthError, verifyGoogleToken, userId, signSession, readSession, sessionCookie, accountExists, upsertUser, validateHistory, saveHistory, readHistory, deleteAccount, revokeSessions } from "../../shared/accounts";
+import { AuthError, verifyGoogleToken, unlocksAll, userId, signSession, readSession, sessionCookie, accountExists, upsertUser, validateHistory, saveHistory, readHistory, deleteAccount, revokeSessions } from "../../shared/accounts";
 import { clientAddress } from "../../shared/client-address";
 import { digest, replay } from "../../shared/traffic";
 import { mark, MarkError, MODEL, validateMarkRequest, validateQuestionImage, MAX_BODY_BYTES, askHelper, validateHelperRequest, HelperError, HELPER_MODEL } from "../../shared/index.js";
@@ -11,7 +11,7 @@ import { freeCacheKey, readFreeCache, writeFreeCache } from "../../shared/free-c
 interface Limiter { limit(input: { key: string }): Promise<{ success: boolean }> }
 interface Context {
   request: Request & { cf?: { country?: string } };
-  env: FreeEnv & { GEMINI_API_KEY?: string; MARK_LIMITER?: Limiter; HELPER_LIMITER?: Limiter; QUOTA_SALT?: string; GOOGLE_CLIENT_ID?: string; DB?: Database;
+  env: FreeEnv & { GEMINI_API_KEY?: string; MARK_LIMITER?: Limiter; HELPER_LIMITER?: Limiter; QUOTA_SALT?: string; GOOGLE_CLIENT_ID?: string; UNLOCK_ALL_EMAILS?: string; DB?: Database;
     QUOTA?: { get(key: string): Promise<string | null>; put(key: string, value: string, options: { expirationTtl: number }): Promise<void> } };
 }
 const responseSecurityHeaders = {
@@ -103,7 +103,7 @@ async function handle({ request, env }: Context, body: unknown, uid: string | nu
         const identity = await verifyGoogleToken(credentialBody.credential, env.GOOGLE_CLIENT_ID!);
         const nextUid = await userId(env.QUOTA_SALT!, identity.sub);
         const epoch = await upsertUser(env.DB!, nextUid, new Date().toISOString().slice(0, 10));
-        return withCookie({ signedIn: true, firstName: identity.firstName }, await signSession(nextUid, env.QUOTA_SALT!, Date.now(), epoch));
+        return withCookie({ signedIn: true, firstName: identity.firstName, ...(unlocksAll(identity.email, env.UNLOCK_ALL_EMAILS) ? { unlockAll: true } : {}) }, await signSession(nextUid, env.QUOTA_SALT!, Date.now(), epoch));
       }
       if (path === "/api/auth/logout" && request.method === "POST") {
         if (uid) await revokeSessions(env.DB!, uid);

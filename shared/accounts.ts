@@ -61,7 +61,7 @@ async function googleKeys(): Promise<GoogleKey[]> {
     finally { loading = undefined; }
   })();
 }
-export async function verifyGoogleToken(credential: unknown, clientId: string, now = Date.now()): Promise<{ sub: string; firstName: string }> {
+export async function verifyGoogleToken(credential: unknown, clientId: string, now = Date.now()): Promise<{ sub: string; firstName: string; email: string }> {
   if (typeof credential !== "string" || credential.length > 16384) throw invalid();
   try {
     const [header, payload, signature, extra] = credential.split(".");
@@ -78,9 +78,14 @@ export async function verifyGoogleToken(credential: unknown, clientId: string, n
     if (!jwk) throw invalid();
     const key = await crypto.subtle.importKey("jwk", jwk, algorithm, false, ["verify"]);
     if (!await crypto.subtle.verify(algorithm, key, decode(signature), encoder.encode(header + "." + payload))) throw invalid();
-    return { sub: value.sub, firstName: typeof value.given_name === "string" ? value.given_name.replace(/[\p{Cc}\p{Cf}]/gu, "").trim().slice(0, 60) : "" };
+    // Only a Google-verified address counts, so nobody can claim an email they do not own.
+    const email = value.email_verified === true && typeof value.email === "string" ? value.email.toLowerCase() : "";
+    return { sub: value.sub, email, firstName: typeof value.given_name === "string" ? value.given_name.replace(/[\p{Cc}\p{Cf}]/gu, "").trim().slice(0, 60) : "" };
   } catch (error) { if (error instanceof AuthError) throw error; throw invalid(); }
 }
+
+/** Owner-granted extras: UNLOCK_ALL_EMAILS is a comma-separated Cloudflare secret, never stored in code or D1. */
+export const unlocksAll = (email: string, list = "") => !!email && list.toLowerCase().split(",").map((e) => e.trim()).includes(email);
 
 export async function accountExists(db: Database, uid: string, epoch: number) {
   return Boolean(await bounded(() => db.prepare("SELECT uid FROM users WHERE uid = ? AND session_epoch = ?").bind(uid, epoch).first()));

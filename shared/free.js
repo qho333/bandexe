@@ -10,6 +10,7 @@ import { BAND_GUIDE_V2 } from "./guide.js";
 import { reportFormat } from "./report-schema.js";
 import { mistralQueue, timedCall } from "./free-traffic.js";
 import { DAILY_LIMITS } from "./limits.js";
+import { foreignScript, scriptRepairPrompt } from "./language.js";
 
 export const FREE_CONFIG = {
   mistralModels: ["mistral-medium-latest", "mistral-small-latest"],
@@ -287,6 +288,13 @@ export async function markFree(input, env, options = {}) {
       if (fixed && invalidCriteria(fixed).length < bad.length) { raw = fixed; answer = repair; }
     } catch { /* Keep usable criteria from the first response. */ }
   }
+  if (raw && foreignScript(answer.text, input.feedbackLanguage) && budget.calls < FREE_CONFIG.maxCalls) {
+    messages.push({ role: "assistant", content: answer.text }, { role: "user", content: scriptRepairPrompt(input.feedbackLanguage) });
+    try {
+      const again = await freeCompletion(messages, env, { ...options, budget, json: true, full: input.reportMode === "full", maxTokens: input.reportMode === "full" ? 6000 : 3000 }), fixed = parse(again.text);
+      if (fixed && !foreignScript(again.text, input.feedbackLanguage) && invalidCriteria(fixed).length <= invalidCriteria(raw).length) { raw = fixed; answer = again; }
+    } catch { /* Keep the first report rather than failing the check. */ }
+  }
   const report = reviewReport(raw, input.essay);
   if (input.reportMode !== "full") {
     report.grammar = report.grammar.slice(0, 8); report.upgrades = report.upgrades.slice(0, 4);
@@ -318,7 +326,11 @@ export async function helperFree(input, env, options = {}) {
   const body = buildHelperRequest(input);
   const messages = [{ role: "system", content: body.systemInstruction.parts[0].text },
     ...body.contents.map((c) => ({ role: c.role === "model" ? "assistant" : c.role, content: c.parts[0].text }))];
-  const answer = await freeCompletion(messages, env, options);
+  let answer = await freeCompletion(messages, env, options);
+  if (foreignScript(answer.text, input.feedbackLanguage)) try {
+    const again = await freeCompletion([...messages, { role: "assistant", content: answer.text }, { role: "user", content: scriptRepairPrompt(input.feedbackLanguage) }], env, options);
+    if (!foreignScript(again.text, input.feedbackLanguage)) answer = again;
+  } catch { /* Keep the first reply. */ }
   return { reply: answer.text.slice(0, 2000), model: answer.model };
 }
 

@@ -50,8 +50,17 @@ beforeEach(async () => {
 afterEach(() => { db.close(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe("Google RS256 verification", () => {
+  it("unlocks everything only for owner-listed, Google-verified emails, and never stores the email", async () => {
+    const settings = { ...env(), UNLOCK_ALL_EMAILS: " Friend@Example.com , other@example.com" };
+    const signIn = async (patch: object) => (await (await call("auth/google", "POST", { credential: await token(patch) }, undefined, {}, settings)).json()).unlockAll;
+    expect(await signIn({ email: "friend@example.com", email_verified: true })).toBe(true);
+    expect(await signIn({ email: "friend@example.com" })).toBeUndefined();
+    expect(await signIn({ email: "stranger@example.com", email_verified: true })).toBeUndefined();
+    expect(accounts.unlocksAll("", "")).toBe(false);
+    expect(db.records.map((r: { args: unknown[] }) => JSON.stringify(r.args)).join()).not.toContain("example.com");
+  });
   it("verifies WebCrypto signatures, both issuers and transient first names", async () => {
-    expect(await accounts.verifyGoogleToken(await token(), clientId)).toEqual({ sub: "google-private-sub", firstName: "Student" });
+    expect(await accounts.verifyGoogleToken(await token(), clientId)).toEqual({ sub: "google-private-sub", firstName: "Student", email: "" });
     expect(await accounts.verifyGoogleToken(await token({ iss: "accounts.google.com" }), clientId)).toHaveProperty("sub");
     expect(fetch).toHaveBeenCalledOnce();
     expect(fetch).toHaveBeenCalledWith("https://www.googleapis.com/oauth2/v3/certs", expect.anything());

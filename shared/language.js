@@ -15,3 +15,18 @@ export function languageInstruction(value) {
   const id = feedbackLanguage(value), name = LANGUAGES.find(([code]) => code === id)[1];
   return `Feedback language: ${name} (${id}). Write explanations, criterion summaries, paragraph comments, structure advice, priorities, strengths and chat replies in this language. Keep all quoted essay text, corrections, word-choice replacements, rewrite examples and model answers in English. Preserve exact English quotes; keep JSON field names unchanged.`;
 }
+
+// Free models sometimes slip words from another alphabet into feedback (Thai inside Vietnamese was seen live).
+// Latin is always allowed: essay quotes and corrections stay in English.
+const SCRIPTS = { thai: /[฀-๿]/, arabic: /[؀-ۿ]/, devanagari: /[ऀ-ॿ]/, hangul: /[ᄀ-ᇿ가-힯]/,
+  kana: /[぀-ヿ]/, han: /[一-鿿]/, cyrillic: /[Ѐ-ӿ]/ };
+const OWN = { th: ["thai"], ar: ["arabic"], hi: ["devanagari"], ko: ["hangul", "han"], ja: ["kana", "han"], zh: ["han"] };
+/** True when text holds letters from an alphabet the feedback language does not use. */
+export function foreignScript(text, value) {
+  const own = OWN[feedbackLanguage(value)] ?? [];
+  return typeof text === "string" && Object.entries(SCRIPTS).some(([name, re]) => !own.includes(name) && re.test(text));
+}
+export function scriptRepairPrompt(value) {
+  const id = feedbackLanguage(value), name = LANGUAGES.find(([code]) => code === id)[1];
+  return `Your last reply mixed in words from another language or alphabet. Send the same reply again with every explanation written only in ${name} (${id}). Keep the same format, and keep quoted essay text and corrections in English.`;
+}

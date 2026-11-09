@@ -3,6 +3,7 @@ import { DAILY_LIMITS } from "../../shared/limits.js";
 import { DRAFT_KEY } from "./draft";
 import { browserId } from "./cloud-request";
 import { HISTORY_KEY } from "./history";
+import { setUnlockAll } from "./collection";
 
 export const SIGNED_OUT_EVENT = "bandexe:signed-out";
 export const SIGNED_OUT_KEY = "bandexe-signed-out"; // other tabs hear sign-out through this storage key
@@ -68,6 +69,7 @@ export async function signIn(credential: string) {
   const data = await response.json();
   const firstName = typeof data.firstName === "string" ? data.firstName : "";
   saveName(firstName);
+  if (data.unlockAll === true) setUnlockAll(true);
   update({ signedIn: true, firstName, revision: state.revision + 1 });
   updateAllowance({ dailyLimit: DAILY_LIMITS.accountChecksPerDay });
   notifyTabs();
