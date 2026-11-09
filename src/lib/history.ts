@@ -3,6 +3,8 @@
 import { reportThemes } from "./progress";
 import type { Crit, MarkResult, Task } from "./types";
 import { feedbackText } from "./feedback";
+import { foreignScript } from "../../shared/language.js";
+import { getUILanguage } from "./i18n";
 
 export interface HistoryEntry {
   id: string;
@@ -16,6 +18,7 @@ export interface HistoryEntry {
   checker?: MarkResult["checker"];
   feedbackOnly?: boolean; // stored without any band; never plotted or celebrated
   priorities: string[];
+  language?: string; // feedback language, so saved text in another alphabet can be hidden
   themes?: string[];
 }
 
@@ -39,6 +42,8 @@ export function loadHistory(store: Store | null = defaultStore()): HistoryEntry[
       && (!entry.themes || Array.isArray(entry.themes) && entry.themes.every((t: unknown) => typeof t === "string"))
       && (entry.range === null || entry.range && band(entry.range.lo) && band(entry.range.hi)
         && typeof entry.range.lo === "number" && typeof entry.range.hi === "number" && entry.range.lo <= entry.range.hi))
+      // Reports saved before the alphabet guard can hold priorities in the wrong alphabet (Thai in Vietnamese was seen).
+      .map((entry) => ({ ...entry, priorities: entry.priorities.filter((p) => !foreignScript(p, entry.language ?? getUILanguage())) }))
       .map((entry) => entry.feedbackOnly ? { ...entry, overall: null, range: null,
         bands: { tr: null, cc: null, lr: null, gra: null }, priorities: entry.priorities.map(feedbackText).filter(Boolean) } : entry).slice(-200);
   } catch {
@@ -59,6 +64,7 @@ export function toEntry(r: MarkResult, now = new Date()): HistoryEntry {
     markingVersion: r.markingVersion,
     checker: r.checker || "site",
     ...(feedbackOnly ? { feedbackOnly } : {}),
+    ...(r.feedbackLanguage ? { language: r.feedbackLanguage } : {}),
     themes: reportThemes(r.report),
     priorities: (feedbackOnly ? r.report.priorities.map(feedbackText).filter(Boolean) : r.report.priorities).slice(0, 3),
   };

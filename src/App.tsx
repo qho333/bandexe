@@ -10,6 +10,7 @@ import { screenFromHash, startScreen, type AppScreen } from "./lib/routes";
 import { isCrawler } from "./lib/boot";
 import { applyPrefs, loadPrefs, motionOK, onSystemMotionChange, savePrefs, scanSoundEnabled, systemReduced, type Prefs } from "./lib/prefs";
 import { addEntry, clearHistory, loadHistory, personalBest, toEntry, type HistoryEntry } from "./lib/history";
+import { dropForeignScript } from "./lib/feedback";
 import { isReportAnchor } from "./lib/report";
 import type { Checker } from "./lib/checker";
 import { ApiError, markEssay } from "./lib/api";
@@ -181,7 +182,9 @@ export default function App() {
     setJob({ ...context, id, scan, status: "pending", essay, minutes, checker, selection, date });
     go("results");
     try {
-      const result = await markEssay(submitted, submittedChart, undefined, selection);
+      const marked = await markEssay(submitted, submittedChart, undefined, selection);
+      const language = marked.feedbackLanguage ?? submitted.feedbackLanguage;
+      const result = { ...marked, feedbackLanguage: language, report: dropForeignScript(marked.report, language) };
       if (jobId.current !== id) return;
       assertEvaluation(selection);
       let best: Job["best"] = null;
