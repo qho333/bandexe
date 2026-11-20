@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en" data-theme="mono">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free IELTS Speaking Practice: Mock Test and AI Partner | BAND.EXE</title>
+<meta name="description" content="Practise IELTS Speaking free: a full mock test with fresh Part 1-3 questions and band feedback, an AI conversation partner, and a kids mode.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Azeret+Mono:wght@400;500;600&display=swap">
+<style>
+/* Speaking page. Same tokens as app/src/styles.css. */
+:root {
+  --f-mono: "Azeret Mono", ui-monospace, Menlo, monospace;
+  --f-read: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --bg: #000; --panel: #000; --raised: #111; --line: #3d3d3d; --line-strong: #8a8a8a;
+  --fg: #f2f2f2; --fg-dim: #a6a6a6; --accent: #fff; --accent-ink: #000; --focus: #fff;
+  --m-body: #000; --m-line: #f2f2f2; --m-eye: #f2f2f2; --rec: #ff4d4d;
+  color-scheme: dark;
+}
+[data-theme="matrix"] { --bg:#000; --panel:#000; --raised:#04140a; --line:#14532d; --line-strong:#2f9e44; --fg:#c9ffbf; --fg-dim:#7cc983; --accent:#39ff14; --accent-ink:#000; --focus:#39ff14; --m-body:#000; --m-line:#39ff14; --m-eye:#39ff14; }
+[data-theme="amber"] { --bg:#000; --panel:#000; --raised:#140d00; --line:#5c3d00; --line-strong:#a06a00; --fg:#ffd98f; --fg-dim:#cc9a45; --accent:#ffb000; --accent-ink:#000; --focus:#ffb000; --m-body:#000; --m-line:#ffb000; --m-eye:#ffb000; }
+[data-theme="cyan"] { --bg:#020b14; --panel:#020b14; --raised:#071a2b; --line:#0f3a52; --line-strong:#2b7f99; --fg:#d8f8ff; --fg-dim:#86bccb; --accent:#00e5ff; --accent-ink:#001018; --focus:#00e5ff; --m-body:#020b14; --m-line:#00e5ff; --m-eye:#00e5ff; }
+[data-theme="paper"] { --bg:#ecede8; --panel:#f7f7f4; --raised:#e2e3dd; --line:#b9bab2; --line-strong:#6b6c64; --fg:#000; --fg-dim:#46473f; --accent:#000; --accent-ink:#fff; --focus:#000; --m-body:#000; --m-line:#000; --m-eye:#fff; --rec:#c40000; color-scheme: light; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font: 13px/1.5 var(--f-mono); min-height: 100dvh; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* header copied from the live site (app/src/styles.css .app-head / app.css .app-nav) */
+.top { display: flex; align-items: center; gap: 24px; height: 48px; padding: 0 24px; border-bottom: 1px solid var(--line); }
+.brand { font-weight: 600; font-size: 15px; letter-spacing: .02em; }
+.brand span { color: var(--fg-dim); font-weight: 400; }
+a.brand { color: var(--fg); text-decoration: none; }
+.to-writing { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border: 1px solid var(--line-strong); color: var(--fg); text-decoration: none; font-size: 12px; white-space: nowrap; }
+.to-writing:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.tabs { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tabs button { display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 0 12px; background: none; border: 0; cursor: pointer; color: var(--fg-dim); white-space: nowrap; }
+.tabs button:hover, .tabs button[aria-selected="true"] { color: var(--fg); }
+.tabs::after { content: ""; position: absolute; bottom: 0; left: 0; width: calc(100% / 3); height: 1px; background: var(--accent); pointer-events: none; transition: transform .18s ease-out; }
+.tabs[data-current="kids"]::after { transform: translateX(100%); }
+.tabs[data-current="test"]::after { transform: translateX(200%); }
+@media (max-width: 900px) {
+  .top { display: grid; grid-template-columns: auto 1fr; height: auto; gap: 0 12px; padding: 2px 10px 0; }
+  .brand { line-height: 44px; }
+  .tabs { grid-row: 2; grid-column: 1 / -1; }
+  .to-writing { justify-self: end; }
+  .tabs button { height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) { .tabs::after { transition: none; } }
+/* Writing <-> Speaking: a same-site page change keeps the header steady and slides the content (Chrome/Edge; others just navigate). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(site-head) { animation-duration: 220ms; }
+  ::view-transition-old(root) { animation: vt-out 150ms ease-in both; }
+  ::view-transition-new(root) { animation: vt-in 260ms cubic-bezier(.2,.8,.2,1) 40ms both; }
+}
+@keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+@media (prefers-reduced-motion: no-preference) { .top { view-transition-name: site-head; } }
+
+main { max-width: 1100px; margin: 0 auto; padding: 16px; display: grid; gap: 16px; grid-template-columns: minmax(280px, 400px) 1fr; }
+@media (max-width: 760px) { main { grid-template-columns: 1fr; } }
+
+.frame { position: relative; border: 1px solid var(--line); background: var(--panel); min-width: 0; }
+/* corner ticks, as on the live site */
+.frame::before { content: ""; position: absolute; inset: -1px; pointer-events: none; --t: var(--line-strong); --k: 8px;
+  background: linear-gradient(var(--t), var(--t)) top left / var(--k) 1px, linear-gradient(var(--t), var(--t)) top left / 1px var(--k),
+    linear-gradient(var(--t), var(--t)) top right / var(--k) 1px, linear-gradient(var(--t), var(--t)) top right / 1px var(--k),
+    linear-gradient(var(--t), var(--t)) bottom left / var(--k) 1px, linear-gradient(var(--t), var(--t)) bottom left / 1px var(--k),
+    linear-gradient(var(--t), var(--t)) bottom right / var(--k) 1px, linear-gradient(var(--t), var(--t)) bottom right / 1px var(--k);
+  background-repeat: no-repeat; }
+.frame-head { display: flex; justify-content: space-between; align-items: center; height: 32px; padding: 0 12px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--fg-dim); }
+.frame-head b { color: var(--fg); font-weight: 500; }
+.frame-body { padding: 16px; }
+
+/* ---------- Echo the talking robot ---------- */
+.stage { display: grid; justify-items: center; gap: 10px; padding: 20px 16px 16px; position: relative; }
+.echo { width: min(260px, 70vw); height: auto; overflow: visible; }
+.echo .b { fill: var(--m-body); stroke: var(--m-line); stroke-width: 2.5px; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.echo .l { fill: none; stroke: var(--m-line); stroke-width: 2.5px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.echo .face { fill: none; stroke: var(--m-eye); stroke-width: 2.5px; vector-effect: non-scaling-stroke; }
+.echo .eye { fill: var(--m-eye); transform-box: fill-box; transform-origin: center; }
+.echo .cut { fill: var(--m-body); }
+.echo .tip { fill: var(--m-body); stroke: var(--m-line); stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.echo .mouth { fill: var(--m-eye); stroke: var(--m-eye); stroke-width: 2.5px; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.echo .wave { fill: none; stroke: var(--m-line); stroke-width: 2px; vector-effect: non-scaling-stroke; stroke-linecap: round; opacity: 0; }
+.echo .ear { fill: none; stroke: var(--m-line); stroke-width: 2px; vector-effect: non-scaling-stroke; stroke-linecap: round; opacity: 0; }
+.echo .dots circle { fill: var(--m-eye); opacity: 0; }
+.echo.blink .eye, .echo.blink .m-eye { animation: blink .14s linear; }
+/* Coach skins (from Collection) worn as Echo: same parts as the site's mascots, at Echo's size. */
+.echo.skin .m-body { fill: var(--m-body); stroke: var(--m-line); stroke-width: 2.5px; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.echo.skin .m-line { fill: none; stroke: var(--m-line); stroke-width: 2.5px; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.echo.skin .m-face { stroke: var(--m-eye); }
+.echo.skin .m-eye { fill: var(--m-eye); transform-box: fill-box; transform-origin: center; }
+.echo.skin .m-cut { fill: var(--m-body); }
+.echo.skin .m-tip { fill: var(--m-eye); stroke: var(--m-line); stroke-width: 1.5px; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.echo.skin .talk-hide { opacity: 0; }
+.echo.skin.talking .talk-rider { visibility: hidden; }
+.echo.skin .talk-beak { transform-box: fill-box; transform-origin: 50% 0; }
+.echo.skin .m-eyes { transition: transform .2s; }
+.echo.listening .m-eyes { transform: translateY(-1px); }
+@keyframes blink { 50% { transform: scaleY(.1); } }
+.echo.listening .ear { opacity: 1; }
+.echo.listening .eyes { transform: translateY(-1px); }
+.echo.thinking .dots circle { animation: dot 1s infinite; }
+.echo.thinking .dots circle:nth-child(2) { animation-delay: .15s; }
+.echo.thinking .dots circle:nth-child(3) { animation-delay: .3s; }
+.echo.thinking .mouth { opacity: 0; }
+@keyframes dot { 0%, 100% { opacity: .2; } 40% { opacity: 1; } }
+.echo .eyes, .echo .body-g { transition: transform .2s; }
+
+.state { font-size: 12px; color: var(--fg-dim); display: flex; gap: 8px; align-items: center; min-height: 18px; }
+.state i { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); display: inline-block; }
+.state.on i { background: var(--rec); box-shadow: 0 0 8px var(--rec); }
+
+.mic { width: 76px; height: 76px; border-radius: 50%; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); cursor: pointer; display: grid; place-items: center; }
+.mic svg { width: 30px; height: 30px; }
+.mic[aria-pressed="true"] { background: var(--panel); color: var(--accent); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.btn { border: 1px solid var(--line-strong); background: none; padding: 6px 10px; cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.hint { font-size: 11px; color: var(--fg-dim); text-align: center; max-width: 34ch; }
+
+.voices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; }
+.voices button { text-align: left; border: 1px solid var(--line); background: none; padding: 6px 8px; cursor: pointer; }
+.voices button[aria-pressed="true"] { border-color: var(--accent); }
+.voices small { display: block; color: var(--fg-dim); font-size: 11px; }
+
+/* ---------- conversation ---------- */
+.log { display: grid; gap: 10px; align-content: start; min-height: 300px; }
+.msg { max-width: 85%; padding: 8px 12px; border: 1px solid var(--line); }
+.msg.bot { justify-self: start; }
+.msg.me { justify-self: end; background: var(--raised); }
+.msg .who { font-size: 11px; color: var(--fg-dim); display: block; margin-bottom: 2px; }
+.msg .tip { display: block; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); color: var(--fg-dim); font-size: 12px; }
+.msg .tip b { color: var(--fg); font-weight: 500; }
+/* corrections: before -> after, with the changed words highlighted */
+.fix { display: grid; gap: 6px; margin-top: 4px; font: 14px/1.6 var(--f-read); }
+.fix-row { display: grid; grid-template-columns: 72px 1fr; gap: 8px; align-items: baseline; }
+.fix-k { font: 11px/1.6 var(--f-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--fg-dim); }
+.fix-row.was { color: var(--fg-dim); }
+.del { text-decoration: line-through; text-decoration-thickness: 2px; color: var(--fg-dim); }
+.ins { background: var(--accent); color: var(--accent-ink); padding: 0 3px; font-weight: 600; }
+/* end-of-test report */
+.msg.summary { max-width: 100%; width: 100%; padding: 16px; }
+.summary-title { font: 600 15px/1.4 var(--f-read); margin: 0 0 12px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.stat { border: 1px solid var(--line); padding: 8px 12px; min-width: 96px; }
+.stat b { display: block; font-size: 18px; } .stat span { font-size: 11px; color: var(--fg-dim); }
+.catch { margin-top: 12px; font: 14px/1.6 var(--f-read); } .catch small { display: block; color: var(--fg-dim); font-size: 12px; }
+.report { display: grid; gap: 16px; margin-top: 18px; }
+.overall { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.overall .big { font-size: 56px; font-weight: 700; line-height: 1; }
+.overall p { margin: 0; font: 15px/1.5 var(--f-read); } .overall small { display: block; color: var(--fg-dim); font-size: 12px; margin-top: 2px; }
+.start-here { background: var(--accent); color: var(--accent-ink); padding: 14px 16px; font: 15px/1.5 var(--f-read); }
+.start-here .k { display: block; font: 600 11px/1.4 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.crit { border: 1px solid var(--line); padding: 14px 16px; display: grid; gap: 10px; }
+.crit.focus { border-color: var(--accent); border-width: 2px; }
+.crit-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.crit-head h4 { margin: 0; font: 600 15px/1.3 var(--f-read); }
+.crit-head .tag { font: 11px var(--f-mono); color: var(--fg-dim); margin-left: 8px; font-weight: 400; }
+.crit-head b { font-size: 22px; min-width: 52px; text-align: right; }
+.meter { height: 6px; background: var(--raised); border: 1px solid var(--line); } .meter i { display: block; height: 100%; background: var(--accent); }
+.why { margin: 0; font: 14px/1.6 var(--f-read); }
+.transcript { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); display: grid; gap: 14px; }
+.transcript h4 { margin: 0; font: 600 12px var(--f-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--fg-dim); }
+.tr-part { display: grid; gap: 6px; } .tr-part .k { font: 11px var(--f-mono); color: var(--fg-dim); }
+.tr-q { margin: 6px 0 0; font: 12px/1.5 var(--f-mono); color: var(--fg-dim); }
+.tr-a { margin: 0; font: 15px/1.65 var(--f-read); color: var(--fg); }
+.tipline { margin: 0; font: 14px/1.6 var(--f-read); color: var(--fg-dim); } .tipline b { color: var(--fg); }
+@media (max-width: 560px) { .overall .big { font-size: 44px; } .fix-row { grid-template-columns: 1fr; gap: 0; } .msg.summary { padding: 12px; } }
+.msg.live { border-style: dashed; color: var(--fg-dim); }
+.typebar { display: flex; gap: 8px; margin-top: 12px; }
+.typebar input { flex: 1; min-width: 0; background: var(--bg); color: var(--fg); border: 1px solid var(--line-strong); padding: 8px; font: inherit; }
+
+/* ---------- kids ---------- */
+body.kids .msg, body.kids .kid-card { font: 18px/1.45 var(--f-read); }
+body.kids .msg .who { font-family: var(--f-mono); }
+body.kids .msg .tip { font: 18px/1.6 var(--f-read); color: var(--fg); }
+.stars { display: flex; gap: 4px; align-items: center; font-size: 12px; color: var(--fg-dim); }
+.stars svg { width: 18px; height: 18px; fill: none; stroke: var(--m-line); stroke-width: 1.5; }
+.stars svg.got { fill: var(--accent); stroke: var(--accent); }
+.kid-card { border: 1px dashed var(--line-strong); padding: 14px; display: grid; gap: 12px; }
+.kid-card h3 { margin: 0; font: 600 12px var(--f-mono); color: var(--fg-dim); text-transform: uppercase; letter-spacing: .06em; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips button { font: 700 20px var(--f-read); padding: 10px 16px; border: 2px solid var(--line-strong); background: var(--raised); cursor: pointer; min-height: 48px; }
+.chips button:disabled { opacity: .25; cursor: default; }
+.answer { min-height: 56px; border-bottom: 2px solid var(--accent); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font: 700 22px var(--f-read); }
+body.kids .mic { width: 96px; height: 96px; }
+
+/* ---------- mock test ---------- */
+.parts { display: flex; gap: 0; border: 1px solid var(--line); }
+.parts span { flex: 1; text-align: center; padding: 6px; font-size: 12px; color: var(--fg-dim); border-right: 1px solid var(--line); }
+.parts span:last-child { border-right: 0; }
+.parts span.now { background: var(--accent); color: var(--accent-ink); }
+.cue { border: 1px solid var(--line-strong); padding: 14px; font: 16px/1.5 var(--f-read); }
+.cue ul { margin: 6px 0; padding-left: 20px; }
+.timers { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.ring { width: 72px; height: 72px; }
+.ring circle { fill: none; stroke-width: 4; }
+.ring .bg { stroke: var(--line); }
+.ring .fg { stroke: var(--accent); stroke-dasharray: 201; stroke-dashoffset: 60; transform: rotate(-90deg); transform-origin: center; }
+.ring text { fill: var(--fg); font: 600 14px var(--f-mono); }
+.bar { flex: 1; min-width: 160px; }
+.bar div { height: 8px; border: 1px solid var(--line-strong); }
+.bar div i { display: block; height: 100%; width: 38%; background: var(--accent); }
+.bar small { color: var(--fg-dim); font-size: 11px; }
+
+.pw { display: inline-block; margin: 2px 3px 2px 0; padding: 1px 6px; border: 1px solid var(--line); }
+.pw.ok { border-color: transparent; padding-left: 0; padding-right: 2px; }
+.pw.bad { border: 1px dashed var(--accent); cursor: pointer; background: none; font: inherit; color: inherit; }
+.pw.bad::after { content: " ▶"; font-size: .7em; color: var(--fg-dim); }
+.toggle { display: flex; gap: 6px; align-items: center; cursor: pointer; color: var(--fg-dim); }
+.toggle input { accent-color: var(--accent); }
+.words-off .log, .words-off .typebar { display: none; }
+.off-note { display: none; border: 1px dashed var(--line-strong); padding: 16px; color: var(--fg-dim); text-align: center; }
+.words-off .off-note { display: block; }
+/* --- motion: voice rings on the mic follow the real audio level (yours or Echo's) --- */
+.mic { position: relative; --lvl: 0; transition: transform .15s cubic-bezier(.2,.8,.2,1), background .2s, color .2s; }
+.mic:active { transform: scale(.94); }
+.mic::before, .mic::after { content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 1px solid var(--accent); pointer-events: none;
+  opacity: calc(var(--lvl) * .9); transform: scale(calc(1 + var(--lvl) * .35)); transition: transform 90ms linear, opacity 90ms linear; }
+.mic::after { inset: -18px; opacity: calc(var(--lvl) * .45); transform: scale(calc(1 + var(--lvl) * .6)); }
+.mic.live.waiting::before { animation: ring 1.6s ease-out infinite; }
+@keyframes ring { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(1.5); } }
+.state.on i { animation: dot 1s infinite; background: var(--accent); }
+/* messages slide in; Echo's words appear one by one */
+.msg { animation: msg-in .32s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes msg-in { from { opacity: 0; transform: translateY(8px); } }
+.msg .w { display: inline-block; animation: word-in .35s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(min(var(--i), 60) * 30ms); white-space: pre; }
+@keyframes word-in { from { opacity: 0; transform: translateY(4px); filter: blur(2px); } }
+/* cue card scans in like a printout */
+.notes { width: 100%; margin-top: 8px; background: var(--raised); color: var(--fg); border: 1px dashed var(--line-strong); padding: 8px 10px; font: 14px/1.5 var(--f-read); resize: vertical; }
+.notes:focus { outline: 1px solid var(--accent); }
+.progress { font: 14px/1.5 var(--f-read); color: var(--fg-dim); } .progress b { color: var(--fg); }
+.spark { display: flex; align-items: flex-end; gap: 8px; margin-top: 10px; }
+.spark span { display: grid; justify-items: center; gap: 4px; font: 11px var(--f-mono); color: var(--fg-dim); }
+.spark i { display: block; width: 26px; background: var(--line-strong); transform-origin: bottom; animation: rise .6s cubic-bezier(.2,.8,.2,1) both; }
+.spark span:last-child i { background: var(--accent); } .spark span:last-child { color: var(--fg); }
+@keyframes rise { from { transform: scaleY(0); } }
+.cue:not([hidden]) { animation: scan-in .6s steps(12) both; }
+@keyframes scan-in { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+/* tab switch */
+.panel-in { animation: msg-in .3s cubic-bezier(.2,.8,.2,1) both; }
+/* report: parts arrive one after another, meters fill */
+.report > * { animation: msg-in .45s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i, 0) * 110ms); }
+.meter i { transform-origin: left; animation: fill .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i, 0) * 110ms + .2s); }
+@keyframes fill { from { transform: scaleX(0); } }
+.thinking-bar { height: 2px; width: 120px; background: linear-gradient(90deg, transparent, var(--accent), transparent); background-size: 50% 100%; background-repeat: no-repeat; animation: sweep 1.1s linear infinite; margin: 8px 0 0; }
+@keyframes sweep { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+@media (prefers-reduced-motion: reduce) { .spark i, .msg, .msg .w, .cue, .report > *, .meter i, .panel-in, .thinking-bar, .mic::before, .mic::after, .state.on i { animation: none !important; transition: none !important; } }
+.err { color: var(--rec); font-size: 12px; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { .echo * { animation: none !important; transition: none !important; } }
+</style>
+<link rel="stylesheet" href="boot/boot.css">
+<script type="module" src="boot/boot.js"></script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/">BAND<span>.EXE</span></a>
+  <div class="tabs" role="tablist" aria-label="Speaking" data-current="chat">
+    <button role="tab" data-mode="chat" aria-selected="true">Chat</button>
+    <button role="tab" data-mode="kids" aria-selected="false">Kids</button>
+    <button role="tab" data-mode="test" aria-selected="false">Mock test</button>
+  </div>
+  <a class="to-writing" href="/"><span aria-hidden="true">←</span> Writing</a>
+</header>
+
+<main>
+  <section class="frame">
+    <div class="frame-head"><b>Echo</b><span id="modeLabel">chat partner</span></div>
+    <div class="stage">
+      <!-- Echo: same Signal Creatures system as the writing mascots (64x64 grid, flat fills, one
+           stroke, pill eyes with glint, two feet). Mouth is drawn every frame from the real audio. -->
+      <svg class="echo" id="echo" viewBox="-6 -4 76 68" aria-hidden="true">
+        <g class="body-g" id="bodyG">
+          <rect class="b" x="20" y="54" width="9" height="6" rx="3"/>
+          <rect class="b" x="35" y="54" width="9" height="6" rx="3"/>
+          <path class="l" d="M32 18.5 V9"/>
+          <circle class="tip" id="antTip" cx="32" cy="6.5" r="3"/>
+          <path class="wave" id="w1" d="M37 3.5 Q39.5 6.5 37 9.5"/>
+          <path class="wave" id="w2" d="M41 1.5 Q45 6.5 41 11.5"/>
+          <path class="wave" id="w3" d="M27 3.5 Q24.5 6.5 27 9.5"/>
+          <path class="wave" id="w4" d="M23 1.5 Q19 6.5 23 11.5"/>
+          <path class="ear" d="M6 36 Q2.5 40 6 44 M2.5 33 Q-3 40 2.5 47"/>
+          <path class="ear" d="M58 36 Q61.5 40 58 44 M61.5 33 Q67 40 61.5 47"/>
+          <path class="b" d="M10 42 C10 27 19 18.5 32 18.5 C45 18.5 54 27 54 42 C54 52 45 57 32 57 C19 57 10 52 10 42 Z"/>
+          <rect class="face" x="16" y="25.5" width="32" height="25" rx="10"/>
+          <g class="eyes" id="eyes">
+            <rect class="eye" x="22.5" y="29.5" width="5" height="8" rx="2.5"/><circle class="cut" cx="25.7" cy="31.4" r="1.1"/>
+            <rect class="eye" x="36.5" y="29.5" width="5" height="8" rx="2.5"/><circle class="cut" cx="39.7" cy="31.4" r="1.1"/>
+          </g>
+          <path class="mouth" id="mouth" d="M29 43.5 Q32 45.5 35 43.5"/>
+          <g class="dots"><circle cx="27" cy="44" r="1.3"/><circle cx="32" cy="44" r="1.3"/><circle cx="37" cy="44" r="1.3"/></g>
+          <path class="l" id="armL" d="M14 40 L7 44 L4 39"/>
+          <path class="l" id="armR" d="M50 40 L57 44 L60 39"/>
+        </g>
+      </svg>
+      <div class="state" id="state"><i></i><span>idle</span></div>
+      <button class="mic" id="mic" aria-pressed="false" aria-label="Start talking to Echo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+      <p class="hint" id="micHint">Tap once and just talk. Echo listens, answers, then listens again. Tap again to stop.</p>
+      <p class="hint" id="voiceStatus">Loading Echo's voice…</p>
+      <p class="err" id="err" hidden></p>
+    </div>
+    <div class="frame-body" id="voicePanel" style="border-top:1px solid var(--line)">
+      <div class="frame-head" style="border:0;padding:0;height:auto;margin-bottom:8px"><b>Voice</b><span>Kokoro, free, runs in your browser</span></div>
+      <div class="voices" id="voices">
+        <button data-v="bf_emma" aria-pressed="true">Emma<small>UK, clear</small></button>
+        <button data-v="am_michael" aria-pressed="false">Michael<small>US, calm</small></button>
+        <button data-v="bm_george" aria-pressed="false">George<small>UK, deep</small></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="frame" id="right">
+    <div class="frame-head"><b id="rightTitle">Conversation</b><span class="stars" id="stars" hidden></span>
+      <label class="toggle"><input type="checkbox" id="showWords" checked> show words</label></div>
+    <div class="frame-body">
+      <p class="off-note">Words are hidden, so you listen like in the real test. Turn on “show words” any time.</p>
+      <div id="chatView"><div class="log" id="log" aria-live="polite"></div></div>
+      <div id="kidsView" hidden>
+        <div class="log" id="kidsLog" aria-live="polite" style="min-height:120px;margin-bottom:16px"></div>
+        <div class="kid-card">
+          <h3>Word puzzle: tap the words in order</h3>
+          <div class="answer" id="answer"></div>
+          <div class="chips" id="chips"></div>
+          <div class="row" style="justify-content:flex-start"><button class="btn" id="resetPuzzle">Try again</button><button class="btn primary" id="sayIt">Now say it!</button></div>
+        </div>
+      </div>
+      <div id="testView" hidden style="display:grid;gap:14px">
+        <label class="scope">Practise <select id="testScope" aria-label="Which part to practise"><option value="0">Full test</option><option value="1">Part 1 only</option><option value="2">Part 2 only</option><option value="3">Part 3 only</option></select></label>
+        <div class="parts" id="parts"><span data-p="1">Part 1</span><span data-p="2">Part 2</span><span data-p="3">Part 3</span></div>
+        <div class="cue" id="cue" hidden></div>
+        <textarea class="notes" id="notes" hidden rows="3" placeholder="Your notes (only you see these, they are not marked)" aria-label="Part 2 notes"></textarea>
+        <div class="timers" id="timers" hidden>
+          <svg class="ring" viewBox="0 0 72 72"><circle class="bg" cx="36" cy="36" r="32"/><circle class="fg" id="ringFg" cx="36" cy="36" r="32"/><text id="ringText" x="36" y="41" text-anchor="middle">1:00</text></svg>
+          <div class="bar"><small id="barLabel">prepare</small><div><i id="barFill" style="width:0"></i></div>
+            <div class="row" style="justify-content:flex-start;margin-top:6px"><button class="btn" id="skipPrep">Start talking now</button><button class="btn" id="doneTalk" hidden>I've finished</button></div></div>
+        </div>
+        <div class="log" id="testLog" aria-live="polite" style="min-height:160px"></div>
+      </div>
+      <form class="typebar" id="typebar"><input id="typeIn" placeholder="or type here…" autocomplete="off"><button class="btn">Send</button></form>
+    </div>
+  </section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

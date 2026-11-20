@@ -168,7 +168,7 @@ describe("Pages handler classroom load (no network, real validation/mark/reviewe
     }
   });
 
-  it.each([false, true])("permits exactly 10 marks and 40 shared helper/model requests per person with D1 despite stale cache KV=%s", async (stale) => {
+  it.each([false, true])("permits exactly 5 marks and 40 shared helper/model requests per person with D1 despite stale cache KV=%s", async (stale) => {
     const pool = providers(), store = kv(stale);
     // Each of 50 students presses repeatedly before any replies are returned.
     const jobs = Array.from({ length: 50 }, (_, person) => Array.from({ length: 63 }, (_, op) => ({ id: marker(person, op),
@@ -176,11 +176,11 @@ describe("Pages handler classroom load (no network, real validation/mark/reviewe
     const results = await settle(jobs, { ...pool.env, DB: store.db, QUOTA: store, QUOTA_SALT: `races-${stale}` });
     for (let person = 0; person < 50; person++) {
       const own = results.slice(person * 63, (person + 1) * 63);
-      expect(own.slice(0, 12).filter(({ response }) => response.ok)).toHaveLength(10);
+      expect(own.slice(0, 12).filter(({ response }) => response.ok)).toHaveLength(5);
       expect(own.slice(12).filter(({ response }) => response.ok)).toHaveLength(40);
-      expect(own.filter(({ data }) => data.error === "daily_limit")).toHaveLength(13);
+      expect(own.filter(({ data }) => data.error === "daily_limit")).toHaveLength(18);
     }
-    expect([...store.db.values].filter(([key]) => key.startsWith("mark:")).map(([, value]) => value)).toEqual(Array(50).fill(10));
+    expect([...store.db.values].filter(([key]) => key.startsWith("mark:")).map(([, value]) => value)).toEqual(Array(50).fill(5));
     expect([...store.db.values].filter(([key]) => key.startsWith("helper:")).map(([, value]) => value)).toEqual(Array(50).fill(40));
     expect(JSON.stringify(quotaWrites(store))).not.toMatch(/STUDENT_|198\.51\.100|races-/);
     checkBudget(pool.attempts);
@@ -200,7 +200,7 @@ describe("Pages handler classroom load (no network, real validation/mark/reviewe
     const emptyEnv = { DB: store.db, QUOTA: store, QUOTA_SALT: "error-replay" };
     const failed = await settle([{ id: marker(3), request: request("mark", marker(3), 3, "failed_retry_request_key") }], emptyEnv);
     const [failedAgain] = await settle([{ id: marker(3), request: request("mark", marker(3), 3, "failed_retry_request_key") }], emptyEnv);
-    expect(failedAgain.data).toMatchObject({ error: failed[0].data.error, remainingToday: 8 }); expect(quotaWrites(store)).toHaveLength(4);
+    expect(failedAgain.data).toMatchObject({ error: failed[0].data.error, remainingToday: 3 }); expect(quotaWrites(store)).toHaveLength(4);
   });
 
   it("tester pass bypasses personal allowance but shares pacing, fallback and the bounded call budget", async () => {
@@ -220,7 +220,7 @@ describe("Pages handler classroom load (no network, real validation/mark/reviewe
     expect(results.every(({ data }) => data.error !== "pool_empty")).toBe(true); checkBudget(pool.attempts);
   });
 
-  it("enforces ten across independently imported isolates even with permanently stale cache KV", async () => {
+  it("enforces five across independently imported isolates even with permanently stale cache KV", async () => {
     const first = onRequest;
     vi.resetModules();
     const second = (await import("../functions/api/[[path]]")).onRequest;
@@ -229,11 +229,11 @@ describe("Pages handler classroom load (no network, real validation/mark/reviewe
       const id = JSON.stringify(input).match(/STUDENT_\d+_OP_\d+/)![0];
       return { response: report(id) };
     } } };
-    const wave = (handler: typeof Handler, offset: number) => Array.from({ length: 10 }, (_, i) => ({ handler, id: marker(1, i + offset), request: request("mark", marker(1, i + offset), 1) }));
+    const wave = (handler: typeof Handler, offset: number) => Array.from({ length: 5 }, (_, i) => ({ handler, id: marker(1, i + offset), request: request("mark", marker(1, i + offset), 1) }));
     expect((await settle(wave(first, 0), env)).every(({ response }) => response.ok)).toBe(true);
     await vi.advanceTimersByTimeAsync(1100);
-    expect((await settle(wave(second, 10), env)).every(({ data }) => data.error === "daily_limit")).toBe(true);
-    expect([...store.db.values].filter(([key]) => key.startsWith("mark:")).map(([, value]) => value)).toEqual([10]); // Conditional UPSERT coordinates both handlers.
+    expect((await settle(wave(second, 5), env)).every(({ data }) => data.error === "daily_limit")).toBe(true);
+    expect([...store.db.values].filter(([key]) => key.startsWith("mark:")).map(([, value]) => value)).toEqual([5]); // Conditional UPSERT coordinates both handlers.
   });
 
   it("Mistral admission is fair FIFO, capped at four in flight, and expires queued work", async () => {

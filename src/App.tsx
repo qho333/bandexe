@@ -2,12 +2,12 @@ import { useUILanguage, setUILanguage } from "./lib/i18n";
 import { getAuth, loadAuth, SIGNED_OUT_EVENT, SIGNED_OUT_KEY, watchAccount } from "./lib/auth";
 import { syncHistory } from "./lib/account-history";
 import { configureInteractionSound, installPressFeedback, playInteraction } from "./lib/interaction-sound";
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Lenis from "lenis";
 import type { Chart, Draft, MarkResult } from "./lib/types";
 import { lazy, Suspense } from "react";
 import { screenFromHash, startScreen, type AppScreen } from "./lib/routes";
-import { isCrawler } from "./lib/boot";
+import { consumeSkipBoot, isCrawler } from "./lib/boot";
 import { applyPrefs, loadPrefs, motionOK, onSystemMotionChange, savePrefs, scanSoundEnabled, systemReduced, type Prefs } from "./lib/prefs";
 import { addEntry, clearHistory, loadHistory, personalBest, toEntry, type HistoryEntry } from "./lib/history";
 import { dropForeignScript } from "./lib/feedback";
@@ -81,7 +81,9 @@ export default function App() {
     try { storage = localStorage; } catch { /* blocked storage: no first-visit routing */ }
     return startScreen(location.hash, storage);
   });
-  const [booting, setBooting] = useState(() => prefs.boot === "on" && motionOK(prefs) && !isCrawler(navigator.userAgent));
+  const [arrived] = useState(consumeSkipBoot);   // came from another site page (Speaking): no intro, a soft fade-in instead
+  const [booting, setBooting] = useState(() => !arrived && prefs.boot === "on" && motionOK(prefs) && !isCrawler(navigator.userAgent));
+  useLayoutEffect(() => { if (arrived) document.documentElement.classList.add("arrived"); }, [arrived]);
   const [replayBoot, setReplayBoot] = useState(false);
   const content = useRef<HTMLDivElement>(null);
   const [draft, setDraftState] = useState<Draft>(loadDraft);

@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "안녕하세요",
-  "15 free checks a day": "하루 무료 평가 15회",
+  "10 free checks a day": "하루 무료 평가 10회",
   "Working…": "처리 중…",
   "Sign out": "로그아웃",
   "Delete my account": "내 계정 삭제",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "그 사진에서 문제를 찾지 못했습니다. 더 선명한 사진을 쓰거나 문제를 입력하세요.",
   "The picture reader is unavailable. Type the question instead.": "사진 판독 기능을 사용할 수 없습니다. 문제를 입력하세요.",
   "Collection": "컬렉션",
+  "Speaking": "스피킹",
   "Your collection": "내 컬렉션",
   "Today's missions": "오늘의 미션",
   "{value0} / {value1} coins": "코인 {value0} / {value1}개",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "무료 평가는 사이트의 개방형 모델 제공업체로 글을 보냅니다. 성인은 내 Gemini 키를 선택할 수 있습니다.",
   "Coming soon": "준비 중",
   "You can practise without an account.": "계정 없이도 연습할 수 있습니다.",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "로그인하면 기기 간 진행 상황과 하루 무료 평가 15회(게스트 10회)를 이용합니다. 점수와 연습 과제만 저장하며 글·이름·이메일은 저장하지 않습니다.",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "로그인하면 기기 간 진행 상황과 하루 무료 평가 10회(게스트 5회)를 이용합니다. 점수와 연습 과제만 저장하며 글·이름·이메일은 저장하지 않습니다.",
   "Hi, {name}.": "안녕하세요, {name}님.",
   "You’re signed in.": "로그인되었습니다.",
   "Continue to writing": "쓰기로 이동",

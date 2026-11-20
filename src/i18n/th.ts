@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "สวัสดี",
-  "15 free checks a day": "ตรวจฟรีวันละ 15 ครั้ง",
+  "10 free checks a day": "ตรวจฟรีวันละ 10 ครั้ง",
   "Working…": "กำลังดำเนินการ…",
   "Sign out": "ออกจากระบบ",
   "Delete my account": "ลบบัญชีของฉัน",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "ไม่พบโจทย์ในรูปนั้น ลองใช้รูปที่ชัดกว่านี้หรือพิมพ์โจทย์",
   "The picture reader is unavailable. Type the question instead.": "ตัวอ่านรูปใช้งานไม่ได้ โปรดพิมพ์โจทย์แทน",
   "Collection": "คอลเลกชัน",
+  "Speaking": "การพูด",
   "Your collection": "คอลเลกชันของคุณ",
   "Today's missions": "ภารกิจวันนี้",
   "{value0} / {value1} coins": "{value0} / {value1} เหรียญ",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "เครื่องมือตรวจฟรีส่งงานไปผู้ให้บริการโมเดลเปิดของเว็บ ผู้ใหญ่เลือกใช้คีย์ Gemini ของตนได้",
   "Coming soon": "เร็ว ๆ นี้",
   "You can practise without an account.": "ฝึกได้โดยไม่ต้องมีบัญชี",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "ลงชื่อเข้าใช้เพื่อบันทึกความก้าวหน้าข้ามอุปกรณ์และตรวจฟรีวันละ 15 ครั้ง (ผู้เยี่ยมชม 10) เก็บเฉพาะคะแนนกับจุดเน้น ไม่เก็บบทความ ชื่อ หรืออีเมล",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "ลงชื่อเข้าใช้เพื่อบันทึกความก้าวหน้าข้ามอุปกรณ์และตรวจฟรีวันละ 10 ครั้ง (ผู้เยี่ยมชม 5) เก็บเฉพาะคะแนนกับจุดเน้น ไม่เก็บบทความ ชื่อ หรืออีเมล",
   "Hi, {name}.": "สวัสดี {name}",
   "You’re signed in.": "ลงชื่อเข้าใช้แล้ว",
   "Continue to writing": "ไปเขียนต่อ",

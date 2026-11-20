@@ -137,7 +137,7 @@ describe("translated public page content", () => {
   });
 
   it("keeps the documented daily allowances aligned with the existing configuration", () => {
-    expect(FREE_CONFIG).toMatchObject({ checksPerDay: 10, helpersPerDay: 40, accountChecksPerDay: 15, accountHelpersPerDay: 60 });
+    expect(FREE_CONFIG).toMatchObject({ checksPerDay: 5, helpersPerDay: 40, accountChecksPerDay: 10, accountHelpersPerDay: 60 });
     for (const content of Object.values(pageContent)) {
       const section = content.privacy.find(({ id }) => id === "privacy-signing-in")!;
       for (const value of [FREE_CONFIG.checksPerDay, FREE_CONFIG.helpersPerDay, FREE_CONFIG.accountChecksPerDay, FREE_CONFIG.accountHelpersPerDay]) {

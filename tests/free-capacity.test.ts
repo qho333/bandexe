@@ -141,7 +141,7 @@ describe("reviewed free result KV cache", () => {
     const db = fakeD1();
     const env = { DB: db, QUOTA: store, QUOTA_SALT: "private-salt", AI: { run }, MARK_LIMITER: { limit } };
     const first = await (await onRequest({ request: request(), env })).json();
-    expect(first.remainingToday).toBe(9);
+    expect(first.remainingToday).toBe(4);
     const writes = store.put.mock.calls.filter(([key]) => key.startsWith("cache:"));
     expect(writes).toHaveLength(1); expect(writes[0][0]).toMatch(/^cache:[a-f0-9]{64}$/);
     expect(writes[0][2]).toEqual({ expirationTtl: 86400 });

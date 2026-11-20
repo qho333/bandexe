@@ -2,6 +2,7 @@ import { createRoot } from "react-dom/client";
 import "lenis/dist/lenis.css";
 import "./styles.css";
 import "./app.css";
+import "./mascot-moves.css";   // Band 8-9 special moves; also used by the Speaking page
 import "./motion.css";
 import App from "./App";
 import { captureTesterToken } from "./lib/tester";

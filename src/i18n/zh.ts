@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "你好，同学",
-  "15 free checks a day": "每天免费批改15次",
+  "10 free checks a day": "每天免费批改10次",
   "Working…": "处理中…",
   "Sign out": "退出登录",
   "Delete my account": "删除我的账户",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "图片中未找到题目。请换一张更清晰的照片，或输入题目。",
   "The picture reader is unavailable. Type the question instead.": "图片读取功能暂不可用。请直接输入题目。",
   "Collection": "收藏",
+  "Speaking": "口语",
   "Your collection": "你的收藏",
   "Today's missions": "今日任务",
   "{value0} / {value1} coins": "{value0} / {value1} 枚金币",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "免费批改会将文章发送给本站的开放模型服务商。成年人也可选择自己的Gemini密钥。",
   "Coming soon": "即将推出",
   "You can practise without an account.": "无需账户也能练习。",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "登录可跨设备保存进度，每日免费批改15次（访客10次）。仅保存分数和练习重点，不保存文章、姓名或邮箱。",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "登录可跨设备保存进度，每日免费批改10次（访客5次）。仅保存分数和练习重点，不保存文章、姓名或邮箱。",
   "Hi, {name}.": "你好，{name}。",
   "You’re signed in.": "你已登录。",
   "Continue to writing": "继续写作",

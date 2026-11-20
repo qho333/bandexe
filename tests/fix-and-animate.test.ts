@@ -48,7 +48,7 @@ it("filters damaged history rows independently and removes legacy feedback-only 
   const history = loadHistory(store); expect(history).toHaveLength(2); expect(history[1]).toMatchObject({ overall: null, range: null, bands: { tr: null, cc: null, lr: null, gra: null } });
 });
 it("uses the owner daily limit when the response does not supply a limit", () => {
-  updateAllowance({ remainingToday: 9 }); expect(getAllowance()).toEqual({ remaining: 9, limit: 10 });
+  updateAllowance({ remainingToday: 4 }); expect(getAllowance()).toEqual({ remaining: 4, limit: 5 });
 });
 it("Free study models work without Gemini gates, retain provider labels and do not overwrite mark allowance", async () => {
   setChecker({ mode: "free", key: "" }); updateAllowance({ remainingToday: 8, dailyLimit: 10 });

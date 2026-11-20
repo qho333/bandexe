@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "Halo, pelajar",
-  "15 free checks a day": "15 pemeriksaan gratis per hari",
+  "10 free checks a day": "10 pemeriksaan gratis per hari",
   "Working…": "Memproses…",
   "Sign out": "Keluar",
   "Delete my account": "Hapus akun saya",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "Soal tidak ditemukan di foto itu. Coba foto yang lebih jelas atau ketik soalnya.",
   "The picture reader is unavailable. Type the question instead.": "Pembaca foto tidak tersedia. Ketik soalnya.",
   "Collection": "Koleksi",
+  "Speaking": "Speaking",
   "Your collection": "Koleksimu",
   "Today's missions": "Misi hari ini",
   "{value0} / {value1} coins": "{value0} / {value1} koin",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "Pemeriksa gratis mengirim tulisan ke penyedia model terbuka situs. Orang dewasa bisa memilih kunci Gemini sendiri.",
   "Coming soon": "Segera hadir",
   "You can practise without an account.": "Anda bisa berlatih tanpa akun.",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "Masuk untuk menyimpan progres lintas perangkat dan 15 pemeriksaan gratis/hari (tamu 10). Kami simpan skor dan prioritas, bukan esai, nama, atau email.",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "Masuk untuk menyimpan progres lintas perangkat dan 10 pemeriksaan gratis/hari (tamu 5). Kami simpan skor dan prioritas, bukan esai, nama, atau email.",
   "Hi, {name}.": "Halo, {name}.",
   "You’re signed in.": "Anda sudah masuk.",
   "Continue to writing": "Lanjut menulis",

@@ -77,12 +77,12 @@ describe("address normalization and shared allowances", () => {
     ["invalid", null], [null, null], ["999.1.1.1", null],
   ])("normalizes %s", (ip, expected) => expect(clientAddress(ip)).toBe(expected));
   it("rotating /64 addresses share marking and review limits; a different prefix has its own allowance", async () => {
-    for (let i = 0; i < 11; i++)
-      expect((await call("mark", input, { "CF-Connecting-IP": `2001:db8:abcd:1234::${i + 1}` })).status).toBe(i < 10 ? 200 : 429);
+    for (let i = 0; i < 6; i++)
+      expect((await call("mark", input, { "CF-Connecting-IP": `2001:db8:abcd:1234::${i + 1}` })).status).toBe(i < 5 ? 200 : 429);
     expect((await call("mark", input, { "CF-Connecting-IP": "2001:db8:abcd:1235::1" })).status).toBe(200);
     for (let i = 0; i < 6; i++)
       expect((await call("review", { rating: 4 }, { "CF-Connecting-IP": `2001:db8:abcd:1234::${i + 1}` })).status).toBe(i < 5 ? 200 : 429);
-    expect(run).toHaveBeenCalledTimes(11);
+    expect(run).toHaveBeenCalledTimes(6);
   });
   it("mapped IPv6 shares the IPv4 mark key and /64 rotation shares replay and optional limiter keys", async () => {
     await call("mark", input, { "CF-Connecting-IP": "192.0.2.1" });
@@ -221,7 +221,7 @@ describe("durable session revocation", () => {
     for (const path of ["history", "account"])
       expect((await call(path, {}, { Cookie: a.Cookie }, path === "history" ? "GET" : "DELETE", settings())).status).toBe(401);
     expect(await (await call("auth/me", {}, { Cookie: a.Cookie }, "GET", settings())).json()).toMatchObject({ signedIn: false });
-    expect(await (await call("mark", input, headers, "POST", settings())).json()).toMatchObject({ dailyLimit: 10 });
+    expect(await (await call("mark", input, headers, "POST", settings())).json()).toMatchObject({ dailyLimit: 5 });
     expect(await accountExists(db, a.uid, 0)).toBe(false); expect(await accountExists(db, b.uid, 0)).toBe(true);
     const fresh = await session(); expect(fresh.epoch).toBe(1);
     expect(await (await call("auth/me", {}, { Cookie: fresh.Cookie }, "GET", settings())).json()).toMatchObject({ signedIn: true });

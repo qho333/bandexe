@@ -85,3 +85,18 @@ html:not(.motion-ok) .frame-trace { display: none; }
   html.motion-ok[dir="rtl"] .app-content:not(.is-booting) .screen.is-active :is(.login__intro h1 > span, .login__intro > p, .login__facts li) { animation-name: login-line-rtl; }
 }
 @keyframes login-line-rtl { from { opacity: 0; clip-path: inset(0 0 0 100%); } to { opacity: 1; clip-path: inset(0); } }
+
+/* Writing <-> Speaking: a same-site page change keeps the header steady and slides the content (Chrome/Edge; others just navigate). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-group(site-head) { animation-duration: 220ms; }
+  ::view-transition-old(root) { animation: vt-out 150ms ease-in both; }
+  ::view-transition-new(root) { animation: vt-in 260ms cubic-bezier(.2,.8,.2,1) 40ms both; }
+}
+@keyframes vt-out { to { opacity: 0; transform: translateY(-6px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+/* A view-transition name makes the header its own layer: lift it so the Menu panel (z 40) stays above the page. */
+@media (prefers-reduced-motion: no-preference) { .screen.is-active .app-head { view-transition-name: site-head; position: relative; z-index: 41; } }
+/* Arriving from Speaking: the app mounts after the page swap, so fade it in instead of popping (opacity only: fixed bars stay put). */
+@media (prefers-reduced-motion: no-preference) { html.arrived #root > * { animation: arrive-in 280ms ease-out both; } }
+@keyframes arrive-in { from { opacity: 0; } }

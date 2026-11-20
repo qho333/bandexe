@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "Hola, estudiante",
-  "15 free checks a day": "15 evaluaciones gratis al día",
+  "10 free checks a day": "10 evaluaciones gratis al día",
   "Working…": "Procesando…",
   "Sign out": "Cerrar sesión",
   "Delete my account": "Eliminar mi cuenta",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "No se encontró ninguna pregunta en esa foto. Prueba con una más clara o escribe la pregunta.",
   "The picture reader is unavailable. Type the question instead.": "El lector de fotos no está disponible. Escribe la pregunta.",
   "Collection": "Colección",
+  "Speaking": "Speaking",
   "Your collection": "Tu colección",
   "Today's missions": "Misiones de hoy",
   "{value0} / {value1} coins": "{value0} / {value1} monedas",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "El evaluador gratis envía el texto a proveedores de modelos abiertos. Los adultos pueden optar por su clave Gemini.",
   "Coming soon": "Próximamente",
   "You can practise without an account.": "Puedes practicar sin cuenta.",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "Inicia sesión para guardar progreso entre dispositivos y obtener 15 evaluaciones gratis al día (10 para invitados). Guardamos notas y prioridades, nunca textos, nombre ni correo.",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "Inicia sesión para guardar progreso entre dispositivos y obtener 10 evaluaciones gratis al día (5 para invitados). Guardamos notas y prioridades, nunca textos, nombre ni correo.",
   "Hi, {name}.": "Hola, {name}.",
   "You’re signed in.": "Has iniciado sesión.",
   "Continue to writing": "Continuar escribiendo",

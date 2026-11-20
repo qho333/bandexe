@@ -124,7 +124,7 @@ describe("pseudonymous sessions and accounts", () => {
     const cookie = response.headers.get("Set-Cookie")!;
     for (const flag of ["HttpOnly", "Secure", "SameSite=Lax", "Path=/api", "Max-Age=2592000"]) expect(cookie).toContain(flag);
     const me = await call("auth/me", "GET", undefined, cookie.split(";")[0]);
-    expect(await me.json()).toEqual({ signedIn: true, limit: 15, remainingToday: 15 });
+    expect(await me.json()).toEqual({ signedIn: true, limit: 10, remainingToday: 10 });
     await call("auth/google", "POST", { credential: await token() });
     expect(db.rows("SELECT * FROM users")).toHaveLength(1);
     const stored = JSON.stringify(db.records);
@@ -161,15 +161,15 @@ describe("pseudonymous sessions and accounts", () => {
 });
 
 describe("account allowances and request cloning", () => {
-  it("admits 15 checks per account across IPs and 10 per guest IP", async () => {
+  it("admits 10 checks per account across IPs and 5 per guest IP", async () => {
     const a = await account();
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 11; i++) {
       const response = await call("mark", "POST", markBody, a.cookie, { "CF-Connecting-IP": `192.0.2.${i}` });
-      expect(response.status).toBe(i < 15 ? 200 : 429);
-      if (i < 15) expect(await response.json()).toMatchObject({ dailyLimit: 15, remainingToday: 14 - i });
+      expect(response.status).toBe(i < 10 ? 200 : 429);
+      if (i < 10) expect(await response.json()).toMatchObject({ dailyLimit: 10, remainingToday: 9 - i });
     }
-    for (let i = 0; i < 11; i++) expect((await call("mark", "POST", markBody)).status).toBe(i < 10 ? 200 : 429);
-    expect(db.rows("SELECT n FROM daily_allowance WHERE key = ?", "mark:acct:" + a.uid)).toEqual([{ n: 15 }]);
+    for (let i = 0; i < 6; i++) expect((await call("mark", "POST", markBody)).status).toBe(i < 5 ? 200 : 429);
+    expect(db.rows("SELECT n FROM daily_allowance WHERE key = ?", "mark:acct:" + a.uid)).toEqual([{ n: 10 }]);
   });
   it("uses 60 vs 40 helpers, sharing that allowance with model answers and report detail", async () => {
     const a = await account();
@@ -190,7 +190,7 @@ describe("account allowances and request cloning", () => {
     for (let i = 0; i < 2; i++) {
       const response = await call("mark", "POST", markBody, a.cookie, headers, settings);
       expect(response.status).toBe(200);
-      expect(await response.json()).toMatchObject({ dailyLimit: 15, remainingToday: 14 });
+      expect(await response.json()).toMatchObject({ dailyLimit: 10, remainingToday: 9 });
     }
     expect(run).toHaveBeenCalledOnce();
     expect(db.rows("SELECT key, n FROM daily_allowance")).toEqual([{ key: "mark:acct:" + a.uid, n: 1 }]);
@@ -251,7 +251,7 @@ describe("summary history, CSRF and the feature flag", () => {
     expect(await config.json()).toEqual({ googleClientId: null });
     for (const [path, method] of [["auth/google", "POST"], ["auth/logout", "POST"], ["auth/me", "GET"], ["account", "DELETE"], ["history", "GET"], ["history", "POST"]])
       expect((await call(path, method, method === "GET" ? undefined : {}, a.cookie, {}, disabled)).status).toBe(404);
-    expect(await (await call("health", "GET", undefined, a.cookie, {}, disabled)).json()).toMatchObject({ dailyLimit: 10 });
+    expect(await (await call("health", "GET", undefined, a.cookie, {}, disabled)).json()).toMatchObject({ dailyLimit: 5 });
     expect(fetch).not.toHaveBeenCalled();
   });
   it("returns 503 for missing account storage or salt and 401 for invalid credentials", async () => {

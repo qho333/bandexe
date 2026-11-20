@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "こんにちは",
-  "15 free checks a day": "1日15回無料で添削",
+  "10 free checks a day": "1日10回無料で添削",
   "Working…": "処理中…",
   "Sign out": "ログアウト",
   "Delete my account": "アカウントを削除",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "その写真から問題が見つかりません。より鮮明な写真を使うか、問題を入力してください。",
   "The picture reader is unavailable. Type the question instead.": "写真の読み取りを利用できません。問題を入力してください。",
   "Collection": "コレクション",
+  "Speaking": "スピーキング",
   "Your collection": "あなたのコレクション",
   "Today's missions": "今日のミッション",
   "{value0} / {value1} coins": "コイン {value0} / {value1} 枚",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "無料添削はサイトのオープンモデル提供先へ送信します。成人は自分のGeminiキーも選べます。",
   "Coming soon": "近日公開",
   "You can practise without an account.": "アカウントなしでも練習できます。",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "ログインで端末間の進捗保存と1日15回の無料添削（ゲスト10回）が使えます。保存するのはスコアと課題のみで、答案・名前・メールは保存しません。",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "ログインで端末間の進捗保存と1日10回の無料添削（ゲスト5回）が使えます。保存するのはスコアと課題のみで、答案・名前・メールは保存しません。",
   "Hi, {name}.": "こんにちは、{name}さん。",
   "You’re signed in.": "ログイン済みです。",
   "Continue to writing": "ライティングへ進む",

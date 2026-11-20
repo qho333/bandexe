@@ -131,6 +131,7 @@ html.has-track .login { min-height: calc(100svh - var(--track-h)); }
 .helper-row { display: flex; gap: var(--s-2); }
 .helper-row .input { flex: 1; min-width: 0; }
 .syn-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.syn-list li { display: block; }   /* overrides the old 110px grid in styles.css, which let long words with a tag overflow */
 .syn { white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-family: var(--f-read); font-size: var(--t-15); }
 .syn:hover, .syn:focus-visible { border-color: var(--line-strong); }
 .syn__tag { white-space: nowrap; font-family: var(--f-mono); font-size: 10px; padding: 1px 4px; border: 1px solid var(--mark-u-ink); color: var(--fg); }
@@ -265,10 +266,10 @@ html:not(.motion-ok) .scan-box::before, html:not(.motion-ok) .scan-box__line { a
 .evaluate, .evaluate-press { position: relative; overflow: hidden; isolation: isolate; }
 .evaluate__label { position: relative; z-index: 1; }
 .evaluate::after, .evaluate-press::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(transparent 45%, var(--accent-ink) 49% 51%, transparent 55%); opacity: 0; }
-.app-nav { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.app-nav { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; }
 .app-nav a { justify-content: center; }
 .app-nav a[aria-current="page"] { border-bottom-color: transparent; }
-.app-nav::after { content: ""; position: absolute; bottom: 0; left: 0; width: calc(100% / 4); height: 1px; background: var(--accent); pointer-events: none; }
+.app-nav::after { content: ""; position: absolute; bottom: 0; left: 0; width: calc(100% / 5); height: 1px; background: var(--accent); pointer-events: none; }
 .app-nav[data-current="results"]::after { transform: translateX(100%); }
 .app-nav[data-current="overview"]::after { transform: translateX(200%); }
 .app-nav[data-current="collection"]::after { transform: translateX(300%); }
@@ -451,68 +452,9 @@ html.motion-ok a.missions__roll { animation: coin-ready 4s ease-in-out infinite;
   .screen .app-nav { grid-row: 2; grid-column: 1 / -1; width: 100%; }
   .screen .app-head__end { justify-self: end; }
   .screen .app-nav a { overflow-wrap: break-word; padding-inline: 2px; }
+  .screen .app-head .app-nav a { font-size: var(--t-11); }   /* five tabs (with Speaking) fit a 375 px phone */
 }
 
-/* Band 8 and 9 special moves, one per character. Each plays, then rests, so it stays calm beside an essay. */
-.mascot [class*="sx-"] { transform-box: fill-box; transform-origin: center; }
-.mascot .sx-beam, .mascot .sx-shine { fill: var(--m-line); opacity: 0; }
-.mascot .sx-ring, .mascot .sx-ink { opacity: 0; }
-.ccard--sealed .mascot * { animation: none !important; }
-html.motion-ok .sx-swivel { transform-origin: 50% 90%; animation: sx-swivel 6s ease-in-out infinite; }
-html.motion-ok .sx-lens { animation: sx-lens 6s ease-in-out infinite; }
-html.motion-ok .sx-flip { animation: sx-flip 7s cubic-bezier(.6, 0, .3, 1) infinite; }
-html.motion-ok .sx-sand { transform-origin: 50% 100%; animation: sx-sand 7s linear infinite; }
-html.motion-ok .sx-grain { animation: sx-blink 7s steps(1) infinite; }
-html.motion-ok .sx-bar { transform-origin: 50% 100%; animation: sx-bar 4.5s ease-out infinite; }
-html.motion-ok .sx-b2 { animation-delay: .15s; } html.motion-ok .sx-b3 { animation-delay: .3s; } html.motion-ok .sx-b4 { animation-delay: .45s; }
-html.motion-ok .sx-pin { animation: sx-pin 4.5s cubic-bezier(.3, 0, .5, 1) infinite; }
-html.motion-ok .sx-ring { animation: sx-ring 4.5s ease-out infinite; }
-html.motion-ok .sx-cap { animation: sx-toss 5s ease-in-out infinite; }
-html.motion-ok .sx-tassel { transform-origin: 50% 0; animation: sx-tassel 5s ease-in-out infinite; }
-html.motion-ok .sx-write { transform-origin: 50% 100%; animation: sx-write 5s ease-in-out infinite; }
-html.motion-ok .sx-ink { stroke-dasharray: 100; animation: sx-ink 5s linear infinite; }
-html.motion-ok .sx-scurry { animation: sx-scurry 5s ease-in-out infinite; }
-html.motion-ok .sx-la { animation: sx-leg .22s ease-in-out infinite alternate; }
-html.motion-ok .sx-lb { animation: sx-leg .22s ease-in-out -.22s infinite alternate-reverse; }
-html.motion-ok .sx-sweep { animation: sx-sweep 1.2s ease-in-out infinite alternate; }
-html.motion-ok .sx-beam { animation: sx-beam 2.6s linear infinite; }
-html.motion-ok .sx-stamp { animation: sx-stamp 5s cubic-bezier(.5, 0, 1, .6) infinite; }
-html.motion-ok .sx-rib { transform-origin: 50% 0; animation: sx-rib 2.4s ease-in-out infinite; }
-html.motion-ok .sx-rib2 { animation-direction: reverse; }
-html.motion-ok .sx-shine { animation: sx-shine 5s ease-in-out infinite; }
-html.motion-ok .sx-crown { transform-origin: 50% 100%; animation: sx-crown 5s cubic-bezier(.3, 1.4, .6, 1) infinite; }
-html.motion-ok .sx-pulse { animation: sx-pulse 2.5s ease-in-out infinite; }
-html.motion-ok .sx-blink { animation: sx-blink 2.2s steps(1) infinite; }
-html.motion-ok .sx-merid { animation: sx-merid 5s linear infinite; }
-html.motion-ok .sx-merid2 { animation-delay: -2.5s; }
-html.motion-ok .sx-orbit { transform-box: view-box; transform-origin: 32px 29px; animation: sx-orbit 5s linear infinite; }
-html.motion-ok .sx-ghost { animation: sx-ghost 6s ease-in-out infinite; }
-html.motion-ok .sx-oh { animation: sx-oh 6s ease-in-out infinite; }
-@keyframes sx-swivel { 0%, 25%, 100% { transform: rotate(0); } 35%, 50% { transform: rotate(-16deg); } 60%, 75% { transform: rotate(16deg); } 85% { transform: rotate(0); } }
-@keyframes sx-lens { 0%, 40%, 58%, 100% { transform: scale(1); } 46%, 52% { transform: scale(1.18); } }
-@keyframes sx-flip { 0%, 40% { transform: rotate(0); } 50%, 90% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
-@keyframes sx-sand { 0% { transform: scaleY(.15); } 40%, 50% { transform: scaleY(1); } 90%, 100% { transform: scaleY(.15); } }
-@keyframes sx-bar { 0%, 60%, 100% { transform: scaleY(1); } 8% { transform: scaleY(.1); } 22% { transform: scaleY(1.25); } 32% { transform: scaleY(1); } }
-@keyframes sx-pin { 0%, 55%, 100% { transform: translateY(0); } 15% { transform: translateY(-13px); } 30% { transform: translateY(0); } 38% { transform: translateY(-4px); } 46% { transform: translateY(0); } }
-@keyframes sx-ring { 0%, 28% { opacity: 0; transform: scale(.3); } 31% { opacity: 1; } 50%, 100% { opacity: 0; transform: scale(1.5); } }
-@keyframes sx-toss { 0%, 40%, 100% { transform: none; } 58% { transform: translateY(-16px) rotate(200deg); } 76% { transform: translateY(0) rotate(360deg); } 82% { transform: translateY(1.5px) rotate(360deg); } 90% { transform: rotate(360deg); } }
-@keyframes sx-tassel { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
-@keyframes sx-write { 0%, 55%, 100% { transform: rotate(0); } 8%, 24%, 40% { transform: translateX(-3px) rotate(-8deg); } 16%, 32%, 48% { transform: translateX(3px) rotate(8deg); } }
-@keyframes sx-ink { 0% { opacity: 1; stroke-dashoffset: 100; } 50%, 80% { opacity: 1; stroke-dashoffset: 0; } 92%, 100% { opacity: 0; stroke-dashoffset: 0; } }
-@keyframes sx-scurry { 0%, 100% { transform: translateX(-3px); } 50% { transform: translateX(3px); } }
-@keyframes sx-leg { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
-@keyframes sx-sweep { from { transform: translateX(-7px); } to { transform: translateX(7px); } }
-@keyframes sx-beam { 0% { opacity: 0; transform: translateY(0); } 10%, 85% { opacity: .9; } 100% { opacity: 0; transform: translateY(36px); } }
-@keyframes sx-stamp { 0%, 62% { opacity: 0; transform: scale(3.2); } 72% { opacity: 1; transform: scale(1); } 75% { transform: scale(1.22); } 80%, 100% { opacity: 1; transform: scale(1); } }
-@keyframes sx-rib { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
-@keyframes sx-shine { 0%, 74% { opacity: 0; transform: translateX(0) skewX(-14deg); } 78% { opacity: .55; } 94% { opacity: .55; transform: translateX(29px) skewX(-14deg); } 100% { opacity: 0; transform: translateX(29px) skewX(-14deg); } }
-@keyframes sx-crown { 0%, 35%, 100% { transform: none; } 55% { transform: translateY(-11px) rotate(-14deg); } 70% { transform: translateY(-11px) rotate(14deg); } 85% { transform: none; } }
-@keyframes sx-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-@keyframes sx-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: .15; } }
-@keyframes sx-merid { from { transform: scaleX(1); } 50% { transform: scaleX(-1); } to { transform: scaleX(1); } }
-@keyframes sx-orbit { to { transform: rotate(360deg); } }
-@keyframes sx-ghost { 0%, 40%, 100% { transform: translateY(0); opacity: 1; } 20% { transform: translateY(-5px); } 52% { opacity: .08; transform: translate(-8px, -2px); } 60% { opacity: .08; transform: translate(8px, -2px); } 72% { opacity: 1; transform: translateY(0); } }
-@keyframes sx-oh { 0%, 44%, 76%, 100% { transform: scale(1); } 52%, 68% { transform: scale(1.7); } }
 
 /* Coin balance in the top bar, on every page. */
 .head-coins { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding-inline: var(--s-2); color: var(--fg); font-weight: 700; font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; }

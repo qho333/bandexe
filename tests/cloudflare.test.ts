@@ -43,7 +43,7 @@ describe("Pages eligibility", () => {
   it.each([undefined, "US", "FR"])("returns uncached health without leaking the secret (%s)", async (country) => {
     const res = await onRequest(context("health", null, { GEMINI_API_KEY: "site-secret" }, country));
     expect(res.headers.get("Cache-Control")).toBe("no-store");
-    expect(await res.json()).toEqual({ ok: true, model: MODEL, configured: true, fixture: false, gemini: geminiEligibility(country), free: true, dailyLimit: 10, remainingToday: null });
+    expect(await res.json()).toEqual({ ok: true, model: MODEL, configured: true, fixture: false, gemini: geminiEligibility(country), free: true, dailyLimit: 5, remainingToday: null });
     expect((await (await onRequest(context("health", null, {}))).json()).configured).toBe(false);
     expect(fetch).not.toHaveBeenCalled();
   });

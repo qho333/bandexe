@@ -117,7 +117,7 @@ describe("compact and full detail", () => {
     const upstream = run(), markLimit = vi.fn(async () => ({ success: true })), helperLimit = vi.fn(async () => ({ success: true }));
     const env = { DB: fakeD1(), QUOTA: kv, QUOTA_SALT: "test-salt", AI: { run: upstream }, MARK_LIMITER: { limit: markLimit }, HELPER_LIMITER: { limit: helperLimit } };
     const compact = await (await onRequest(context("mark", { ...draft, reportMode: "full" }, env))).json();
-    expect(compact.reportMode).toBe("compact"); expect(compact.remainingToday).toBe(9);
+    expect(compact.reportMode).toBe("compact"); expect(compact.remainingToday).toBe(4);
     const full = await (await onRequest(context("report-detail", draft, env))).json();
     expect(full.reportMode).toBe("full"); expect(full.dailyLimit).toBe(40); expect(full.remainingToday).toBe(39);
     expect(markLimit).toHaveBeenCalledOnce(); expect(helperLimit).toHaveBeenCalledOnce();
@@ -221,7 +221,7 @@ it("export buttons download real MD/TXT/DOCX blobs and Print invokes the print f
   expect(create).toHaveBeenCalledTimes(3); expect(revoke).toHaveBeenCalledTimes(3);
   tree.props.children[2].props.onClick(); expect(print).toHaveBeenCalledOnce();
 });
-it("distinguishes a student's ten-check limit from shared pool exhaustion", async () => {
+it("distinguishes a student's five-check limit from shared pool exhaustion", async () => {
   vi.stubGlobal("fetch", vi.fn(async () => new Response(JSON.stringify({ error: "daily_limit" }), { status: 429 })));
-  await expect(markEssay(draft, null)).rejects.toThrow("Your 10 free checks for today");
+  await expect(markEssay(draft, null)).rejects.toThrow("Your 5 free checks for today");
 });

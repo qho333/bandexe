@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "Olá, estudante",
-  "15 free checks a day": "15 avaliações grátis por dia",
+  "10 free checks a day": "10 avaliações grátis por dia",
   "Working…": "Processando…",
   "Sign out": "Sair",
   "Delete my account": "Excluir minha conta",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "Nenhuma pergunta foi encontrada nessa foto. Tente uma mais nítida ou digite a pergunta.",
   "The picture reader is unavailable. Type the question instead.": "O leitor de fotos não está disponível. Digite a pergunta.",
   "Collection": "Coleção",
+  "Speaking": "Speaking",
   "Your collection": "Sua coleção",
   "Today's missions": "Missões de hoje",
   "{value0} / {value1} coins": "{value0} / {value1} moedas",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "O avaliador grátis envia o texto a provedores de modelos abertos. Adultos podem escolher a própria chave Gemini.",
   "Coming soon": "Em breve",
   "You can practise without an account.": "Você pode praticar sem conta.",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "Entre para salvar o progresso entre dispositivos e ter 15 avaliações grátis por dia (visitantes têm 10). Guardamos notas e prioridades, nunca textos, nome ou e-mail.",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "Entre para salvar o progresso entre dispositivos e ter 10 avaliações grátis por dia (visitantes têm 5). Guardamos notas e prioridades, nunca textos, nome ou e-mail.",
   "Hi, {name}.": "Olá, {name}.",
   "You’re signed in.": "Você entrou.",
   "Continue to writing": "Continuar escrevendo",

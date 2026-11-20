@@ -111,7 +111,7 @@ export default function Login({ active, onGuest, prefs = loadPrefs(), setPrefs =
           <div className="frame-body">
             <p className="login__title">{ui("You can practise without an account.")}</p>
             {auth.googleClientId ? <>
-              <p>{ui("Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.")}</p>
+              <p>{ui("Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.")}</p>
               {auth.signedIn && !busy ? <><p className="auth-status">{auth.firstName ? ui("Hi, {name}.", { name: auth.firstName }) : ui("You’re signed in.")}</p><button className="btn btn--primary btn--block" onClick={onGuest}>{ui("Continue to writing")}</button></>
                 : <div className="google-frame" aria-busy={loading || busy}>
                   <div ref={button} className="google-sign-in" aria-label={ui("Sign in with Google")} inert={busy} />

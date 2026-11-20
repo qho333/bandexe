@@ -72,7 +72,7 @@ describe("account client", () => {
     expect(values.has("bandexe-history-v1")).toBe(false);
     expect(auth.getAuth().signedIn).toBe(false);
     const { getAllowance } = await import("../src/lib/allowance");
-    expect(getAllowance().limit).toBe(10);
+    expect(getAllowance().limit).toBe(5);
   });
   it("keeps the 15-check limit in an exhausted account's error and status", async () => {
     await login();

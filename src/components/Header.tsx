@@ -12,6 +12,7 @@ import AccountChip from "./AccountChip";
 import { getAuth, onAuth } from "../lib/auth";
 import { useCollection } from "../lib/collection";
 import { Coin } from "./Missions";
+import { skipNextBoot } from "../lib/boot";
 
 export interface DisplayProps { prefs: Prefs; setPrefs: (p: Prefs) => void; onReplayBoot: () => void }
 
@@ -98,6 +99,7 @@ export default function Header({ current, ...display }: DisplayProps & { current
       <TesterChip />
       <nav className="app-nav" aria-label={ui("Main")} data-current={current}>
         {nav.map(([s, l]) => <a key={s} href={"#" + s} aria-current={s === current ? "page" : undefined}>{translateUI(l)}</a>)}
+        <a href="/speaking/" onClick={skipNextBoot}>{ui("Speaking")}</a>
       </nav>
       <div className="app-head__end">
         <CoinCount />

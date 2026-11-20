@@ -1,0 +1,480 @@
+{
+ "frames": [
+  {
+   "topic": "Work or studies",
+   "qs": [
+    "Do you work or are you a student?",
+    "What do you like most about your job or your course?",
+    "Is there anything you find difficult about it?",
+    "What would you like to do in the future?"
+   ]
+  },
+  {
+   "topic": "Home",
+   "qs": [
+    "Do you live in a house or an apartment?",
+    "Which room do you spend the most time in? Why?",
+    "What would you change about your home if you could?",
+    "Do you think you will live there for a long time?"
+   ]
+  },
+  {
+   "topic": "Hometown",
+   "qs": [
+    "Where is your hometown?",
+    "What is it known for?",
+    "How has it changed since you were a child?",
+    "Would you recommend it to a visitor? Why or why not?"
+   ]
+  },
+  {
+   "topic": "Mornings",
+   "qs": [
+    "Are you a morning person?",
+    "What is the first thing you do after you wake up?",
+    "Do you usually eat breakfast?",
+    "Were your mornings different when you were younger?"
+   ]
+  },
+  {
+   "topic": "Music",
+   "qs": [
+    "What kind of music do you listen to?",
+    "When do you usually listen to music?",
+    "Have you ever learned to play an instrument?",
+    "Is music important in your culture?"
+   ]
+  },
+  {
+   "topic": "Phones and apps",
+   "qs": [
+    "How much time do you spend on your phone each day?",
+    "Which app do you use most often?",
+    "Is there an app you would like to stop using?",
+    "Do you think you will use your phone less in the future?"
+   ]
+  },
+  {
+   "topic": "Food and cooking",
+   "qs": [
+    "What is your favourite meal?",
+    "Do you prefer eating at home or eating out?",
+    "Who cooks in your family?",
+    "Is there a dish from your country you think everyone should try?"
+   ]
+  },
+  {
+   "topic": "Weekends",
+   "qs": [
+    "What do you usually do at the weekend?",
+    "Do you prefer busy or relaxing weekends?",
+    "What did you do last weekend?",
+    "Are weekends different now from when you were a child?"
+   ]
+  },
+  {
+   "topic": "Walking",
+   "qs": [
+    "Do you walk much in your daily life?",
+    "Where do you like to go for a walk?",
+    "Do you prefer walking alone or with others?",
+    "Is your city a good place for walking?"
+   ]
+  },
+  {
+   "topic": "Weather",
+   "qs": [
+    "What is the weather usually like where you live?",
+    "What is your favourite season?",
+    "Does the weather change your mood?",
+    "Have you ever experienced extreme weather?"
+   ]
+  },
+  {
+   "topic": "Friends",
+   "qs": [
+    "Do you have many close friends?",
+    "How did you meet your best friend?",
+    "What do you usually do together?",
+    "Is it easy to make new friends as an adult?"
+   ]
+  },
+  {
+   "topic": "Reading",
+   "qs": [
+    "Do you like reading?",
+    "What was the last thing you read?",
+    "Do you prefer paper books or reading on a screen?",
+    "Did you read much as a child?"
+   ]
+  },
+  {
+   "topic": "Shopping",
+   "qs": [
+    "Do you enjoy shopping?",
+    "Do you prefer shopping online or in shops?",
+    "What was the last thing you bought for yourself?",
+    "Are there any shops you visit often?"
+   ]
+  },
+  {
+   "topic": "Sleep",
+   "qs": [
+    "How many hours do you usually sleep?",
+    "Do you ever take naps during the day?",
+    "What helps you sleep well?",
+    "Do young people in your country get enough sleep?"
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "title": "A person who taught you something useful",
+   "prompt": "Describe a person who taught you something useful outside school.",
+   "points": [
+    "who this person is",
+    "what they taught you",
+    "how they taught it"
+   ],
+   "explain": "and explain why it was useful to you.",
+   "round": "Do you still use this skill today?",
+   "themes": [
+    {
+     "theme": "Learning from others",
+     "qs": [
+      "Do people learn more from family or from teachers?",
+      "What makes someone a good teacher?",
+      "Should older people teach young people practical skills?"
+     ]
+    },
+    {
+     "theme": "Skills for the future",
+     "qs": [
+      "Which skills will be most important for young people in twenty years?",
+      "Should schools teach practical skills like cooking or managing money?",
+      "Can every skill be learned online?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A place you visited that was crowded",
+   "prompt": "Describe a place you visited that was very crowded.",
+   "points": [
+    "where it was",
+    "when you went there",
+    "why it was crowded"
+   ],
+   "explain": "and explain how you felt about being there.",
+   "round": "Would you go there again?",
+   "themes": [
+    {
+     "theme": "Cities and crowds",
+     "qs": [
+      "Why do so many people move to big cities?",
+      "What problems does overcrowding cause?",
+      "How can cities reduce crowding on public transport?"
+     ]
+    },
+    {
+     "theme": "Tourism",
+     "qs": [
+      "Does tourism do more good than harm to famous places?",
+      "Should popular sites limit the number of visitors?",
+      "How has social media changed where people travel?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Something you bought that you were pleased with",
+   "prompt": "Describe something you bought that you were very pleased with.",
+   "points": [
+    "what it was",
+    "where you bought it",
+    "how much it cost"
+   ],
+   "explain": "and explain why you were pleased with it.",
+   "round": "Do you usually plan your purchases?",
+   "themes": [
+    {
+     "theme": "Consumer habits",
+     "qs": [
+      "Why do people buy things they do not need?",
+      "Is advertising aimed at children acceptable?",
+      "Do people today buy more than people in the past?"
+     ]
+    },
+    {
+     "theme": "Quality and price",
+     "qs": [
+      "Is it better to buy cheap things often or expensive things rarely?",
+      "Why do some people prefer famous brands?",
+      "How could shops encourage people to repair rather than replace things?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A time you helped someone",
+   "prompt": "Describe a time you helped someone.",
+   "points": [
+    "who you helped",
+    "what the problem was",
+    "what you did"
+   ],
+   "explain": "and explain how you felt afterwards.",
+   "round": "Do people often ask you for help?",
+   "themes": [
+    {
+     "theme": "Helping in the community",
+     "qs": [
+      "Why do some people volunteer and others do not?",
+      "Should schools make students do community work?",
+      "Are people less helpful to strangers than in the past?"
+     ]
+    },
+    {
+     "theme": "Responsibility",
+     "qs": [
+      "Who should help elderly people: families or the government?",
+      "Should rich companies give money to charity?",
+      "Can technology replace human help?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A piece of technology you find difficult to use",
+   "prompt": "Describe a piece of technology you find difficult to use.",
+   "points": [
+    "what it is",
+    "what you use it for",
+    "what makes it difficult"
+   ],
+   "explain": "and explain how you deal with the difficulty.",
+   "round": "Has anyone helped you use it?",
+   "themes": [
+    {
+     "theme": "Technology and age",
+     "qs": [
+      "Why do older people often find new technology hard?",
+      "Should companies design products for older users?",
+      "Will the gap between generations grow?"
+     ]
+    },
+    {
+     "theme": "Dependence on technology",
+     "qs": [
+      "Do people rely on technology too much?",
+      "What would happen if the internet stopped for a week?",
+      "Should children have limits on screen time?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "An outdoor activity you enjoyed",
+   "prompt": "Describe an outdoor activity you did that you enjoyed.",
+   "points": [
+    "what the activity was",
+    "where you did it",
+    "who you did it with"
+   ],
+   "explain": "and explain why you enjoyed it.",
+   "round": "Do you do outdoor activities often?",
+   "themes": [
+    {
+     "theme": "Nature and wellbeing",
+     "qs": [
+      "Why is spending time outdoors good for people?",
+      "Do children spend less time outside than before?",
+      "How can cities give people more access to nature?"
+     ]
+    },
+    {
+     "theme": "Sport and exercise",
+     "qs": [
+      "Should governments pay for public sports facilities?",
+      "Is team sport better for children than individual sport?",
+      "Why do many people stop exercising as they get older?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A decision that was hard to make",
+   "prompt": "Describe a decision you made that was hard to make.",
+   "points": [
+    "what the decision was",
+    "when you made it",
+    "what choices you had"
+   ],
+   "explain": "and explain why it was hard to decide.",
+   "round": "Do you usually ask others for advice?",
+   "themes": [
+    {
+     "theme": "Making choices",
+     "qs": [
+      "Do young people today have too many choices?",
+      "Should parents choose a career for their children?",
+      "Is it better to decide quickly or slowly?"
+     ]
+    },
+    {
+     "theme": "Advice",
+     "qs": [
+      "Who gives better advice, friends or experts?",
+      "Is advice from the internet reliable?",
+      "Why do some people never take advice?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A memorable meal",
+   "prompt": "Describe a meal you remember well.",
+   "points": [
+    "where you had it",
+    "who you were with",
+    "what you ate"
+   ],
+   "explain": "and explain why you remember it.",
+   "round": "Have you tried to cook that food yourself?",
+   "themes": [
+    {
+     "theme": "Food and culture",
+     "qs": [
+      "Why is food important in celebrations?",
+      "Are traditional dishes disappearing?",
+      "Should schools teach children about their food culture?"
+     ]
+    },
+    {
+     "theme": "Health and diet",
+     "qs": [
+      "Why do many people choose fast food?",
+      "Should unhealthy food be taxed?",
+      "Who is responsible for children's diets: parents or schools?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A skill you would like to learn",
+   "prompt": "Describe a skill you would like to learn in the future.",
+   "points": [
+    "what the skill is",
+    "how you would learn it",
+    "how long it would take"
+   ],
+   "explain": "and explain why you want to learn it.",
+   "round": "Have you tried to start learning it already?",
+   "themes": [
+    {
+     "theme": "Adult learning",
+     "qs": [
+      "Is it harder to learn new things as an adult?",
+      "Should employers pay for staff training?",
+      "Why do many people give up learning a new skill?"
+     ]
+    },
+    {
+     "theme": "Talent and practice",
+     "qs": [
+      "Is talent or hard work more important for success?",
+      "Should children focus on one skill or try many?",
+      "Do competitions help people improve?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A building you find interesting",
+   "prompt": "Describe a building you find interesting.",
+   "points": [
+    "where it is",
+    "what it looks like",
+    "what it is used for"
+   ],
+   "explain": "and explain why you find it interesting.",
+   "round": "Do you know who designed it?",
+   "themes": [
+    {
+     "theme": "Architecture",
+     "qs": [
+      "Should old buildings be protected or replaced?",
+      "Do modern buildings look too similar?",
+      "What makes a building beautiful?"
+     ]
+    },
+    {
+     "theme": "Housing",
+     "qs": [
+      "Why is housing so expensive in big cities?",
+      "Is it better to rent or buy a home?",
+      "Should governments build more homes for young people?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A time you were late",
+   "prompt": "Describe a time you were late for something important.",
+   "points": [
+    "what you were late for",
+    "why you were late",
+    "what happened"
+   ],
+   "explain": "and explain how you felt about it.",
+   "round": "Are you usually on time?",
+   "themes": [
+    {
+     "theme": "Time and punctuality",
+     "qs": [
+      "Is being on time more important in some cultures than others?",
+      "Should workers be punished for being late?",
+      "Has technology made people more or less punctual?"
+     ]
+    },
+    {
+     "theme": "Busy lives",
+     "qs": [
+      "Why do people feel they have less free time today?",
+      "Is it good to have every hour planned?",
+      "How can people manage stress from a busy schedule?"
+     ]
+    }
+   ]
+  },
+  {
+   "title": "A piece of good news you received",
+   "prompt": "Describe a piece of good news you received.",
+   "points": [
+    "what the news was",
+    "how you heard it",
+    "who you told"
+   ],
+   "explain": "and explain why it was good news for you.",
+   "round": "How did you celebrate?",
+   "themes": [
+    {
+     "theme": "News and media",
+     "qs": [
+      "Why does the news focus on bad events?",
+      "Do young people still follow the news?",
+      "How can people tell if news online is true?"
+     ]
+    },
+    {
+     "theme": "Sharing feelings",
+     "qs": [
+      "Why do people share good news on social media?",
+      "Is it important to celebrate small successes?",
+      "Do people show their feelings more openly than in the past?"
+     ]
+    }
+   ]
+  }
+ ]
+}

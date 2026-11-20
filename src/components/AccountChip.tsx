@@ -41,7 +41,7 @@ export default function AccountChip() {
         {auth.firstName ? ui("Hi, {name}", { name: auth.firstName }) : ui("Hi, student")}
       </button>
       {open && <div className="fx-panel account-panel">
-        <p className="hint">{ui("15 free checks a day")}</p>
+        <p className="hint">{ui("10 free checks a day")}</p>
         <button className="btn btn--sm btn--quiet" disabled={busy} onClick={() => void leave(false)}>{busy ? ui("Working…") : ui("Sign out")}</button>
         <button className="btn btn--sm btn--quiet" disabled={busy} onClick={() => { setError(""); setConfirm(true); }}>{ui("Delete my account")}</button>
         {error && !confirm && <p role="status">{translateError(error)}</p>}

@@ -129,3 +129,10 @@ function holdUntilKeyUp(code: string) {
   document.addEventListener("keyup", release, true);
   window.addEventListener("blur", release);
 }
+
+// Moving between site pages (Writing <-> Speaking) should not replay the intro; a reload or a new visit still plays it.
+const SKIP_KEY = "bandexe-skip-boot";
+export function skipNextBoot() { try { sessionStorage.setItem(SKIP_KEY, "1"); } catch { /* blocked storage: the intro plays */ } }
+export function consumeSkipBoot() {
+  try { const skip = sessionStorage.getItem(SKIP_KEY) === "1"; sessionStorage.removeItem(SKIP_KEY); return skip; } catch { return false; }
+}

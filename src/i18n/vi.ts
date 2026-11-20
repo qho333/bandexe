@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "Chào bạn",
-  "15 free checks a day": "15 lượt chấm miễn phí mỗi ngày",
+  "10 free checks a day": "10 lượt chấm miễn phí mỗi ngày",
   "Working…": "Đang xử lý…",
   "Sign out": "Đăng xuất",
   "Delete my account": "Xóa tài khoản của tôi",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "Không tìm thấy đề trong ảnh đó. Hãy thử ảnh rõ hơn hoặc nhập đề bài.",
   "The picture reader is unavailable. Type the question instead.": "Công cụ đọc ảnh hiện không khả dụng. Hãy nhập đề bài.",
   "Collection": "Bộ sưu tập",
+  "Speaking": "Nói",
   "Your collection": "Bộ sưu tập của bạn",
   "Today's missions": "Nhiệm vụ hôm nay",
   "{value0} / {value1} coins": "{value0} / {value1} xu",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "Trình chấm miễn phí gửi bài đến nhà cung cấp mô hình mở của trang. Người lớn có thể chọn dùng khóa Gemini riêng.",
   "Coming soon": "Sắp có",
   "You can practise without an account.": "Bạn có thể luyện tập không cần tài khoản.",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "Đăng nhập để lưu tiến độ trên nhiều thiết bị và có 15 lượt chấm miễn phí/ngày (khách có 10). Chúng tôi chỉ lưu điểm và ưu tiên luyện tập, không lưu bài viết, tên hay email.",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "Đăng nhập để lưu tiến độ trên nhiều thiết bị và có 10 lượt chấm miễn phí/ngày (khách có 5). Chúng tôi chỉ lưu điểm và ưu tiên luyện tập, không lưu bài viết, tên hay email.",
   "Hi, {name}.": "Chào {name}.",
   "You’re signed in.": "Bạn đã đăng nhập.",
   "Continue to writing": "Tiếp tục viết",

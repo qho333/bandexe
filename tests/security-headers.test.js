@@ -32,7 +32,8 @@ beforeAll(() => {
   outDir = mkdtempSync(join(tmpdir(), "bandexe-csp-"));
   // Build the real application: assertions never depend on an old or nonexistent dist/.
   execFileSync(process.execPath, ["node_modules/vite/bin/vite.js", "build", "--outDir", outDir, "--emptyOutDir"], { stdio: "pipe", timeout: 60000 });
-  headers = parseHeaders(read(join(outDir, "_headers")));
+  // Only the site-wide /* rule; /speaking/* has its own policy (tested in speaking.test.ts).
+  headers = parseHeaders(read(join(outDir, "_headers")).split(/\n(?=\/[^*])/)[0]);
   csp = parseCsp(headers);
 }, 60000);
 afterAll(() => { if (outDir) rmSync(outDir, { recursive: true, force: true }); });
@@ -118,6 +119,7 @@ describe("built Cloudflare Pages security headers", () => {
       // Provider calls and OAuth signature certificates are fetched only on the server.
       "shared/free.js": ["https://api.mistral.ai", "https://api.groq.com", "https://openrouter.ai", "https://oai.endpoints.kepler.ai.cloud.ovh.net"],
       "shared/accounts.ts": ["https://www.googleapis.com"],
+      "shared/speaking.js": ["https://api.groq.com"],   // server-only speaking calls
       // Development proxy is local; production browser requests go to /api on self.
       "vite.config.ts": ["http://127.0.0.1:8787"],
     };

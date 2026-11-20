@@ -14,7 +14,7 @@ import { fixtureFetch, fixtureOptions } from "./lib/fixture.js";
 import { validateHelperRequest, askHelper, makeLimiter, fixtureHelperReply, HelperError, HELPER_MODEL } from "./lib/helper.js";
 
 const helperLimit = makeLimiter(); // extra per-tab cap (X-Session) for Ideas/Coach; not trusted for the shared quota
-const markQuota = makeQuota({ perId: 10, global: 400, windowMs: 24 * 3600_000 }); // 10 checks per client IP per day (owner), plus a server-wide daily cap
+const markQuota = makeQuota({ perId: 5, global: 400, windowMs: 24 * 3600_000 }); // 5 checks per client IP per day (owner), plus a server-wide daily cap
 const helperQuota = makeQuota({ perId: 20, global: 200 });
 const markSlots = makeSlots(2); // concurrent upstream marking calls
 

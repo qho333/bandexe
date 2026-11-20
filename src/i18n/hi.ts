@@ -2,7 +2,7 @@ import type { Catalogue } from "./en";
 
 export default {
   "Hi, student": "नमस्ते, विद्यार्थी",
-  "15 free checks a day": "रोज़ 15 मुफ़्त जाँच",
+  "10 free checks a day": "रोज़ 10 मुफ़्त जाँच",
   "Working…": "काम जारी है…",
   "Sign out": "साइन आउट",
   "Delete my account": "मेरा खाता मिटाएँ",
@@ -385,6 +385,7 @@ export default {
   "No question was found in that picture. Try a clearer photo, or type the question.": "उस तस्वीर में कोई प्रश्न नहीं मिला। साफ़ तस्वीर आज़माएँ या प्रश्न टाइप करें।",
   "The picture reader is unavailable. Type the question instead.": "तस्वीर पढ़ने की सुविधा उपलब्ध नहीं है। प्रश्न टाइप करें।",
   "Collection": "संग्रह",
+  "Speaking": "स्पीकिंग",
   "Your collection": "आपका संग्रह",
   "Today's missions": "आज के मिशन",
   "{value0} / {value1} coins": "{value0} / {value1} सिक्के",
@@ -521,7 +522,7 @@ export default {
   "The Free checker sends writing to the site’s open-model providers. Your own Gemini key is an optional choice for adults.": "मुफ़्त जाँच लेखन को साइट के खुले मॉडल प्रदाताओं को भेजती है। वयस्क अपनी Gemini कुंजी चुन सकते हैं।",
   "Coming soon": "जल्द आ रहा है",
   "You can practise without an account.": "बिना खाते भी अभ्यास कर सकते हैं।",
-  "Sign in to save your progress across devices and get 15 free checks a day (guests get 10). We store your scores and practice priorities — never your essays, name or email.": "उपकरणों पर प्रगति सहेजने और रोज़ 15 मुफ़्त जाँच (अतिथि 10) के लिए साइन इन करें। केवल अंक और प्राथमिकताएँ सहेजते हैं, निबंध, नाम या ईमेल नहीं।",
+  "Sign in to save your progress across devices and get 10 free checks a day (guests get 5). We store your scores and practice priorities — never your essays, name or email.": "उपकरणों पर प्रगति सहेजने और रोज़ 10 मुफ़्त जाँच (अतिथि 5) के लिए साइन इन करें। केवल अंक और प्राथमिकताएँ सहेजते हैं, निबंध, नाम या ईमेल नहीं।",
   "Hi, {name}.": "नमस्ते, {name}।",
   "You’re signed in.": "आप साइन इन हैं।",
   "Continue to writing": "लेखन पर जाएँ",

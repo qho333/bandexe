@@ -216,19 +216,19 @@ describe("daily salted D1 allowance", () => {
     const run = vi.fn(async () => ({ response: raw }));
     const db = fakeD1();
     const env = { AI: { run }, QUOTA_SALT: "private-salt", DB: db, QUOTA: { get, put } };
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       const response = await onRequest({ request: request("mark", { ...body, question: body.question + ` Version ${i}` }), env });
-      expect(response.status).toBe(200); expect(response.headers.get("X-Remaining-Today")).toBe(String(9 - i));
-      expect((await response.json()).remainingToday).toBe(9 - i);
+      expect(response.status).toBe(200); expect(response.headers.get("X-Remaining-Today")).toBe(String(4 - i));
+      expect((await response.json()).remainingToday).toBe(4 - i);
     }
     const refused = await onRequest({ request: request("mark", { ...body, question: "A new uncached question" }), env });
-    expect(refused.status).toBe(429); expect((await refused.json()).error).toBe("daily_limit"); expect(run).toHaveBeenCalledTimes(10);
+    expect(refused.status).toBe(429); expect((await refused.json()).error).toBe("daily_limit"); expect(run).toHaveBeenCalledTimes(5);
     expect(JSON.stringify(db.writes)).not.toMatch(/192\.0\.2\.1|private-salt|Working from home/);
     expect(db.writes[0]).toEqual([expect.stringMatching(/^mark:[a-f0-9]{64}$/), "2026-10-26", 1]);
     const helper = await onRequest({ request: request("helper", { role: "coach", message: "Timing?" }), env });
     expect(helper.status).toBe(200); expect((await helper.json()).remainingToday).toBe(39);
     vi.setSystemTime(new Date("2026-10-27T00:00:01Z"));
-    expect((await (await onRequest({ request: request("mark"), env })).json()).remainingToday).toBe(9);
+    expect((await (await onRequest({ request: request("mark"), env })).json()).remainingToday).toBe(4);
   });
   it("refuses new marking when storage or its salt is absent", async () => {
     const run = async () => ({ response: raw });
@@ -409,21 +409,21 @@ describe("reading Gemma replies", () => {
 });
 
 describe("guest checks per browser on a shared connection", () => {
-  it("gives each browser its own 10 and caps the connection at 40", async () => {
+  it("gives each browser its own 5 and caps the connection at 20", async () => {
     vi.useFakeTimers(); vi.setTimerTickMode("nextTimerAsync"); vi.setSystemTime(new Date("2026-11-06T10:00:00Z"));
     const run = vi.fn(async () => ({ response: raw }));
     const env = { AI: { run }, QUOTA_SALT: "private-salt", DB: fakeD1() };
     const browser = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, "0")}`;
     const mark = (n: number, i: number) => onRequest({ request: request("mark", { ...body, question: `${body.question} B${n} V${i}` }, { "X-Browser": browser(n) }), env });
-    for (let n = 0; n < 4; n++) for (let i = 0; i < 10; i++) expect((await mark(n, i)).status).toBe(200);
-    const ownLimit = await mark(0, 10);
+    for (let n = 0; n < 4; n++) for (let i = 0; i < 5; i++) expect((await mark(n, i)).status).toBe(200);
+    const ownLimit = await mark(0, 5);
     expect(ownLimit.status).toBe(429); expect((await ownLimit.json()).error).toBe("daily_limit");
     const connectionFull = await mark(4, 0);
     expect(connectionFull.status).toBe(429); expect((await connectionFull.json()).error).toBe("daily_limit");
     expect(JSON.stringify(env.DB.writes)).not.toContain(browser(1));
     const noId = await onRequest({ request: request("mark", { ...body, question: `${body.question} old page` }), env });
     expect(noId.status).toBe(429); // an older page without an ID shares the connection's count
-    expect(run).toHaveBeenCalledTimes(40);
+    expect(run).toHaveBeenCalledTimes(20);
     vi.useRealTimers();
   });
 });
