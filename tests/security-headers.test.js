@@ -95,7 +95,7 @@ describe("built Cloudflare Pages security headers", () => {
     for (const file of ["google875ebd96080a1cb9.html", "76343f1b0cdc7ee8a30c013a68ed2e70.txt"])
       expect(read(join(outDir, file))).toBe(read(join("public", file)));
     expect(read(join(outDir, "robots.txt"))).toContain("Sitemap:");
-    expect(read(join(outDir, "sitemap.xml")).match(/<loc>/g)).toHaveLength(5);
+    expect(read(join(outDir, "sitemap.xml")).match(/<loc>/g)).toHaveLength(6);
   });
 
   it("covers the selected WebLLM model and WASM hosts, including Hugging Face CDN redirects", () => {

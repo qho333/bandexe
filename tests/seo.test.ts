@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { screenFromHash } from "../src/lib/routes";
 
 const origin = "https://bandexe.pages.dev";
-const slugs = ["ielts-writing-checker", "ielts-task-2-checker", "ielts-task-1-checker", "ielts-writing-band-descriptors"];
+const slugs = ["ielts-writing-checker", "ielts-task-2-checker", "ielts-task-1-checker", "ielts-writing-band-descriptors", "ielts-speaking-practice"];
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 const decode = (value: string) => value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#(?:39|x27);/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const text = (html: string) => decode(html.replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ").trim();
@@ -20,17 +20,17 @@ const jsonLd = (html: string) => [...html.matchAll(/<script type="application\/l
   .map((match) => JSON.parse(match[1]));
 
 describe("crawlable IELTS pages", () => {
-  it("lists exactly the five real URLs, with dates and matching files", () => {
+  it("lists exactly the six real URLs, with dates and matching files", () => {
     const sitemap = read("public/sitemap.xml");
     const entries = [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)];
     const urls = entries.map((entry) => entry[1].match(/<loc>(.*?)<\/loc>/)![1]);
     expect(urls).toEqual(pages.map((page) => page.url));
-    expect(new Set(urls).size).toBe(5);
+    expect(new Set(urls).size).toBe(6);
     for (const [index, url] of urls.entries()) {
       const pathname = new URL(url).pathname;
       const file = pathname === "/" ? "index.html" : `public${pathname}index.html`;
       expect(existsSync(new URL(`../${file}`, import.meta.url)), file).toBe(true);
-      expect(entries[index][1]).toContain("<lastmod>2026-10-30</lastmod>");
+      expect(entries[index][1]).toMatch(/<lastmod>2026-\d\d-\d\d<\/lastmod>/);
     }
     expect(read("public/robots.txt")).toContain(`Sitemap: ${origin}/sitemap.xml`);
   });
