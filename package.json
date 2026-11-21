@@ -14,7 +14,7 @@
     "test": "npm run prompts && vitest run",
     "prompts": "node scripts/generate-prompts.js",
     "cf:dev": "npm run build && wrangler pages dev dist",
-    "cf:deploy": "npm run build && wrangler pages deploy dist --project-name bandexe"
+    "cf:deploy": "npm run build && wrangler pages deploy dist --project-name bandexe --branch main"
   },
   "dependencies": {
     "@mlc-ai/web-llm": "0.2.85",

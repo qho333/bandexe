@@ -104,6 +104,8 @@ export default function Login({ active, onGuest, prefs = loadPrefs(), setPrefs =
             <p>{ui("{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.", { name: OWNER.name })}</p>
             <a className="btn btn--sm login__owner-link" href={OWNER.linkedin} target="_blank" rel="noopener noreferrer">{ui("Support him on LinkedIn")} <span aria-hidden="true">↗</span></a>
           </aside>
+          {/* Crawlable guide links: first visits (and search crawlers) land here, where the footer is hidden. */}
+          <nav className="login__guides" aria-label="IELTS guides" lang="en"><a href="/ielts-writing-checker/">Writing checker guide</a><a href="/ielts-task-2-checker/">Task 2</a><a href="/ielts-task-1-checker/">Task 1</a><a href="/ielts-writing-band-descriptors/">Band descriptors</a><a href="/ielts-speaking-practice/">Speaking practice</a></nav>
         </section>
         <section ref={card} className="frame login__card" data-boot-panel="CHECK" aria-labelledby="authTitle" onPointerEnter={react}>
           <div className="login__language"><LanguagePicker prefs={prefs} setPrefs={setPrefs} onPick={switchLanguage} /></div>

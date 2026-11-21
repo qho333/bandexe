@@ -208,7 +208,7 @@ html:not(.motion-ok) .scan-box::before, html:not(.motion-ok) .scan-box__line { a
 .fallback-notice { margin-top: var(--s-2); padding: var(--s-2) var(--s-3); border: 1px solid var(--line-strong); color: var(--fg); font-size: var(--t-12); }
 
 /* Launch pages and editor grammar tools share the existing terminal controls. */
-.app-footer { max-width: var(--maxw); margin: 0 auto; padding: var(--s-4) var(--s-6); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-3); border-top: 1px solid var(--line); color: var(--fg-dim); font-size: var(--t-12); }
+.app-footer { max-width: var(--maxw); margin: 0 auto; padding: var(--s-4) var(--s-6) calc(var(--s-4) + var(--action-h, 0px)); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-3); border-top: 1px solid var(--line); color: var(--fg-dim); font-size: var(--t-12); }
 .app-footer a { display: inline-flex; align-items: center; min-height: 44px; }
 .privacy { max-width: 850px; display: grid; gap: var(--s-8); overflow-wrap: anywhere; }
 .privacy__content { display: grid; gap: var(--s-8); }
@@ -496,3 +496,9 @@ html.motion-ok a.missions__roll { animation: coin-ready 4s ease-in-out infinite;
 .panel-quick button { padding-inline: var(--s-2); white-space: nowrap; }
 @media (max-width: 640px) { .panel-quick button { min-height: 44px; } }
 @media (max-width: 640px) { .question__picture .btn { min-height: 44px; } }
+
+/* Guide links on the welcome screen and in the footer (search crawlers follow these). */
+.login__guides, .app-footer nav[aria-label="IELTS guides"] { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: var(--t-12); }
+.login__guides { margin-top: var(--s-3); }
+.login__guides a { color: var(--fg-dim); }
+.login__guides a:hover { color: var(--fg); }
