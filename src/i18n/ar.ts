@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} هو مالك BAND.EXE: طالب جامعي في السنة الأولى في SUA من فيتنام، ويسعده دعمك في رحلته.",
   "Support him on LinkedIn": "ادعمه على LinkedIn",
   "Language": "اللغة",
-  "No ratings yet. Rate a report to be the first.": "لا توجد تقييمات بعد. كن أول من يقيّم تقريرًا."
+  "No ratings yet. Rate a report to be the first.": "لا توجد تقييمات بعد. كن أول من يقيّم تقريرًا.",
+  "Past writings": "الكتابات السابقة",
+  "No question": "لا يوجد سؤال",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "آخر 30 مقالًا صحّحتها مع تقاريرها الكاملة. محفوظة في هذا المتصفح فقط.",
+  "essay": "مقال",
+  "essays": "مقالات",
+  "word": "كلمة"
 } satisfies Catalogue;

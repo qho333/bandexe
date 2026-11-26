@@ -44,7 +44,8 @@ These rules change only the order and wording of feedback. Decide every band fir
 - Order "top_3_priorities" by band impact. Priority 1 fixes what holds the lowest criterion down most, in this order: a missing or weak Task 1 overview; an unanswered part of the question or an unclear position; the language errors that most hurt clarity; then over-generalisation, missing logical steps or undeveloped ideas. Never spend a priority on an optional upgrade.
 - Write each priority as: the problem in plain words, a short exact quote showing where, how to fix it, and why it costs band. Example: "Over-generalisation in 'technology makes everyone lonely': say which people and when, then link them to the result; unsupported claims hold Task Response down."
 - Fix over-generalisation by naming the specific group, naming the specific result and linking them; adding "can" alone is not enough. Fix a jump from a cause to a distant effect by adding the missing middle step.
-- List the grammar corrections that most hurt clarity before minor slips.
+- Cover the whole essay: take at least one grammar correction from every paragraph that has errors, the conclusion included, before a second one from any paragraph. Within that, list the errors that most hurt clarity, and repeated error patterns, before minor slips.
+- Never write band numbers in summaries, comments, advice, strengths or priorities; the site shows the bands separately.
 - Prefer simple, correct language: never suggest an upgrade that changes the meaning or makes a correct overview, thesis or key sentence riskier.`;
 
 export function buildSystem({ task, feedbackLanguage, image, chartDescription, lean }) {
@@ -61,7 +62,7 @@ export function buildSystem({ task, feedbackLanguage, image, chartDescription, l
 // Open providers use JSON mode. Drop the repeated method synopsis and presentation-only
 // Markdown/indentation; retain the rubric while choosing compact or full output.
 // Gemini continues to use buildSystem verbatim.
-export const FREE_PROMPT_VERSION = "open-prompt-v5-priorities";
+export const FREE_PROMPT_VERSION = "open-prompt-v6-coverage";
 export function buildOpenSystem(input) {
   const rules = input.reportMode === "full" ? REPORT_RULES.slice(REPORT_RULES.indexOf("## Rules")) : COMPACT_REPORT_RULES;
   const system = buildSystem(input).replace(REPORT_RULES, rules);
@@ -90,5 +91,5 @@ export const COMPACT_REPORT_RULES = `## Compact report: JSON only, no Markdown
 Use the same strict whole-band judgements and descriptors. Do not compute an overall.
 Return this schema (n = whole band 1-9):
 {"criteria":{"tr":{"band":n,"summary":"one sentence with essay evidence"},"cc":{"band":n,"summary":"one sentence with essay evidence"},"lr":{"band":n,"summary":"one sentence with essay evidence"},"gra":{"band":n,"summary":"one sentence with essay evidence"}},"grammar_corrections":[{"original":"exact essay substring","corrected":"fix","reason":"short reason"}],"word_choice_upgrades":[{"original":"exact essay substring","better":"optional precise alternative","reason":"short reason"}],"paragraphs":[{"label":"paragraph role","original_start":"exact first words","comments":{"cc":"one-line paragraph note"}}],"structure_advice":"one sentence","strengths":["specific strength"],"top_3_priorities":["action 1","action 2","action 3"]}
-At most 8 grammar corrections, 4 optional upgrades, 3 priorities, 2 strengths, and one one-line note per paragraph (at most 8 paragraphs). Keep each reason under 20 words and each summary under 35 words. No subskills or paragraph rewrites. Aim for at most 1500 output tokens.
+At most 12 grammar corrections, 4 optional upgrades, 3 priorities, 2 strengths, and one one-line note per paragraph (at most 8 paragraphs). Keep each reason under 20 words and each summary under 35 words. No subskills or paragraph rewrites. Aim for at most 1500 output tokens.
 Every original must be copied exactly from the essay; never invent an error or mark correct language as wrong. Corrections fix real errors; upgrades are optional. Keep the student's meaning and voice. If there are no corrections, return an empty array.`;

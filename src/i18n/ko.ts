@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name}은(는) BAND.EXE의 운영자로, SUA에 다니는 베트남 출신 대학교 1학년생입니다. 그의 여정을 응원해 주세요.",
   "Support him on LinkedIn": "LinkedIn에서 응원하기",
   "Language": "언어",
-  "No ratings yet. Rate a report to be the first.": "아직 평가가 없습니다. 첫 번째로 리포트를 평가해 보세요."
+  "No ratings yet. Rate a report to be the first.": "아직 평가가 없습니다. 첫 번째로 리포트를 평가해 보세요.",
+  "Past writings": "지난 글",
+  "No question": "문제 없음",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "최근에 채점한 에세이 30편과 전체 리포트입니다. 이 브라우저에만 저장됩니다.",
+  "essay": "편",
+  "essays": "편",
+  "word": "단어"
 } satisfies Catalogue;

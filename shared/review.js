@@ -9,7 +9,14 @@ const CRIT_ALIASES = Object.assign(Object.create(null), { tr: "tr", ta: "tr", cc
 const MAX_ITEMS = 25;
 
 const str = (v, max = 1500) => (typeof v === "string" ? v.trim().slice(0, max) : "");
-const strList = (v, n) => (Array.isArray(v) ? v.map((s) => str(s, 400)).filter(Boolean).slice(0, n) : []);
+// Model text can name raw (uncalibrated) bands that contradict the shown bands, e.g. "raise Grammar to band 6" beside GRA 6.
+export const noBands = (s) => s
+  .replace(/,?\s+(?:in order\s+)?to\s+(?:raise|improve|move|reach|push|lift|get|boost|achieve|secure|hit|bring)\b[^.;!?]*?\bband\s*\d[^.;!?]*/gi, "")
+  .replace(/\s*\([^()]*\bband\s*\d[^()]*\)/gi, "")
+  .replace(/\s+(?:for|at|above|below|towards?|past|beyond)\s+(?:a\s+)?band\s*\d(?:\.\d)?\+?/gi, "")
+  .replace(/\s+([.,;!?])/g, "$1").trim();
+const text = (v, max) => noBands(str(v, max));
+const strList = (v, n) => (Array.isArray(v) ? v.map((s) => text(s, 400)).filter(Boolean).slice(0, n) : []);
 
 /** Returns the canonical criterion, null when absent, or false when present but invalid. */
 export function normCriterion(v) {
@@ -30,6 +37,15 @@ export function invalidCriteria(raw) {
   return CRITERIA.filter((k) => parseBand(c?.[k]?.band) === null);
 }
 
+const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+// Fixes apply to the first occurrence, and "rich" inside "richer" would give "wealthierer": that occurrence must not cut a word.
+const W = /[\p{L}\p{N}]/u;
+const wholeWords = (essay, original) => {
+  const i = essay.indexOf(original);
+  return i >= 0 && !(W.test(original[0]) && /[\p{L}\p{N}']/u.test(essay[i - 1] ?? ""))
+    && !(W.test(original.at(-1)) && W.test(essay[i + original.length] ?? ""));
+};
+
 function reviewFixes(list, essay, fixKey, defaultCrit) {
   const kept = [];
   const seen = new Set();
@@ -40,7 +56,7 @@ function reviewFixes(list, essay, fixKey, defaultCrit) {
     const crit = normCriterion(item?.criterion);
     const ok =
       original.trim().length > 0 &&
-      essay.includes(original) &&
+      wholeWords(essay, original) &&
       fix.length > 0 &&
       fix !== original.trim() &&
       crit !== false &&
@@ -59,7 +75,7 @@ function reviewCriteria(raw) {
     const subs = c.subskills && typeof c.subskills === "object" ? c.subskills : {};
     out[k] = {
       band: parseBand(c.band),
-      summary: str(c.summary, 1200),
+      summary: text(c.summary, 1200),
       subskills: Object.entries(subs)
         .map(([key, v]) => ({ key, score: parseBand(v) }))
         .filter((s) => s.score !== null && /^[a-z_]{2,40}$/.test(s.key))
@@ -80,7 +96,7 @@ function reviewParagraphs(list, essay) {
     // Only quote text that really is in the essay; otherwise fall back to the real paragraph start.
     const quote = start && essay.includes(start) ? start : (real[i] || "").split(/\s+/).slice(0, 10).join(" ");
     const comments = {};
-    for (const k of CRITERIA) comments[k] = str(p?.comments?.[k], 800);
+    for (const k of CRITERIA) comments[k] = text(p?.comments?.[k], 800);
     return { label: str(p?.label, 40) || `Paragraph ${i + 1}`, quote, comments, rewrite: str(p?.how_to_rewrite, 2500) };
   }).filter((p) => CRITERIA.some((k) => p.comments[k]) || p.rewrite);
 }
@@ -89,12 +105,16 @@ function reviewParagraphs(list, essay) {
 export function reviewReport(raw, essay) {
   const grammar = reviewFixes(raw?.grammar_corrections, essay, "corrected", "gra");
   const upgrades = reviewFixes(raw?.word_choice_upgrades, essay, "better", "lr");
+  // An upgrade on words a correction already fixes shows the student two different edits for one phrase.
+  const within = (a, b) => new RegExp(`(?:^|\\W)${escape(b)}(?:\\W|$)`).test(a);
+  const overlaps = (a, b) => within(a, b) || within(b, a);
+  upgrades.kept = upgrades.kept.filter((u) => !grammar.kept.some((g) => overlaps(g.original, u.original)));
   return {
     criteria: reviewCriteria(raw),
     grammar: grammar.kept,
     upgrades: upgrades.kept,
     paragraphs: reviewParagraphs(raw?.paragraphs, essay),
-    structureAdvice: str(raw?.structure_advice, 1500),
+    structureAdvice: text(raw?.structure_advice, 1500),
     strengths: strList(raw?.strengths, 6),
     priorities: strList(raw?.top_3_priorities, 3),
     dropped: { grammar: grammar.dropped, upgrades: upgrades.dropped },

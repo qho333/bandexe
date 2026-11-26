@@ -297,7 +297,7 @@ export async function markFree(input, env, options = {}) {
   }
   const report = reviewReport(raw, input.essay);
   if (input.reportMode !== "full") {
-    report.grammar = report.grammar.slice(0, 8); report.upgrades = report.upgrades.slice(0, 4);
+    report.grammar = report.grammar.slice(0, 12); report.upgrades = report.upgrades.slice(0, 4);
     for (const c of Object.values(report.criteria)) c.subskills = [];
     for (const p of report.paragraphs) p.rewrite = "";
   }

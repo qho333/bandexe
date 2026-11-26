@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} adalah pemilik BAND.EXE: mahasiswa tahun pertama di SUA, berasal dari Vietnam. Ia sangat mengharapkan dukunganmu dalam perjalanannya.",
   "Support him on LinkedIn": "Dukung dia di LinkedIn",
   "Language": "Bahasa",
-  "No ratings yet. Rate a report to be the first.": "Belum ada penilaian. Jadilah yang pertama menilai laporan."
+  "No ratings yet. Rate a report to be the first.": "Belum ada penilaian. Jadilah yang pertama menilai laporan.",
+  "Past writings": "Tulisan sebelumnya",
+  "No question": "Tanpa soal",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "30 esai terakhir yang kamu periksa, lengkap dengan laporannya. Hanya disimpan di browser ini.",
+  "essay": "esai",
+  "essays": "esai",
+  "word": "kata"
 } satisfies Catalogue;

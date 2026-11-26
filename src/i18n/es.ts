@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} es el dueño de BAND.EXE: estudiante universitario de primer año en SUA, de Vietnam. Le encantaría contar con tu apoyo en su camino.",
   "Support him on LinkedIn": "Apóyalo en LinkedIn",
   "Language": "Idioma",
-  "No ratings yet. Rate a report to be the first.": "Aún no hay valoraciones. Valora un informe y sé el primero."
+  "No ratings yet. Rate a report to be the first.": "Aún no hay valoraciones. Valora un informe y sé el primero.",
+  "Past writings": "Escritos anteriores",
+  "No question": "Sin pregunta",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "Los últimos 30 textos que revisaste, con sus informes completos. Guardados solo en este navegador.",
+  "essay": "texto",
+  "essays": "textos",
+  "word": "palabra"
 } satisfies Catalogue;

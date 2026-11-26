@@ -59,7 +59,7 @@ export default function Results(props: Props) {
     document.addEventListener("visibilitychange", visibility);
     return () => document.removeEventListener("visibilitychange", visibility);
   }, [active, motion, prefs.sound, job?.status, job?.scan]);
-  const revealed = job?.status === "done" && shownId === job.id;
+  const revealed = job?.status === "done" && (shownId === job.id || !!job.reopened);
 
   return (
     <div className={"screen" + (active ? " is-active" : "")}>

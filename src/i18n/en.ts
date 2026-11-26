@@ -798,7 +798,13 @@ export const en = {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.",
   "Support him on LinkedIn": "Support him on LinkedIn",
   "Language": "Language",
-  "No ratings yet. Rate a report to be the first.": "No ratings yet. Rate a report to be the first."
+  "No ratings yet. Rate a report to be the first.": "No ratings yet. Rate a report to be the first.",
+  "Past writings": "Past writings",
+  "No question": "No question",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "The last 30 essays you checked, with their full reports. Saved only in this browser.",
+  "essay": "essay",
+  "essays": "essays",
+  "word": "word"
 } as const;
 export type MessageKey = keyof typeof en;
 export type Catalogue = { [K in MessageKey]: string };

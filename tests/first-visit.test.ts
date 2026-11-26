@@ -96,15 +96,15 @@ describe("compact and full detail", () => {
     for (const text of ["chart image attached", "Task Response", "Untrusted student text", "Tiếng Việt", "Whole bands"]) {
       expect(compact).toContain(text); expect(full).toContain(text);
     }
-    expect(compact).toContain("At most 8 grammar corrections, 4 optional upgrades, 3 priorities");
+    expect(compact).toContain("At most 12 grammar corrections, 4 optional upgrades, 3 priorities");
     expect(compact).not.toContain('"how_to_rewrite"'); expect(full).toContain('"how_to_rewrite"');
   });
   it("enforces compact correction bounds and halves the provider output cap including repairs", async () => {
-    const many = { ...raw, grammar_corrections: Array.from({ length: 12 }, (_, i) => ({ original: `word${i}`, corrected: `fix${i}`, reason: "Accuracy." })),
-      word_choice_upgrades: Array.from({ length: 7 }, (_, i) => ({ original: `word${i + 12}`, better: `fix${i}`, reason: "Precision." })) };
+    const many = { ...raw, grammar_corrections: Array.from({ length: 14 }, (_, i) => ({ original: `word${i}`, corrected: `fix${i}`, reason: "Accuracy." })),
+      word_choice_upgrades: Array.from({ length: 7 }, (_, i) => ({ original: `word${i + 14}`, better: `fix${i}`, reason: "Precision." })) };
     const network = vi.fn<typeof fetch>(async () => new Response(JSON.stringify({ choices: [{ message: { content: JSON.stringify(many) } }] })));
     const compact = await markFree({ ...input, essay: Array.from({ length: 30 }, (_, i) => `word${i}`).join(" ") }, { GROQ_API_KEY: "test" }, { fetchFn: network });
-    expect(compact.report.grammar).toHaveLength(8); expect(compact.report.upgrades).toHaveLength(4);
+    expect(compact.report.grammar).toHaveLength(12); expect(compact.report.upgrades).toHaveLength(4);
     expect(compact.report.paragraphs.every((p) => !p.rewrite)).toBe(true);
     expect(Object.values(compact.report.criteria).every((c) => !c.subskills.length)).toBe(true);
     expect(JSON.parse(String(network.mock.calls[0][1]?.body)).max_tokens).toBe(3000);

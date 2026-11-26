@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} là chủ của BAND.EXE: sinh viên năm nhất tại SUA, đến từ Việt Nam. Bạn ấy rất mong nhận được sự ủng hộ của bạn trên hành trình này.",
   "Support him on LinkedIn": "Ủng hộ bạn ấy trên LinkedIn",
   "Language": "Ngôn ngữ",
-  "No ratings yet. Rate a report to be the first.": "Chưa có đánh giá nào. Hãy đánh giá một báo cáo để là người đầu tiên."
+  "No ratings yet. Rate a report to be the first.": "Chưa có đánh giá nào. Hãy đánh giá một báo cáo để là người đầu tiên.",
+  "Past writings": "Bài viết trước đây",
+  "No question": "Không có đề bài",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "30 bài gần nhất bạn đã chấm, kèm báo cáo đầy đủ. Chỉ lưu trong trình duyệt này.",
+  "essay": "bài",
+  "essays": "bài",
+  "word": "từ"
 } satisfies Catalogue;

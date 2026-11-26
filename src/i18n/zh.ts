@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} 是 BAND.EXE 的站长：一名来自越南、就读于 SUA 的大一学生。他希望在这段旅程中得到你的支持。",
   "Support him on LinkedIn": "在 LinkedIn 上支持他",
   "Language": "语言",
-  "No ratings yet. Rate a report to be the first.": "还没有评分。来为报告评分，成为第一个吧。"
+  "No ratings yet. Rate a report to be the first.": "还没有评分。来为报告评分，成为第一个吧。",
+  "Past writings": "过往作文",
+  "No question": "没有题目",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "你最近批改的 30 篇作文及完整报告。仅保存在此浏览器中。",
+  "essay": "篇作文",
+  "essays": "篇作文",
+  "word": "词"
 } satisfies Catalogue;

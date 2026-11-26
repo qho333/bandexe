@@ -7,6 +7,7 @@ import { motionOK } from "../lib/prefs";
 import Header, { type DisplayProps } from "./Header";
 import { CRITS, TASKS, type Crit, type Task } from "../lib/types";
 import type { HistoryEntry } from "../lib/history";
+import type { Writing } from "../lib/writings";
 import {
   CRIT_SHORT, chooseNextStep, criterionTrends, hasOverall, practiceRhythm, recurringDifficulties, signed, summarize,
   type CritTrend, type Rhythm,
@@ -15,7 +16,7 @@ import { helperArt } from "../lib/prefs";
 import "../overview.css";
 import { watchLocalDate } from "../lib/local-date";
 
-interface Props extends DisplayProps { revealsEnabled?: boolean; active: boolean; history: HistoryEntry[]; onDelete: (alsoDraft: boolean) => void; onClearDraft: () => void }
+interface Props extends DisplayProps { revealsEnabled?: boolean; active: boolean; history: HistoryEntry[]; writings?: Writing[]; onOpenWriting?: (w: Writing) => void; onDelete: (alsoDraft: boolean) => void; onClearDraft: () => void }
 
 const day = (iso: string) => new Date(iso).toLocaleDateString(getUILanguage(), { day: "numeric", month: "short" });
 const longDay = (d: Date) => d.toLocaleDateString(getUILanguage(), { weekday: "long", day: "numeric", month: "long" });
@@ -56,6 +57,7 @@ export default function Overview(props: Props) {
   useEffect(() => { if (active) return watchLocalDate(setNow); }, [active]);
   const rhythm = useMemo(() => practiceRhythm(history, now), [history, now]);
   const latest = list.at(-1);
+  const past = useMemo(() => (props.writings ?? []).filter((w) => w.draft.task === task).reverse(), [props.writings, task]);
   useTerminalReveals(root, motionOK(prefs) && props.revealsEnabled !== false, active, task + history.length);
 
 
@@ -182,6 +184,27 @@ export default function Overview(props: Props) {
               </section>
             </div>
           </>
+        )}
+
+        {past.length > 0 && (
+          <section className="frame ov-anim ov-past" aria-labelledby="pastTitle">
+            <div className="frame-head"><h2 id="pastTitle">{ui("Past writings")}</h2><span>{plural(past.length, "essay")}</span></div>
+            <div className="frame-body">
+              <ol className="ov-past__list">{past.map((w) => (
+                <li key={w.id}>
+                  <button type="button" onClick={() => props.onOpenWriting?.(w)}>
+                    <span className="ov-past__band">{typeof w.result.overall === "number" && !w.result.feedbackOnly ? w.result.overall.toFixed(1) : "—"}</span>
+                    <span className="ov-past__text">
+                      <span className="ov-past__q">{w.draft.question.trim() || ui("No question")}</span>
+                      <span className="ov-past__meta">{day(w.date)} · {plural(w.result.words, "word")}</span>
+                    </span>
+                    <span className="ov-past__open" aria-hidden="true">{ui("Open")} →</span>
+                  </button>
+                </li>
+              ))}</ol>
+              <p className="hint">{ui("The last 30 essays you checked, with their full reports. Saved only in this browser.")}</p>
+            </div>
+          </section>
         )}
 
         <div className="res-actions dash-foot">

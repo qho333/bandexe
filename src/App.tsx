@@ -10,6 +10,7 @@ import { screenFromHash, startScreen, type AppScreen } from "./lib/routes";
 import { consumeSkipBoot, isCrawler } from "./lib/boot";
 import { applyPrefs, loadPrefs, motionOK, onSystemMotionChange, savePrefs, scanSoundEnabled, systemReduced, type Prefs } from "./lib/prefs";
 import { addEntry, clearHistory, loadHistory, personalBest, toEntry, type HistoryEntry } from "./lib/history";
+import { clearWritings, loadWritings, saveWriting, type Writing } from "./lib/writings";
 import { dropForeignScript } from "./lib/feedback";
 import { isReportAnchor } from "./lib/report";
 import type { Checker } from "./lib/checker";
@@ -55,6 +56,7 @@ export interface Job {
   minutes: number | null;
   date?: string;
   best?: { prev: number; next: number } | null;
+  reopened?: boolean; // a past writing: show the report without the scan
 }
 
 const hashScreen = () => { captureTesterToken(); return screenFromHash(location.hash); };
@@ -91,6 +93,7 @@ export default function App() {
   const [chart, setChart] = useState<Chart | null>(null);
   const [job, setJob] = useState<Job | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>(() => loadHistory());
+  const [writings, setWritings] = useState<Writing[]>(() => loadWritings());
   const jobId = useRef(0);
   const evaluationLock = useRef(false);
   const inTime = useRef(false);
@@ -194,6 +197,7 @@ export default function App() {
         const entry = toEntry(result);
         best = result.feedbackOnly ? null : personalBest(loadHistory(), entry);
         setHistory(addEntry(entry));
+        setWritings(saveWriting({ id: entry.id, date, draft: submitted, essay, minutes, result }));
         if (account.signedIn) void syncHistory(entry, account.revision);
       }
       if (recordMarked(submitted.task, essay, inTime.current ? minutes : null) > 0) toast("+1 coin");
@@ -220,7 +224,12 @@ export default function App() {
     const next = { task: draft.task, question: SAMPLE_QUESTIONS[draft.task][0], essay: "" };
     draftRef.current = next; setDraftState(next);
   }, [draft.task]);
-  const deleteHistory = useCallback((alsoDraft: boolean) => { clearHistory(); setHistory([]); if (alsoDraft) clearDraft(); }, [clearDraft]);
+  const deleteHistory = useCallback((alsoDraft: boolean) => { clearHistory(); setHistory([]); clearWritings(); setWritings([]); if (alsoDraft) clearDraft(); }, [clearDraft]);
+  const openWriting = (w: Writing) => {
+    setJob({ id: ++jobId.current, status: "done", result: w.result, essay: w.essay, draft: w.draft, question: w.draft.question,
+      chartDescription: w.draft.chartDescription, chart: null, minutes: w.minutes, date: w.date, reopened: true, previous: history.filter((h) => h.date < w.date) });
+    go("results");
+  };
   // Sign-out (here or in another tab) wipes this browser's essay, results and open report from memory too.
   useEffect(() => {
     const forget = () => { deleteHistory(true); setJob(null); };
@@ -242,7 +251,7 @@ export default function App() {
         <Suspense fallback={null}><Results active={screen === "results"} prefs={motionPrefs} setPrefs={setMotionPrefs} job={job} essay={draft.essay}
           setEssay={(essay) => setDraft({ essay })} onRetry={retry} onWrite={() => go("write")}
           onReplayBoot={replayIntro} /></Suspense>
-        <Suspense fallback={null}><Overview revealsEnabled={!introActive} active={screen === "overview"} prefs={prefs} setPrefs={setPrefs} history={history} onDelete={deleteHistory} onClearDraft={clearDraft}
+        <Suspense fallback={null}><Overview revealsEnabled={!introActive} active={screen === "overview"} prefs={prefs} setPrefs={setPrefs} history={history} writings={writings} onOpenWriting={openWriting} onDelete={deleteHistory} onClearDraft={clearDraft}
           onReplayBoot={replayIntro} /></Suspense>
         <Privacy active={screen === "privacy"} prefs={prefs} setPrefs={setPrefs} onReplayBoot={replayIntro} />
         {(screen === "about" || screen === "stats") && <PublicPage kind={screen} prefs={prefs} setPrefs={setPrefs} onReplayBoot={replayIntro} />}

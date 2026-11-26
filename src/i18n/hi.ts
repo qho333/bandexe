@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} BAND.EXE के मालिक हैं: SUA में प्रथम वर्ष के कॉलेज छात्र, वियतनाम से। वे अपनी इस यात्रा में आपका साथ चाहते हैं।",
   "Support him on LinkedIn": "LinkedIn पर उनका साथ दें",
   "Language": "भाषा",
-  "No ratings yet. Rate a report to be the first.": "अभी कोई रेटिंग नहीं है। किसी रिपोर्ट को रेट करने वाले पहले व्यक्ति बनें।"
+  "No ratings yet. Rate a report to be the first.": "अभी कोई रेटिंग नहीं है। किसी रिपोर्ट को रेट करने वाले पहले व्यक्ति बनें।",
+  "Past writings": "पिछले लेखन",
+  "No question": "कोई प्रश्न नहीं",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "आपके जाँचे गए पिछले 30 निबंध, पूरी रिपोर्ट के साथ। सिर्फ़ इसी ब्राउज़र में सहेजे गए।",
+  "essay": "निबंध",
+  "essays": "निबंध",
+  "word": "शब्द"
 } satisfies Catalogue;

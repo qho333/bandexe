@@ -800,5 +800,11 @@ export default {
   "{name} is the owner of BAND.EXE: a first-year college student at SUA, from Vietnam. He'd love your support on his journey.": "{name} は BAND.EXE の運営者で、SUA に通うベトナム出身の大学1年生です。彼の挑戦を応援していただけるとうれしいです。",
   "Support him on LinkedIn": "LinkedIn で応援する",
   "Language": "言語",
-  "No ratings yet. Rate a report to be the first.": "まだ評価はありません。最初にレポートを評価してみましょう。"
+  "No ratings yet. Rate a report to be the first.": "まだ評価はありません。最初にレポートを評価してみましょう。",
+  "Past writings": "過去のライティング",
+  "No question": "問題なし",
+  "The last 30 essays you checked, with their full reports. Saved only in this browser.": "最近採点した30本のエッセイと詳しいレポート。このブラウザにのみ保存されます。",
+  "essay": "本",
+  "essays": "本",
+  "word": "語"
 } satisfies Catalogue;

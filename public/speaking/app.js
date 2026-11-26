@@ -2,6 +2,8 @@ const $ = (s) => document.querySelector(s);
 const echo = $("#echo"), stateEl = $("#state");
 let mouth = $("#mouth");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Phones: the 80 MB natural voice is too heavy, and browser listening fights our recorder for the mic.
+const PHONE = matchMedia("(pointer: coarse)").matches;
 const LOG = { chat: "#log", kids: "#kidsLog", test: "#testLog" };
 let mode = "chat", voice = "bf_emma", live = false, busy = false, history = [], session = 0;
 const words = { chat: true, kids: true, test: false };   // mock test hides words by default, like the real exam
@@ -137,11 +139,12 @@ function playBuffer(buf) {
     src.start();
   });
 }
-function stopSpeech() { if (playing) { const p = playing; playing = null; try { p.stop(); } catch {} } speechSynthesis.cancel(); rest(); }
+function stopSpeech() { if (playing) { const p = playing; playing = null; try { p.stop(); } catch {} } window.speechSynthesis?.cancel(); rest(); }
 
 // ---------- live voice: Kokoro in the browser (natural voice, real audio, so the mouth syncs) ----------
 let tts = null;
 const ttsReady = (async () => {
+  if (PHONE) { $("#voiceStatus").textContent = "On phones Echo uses your phone's most natural voice. Pick Emma, Michael or George to change it."; return; }
   try {
     const { KokoroTTS } = await import("https://cdn.jsdelivr.net/npm/kokoro-js@1.2.1/+esm");
     const webgpu = !!navigator.gpu;
@@ -155,13 +158,29 @@ const ttsReady = (async () => {
     console.warn(e);
   }
 })();
+// Phones (and fallback): the most natural English voice the device has, close to the pick: Emma UK woman, Michael US man, George UK man.
+const PICK = { bf_emma: ["GB", true], am_michael: ["US", false], bm_george: ["GB", false] };
+const WOMEN = /samantha|karen|kate|serena|moira|tessa|fiona|victoria|allison|ava|susan|zira|hazel|libby|sonia|emma|jenny|aria|martha|stephanie|female/i;
+const MEN = /daniel|alex\b|aaron|oliver|arthur|\btom\b|david|mark|george|guy|ryan|thomas|gordon|evan|nathan|\bmale\b/i;
+const NOVELTY = /bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox|junior|ralph|albert|kathy|grand|fred|eddy|flo\b|reed|rocko|sandy|shelley/i;   // joke and robotic voices
+function deviceVoice() {
+  const [accent, woman] = PICK[voice] || PICK.bf_emma;
+  let best = null, top = -99;
+  for (const v of speechSynthesis.getVoices()) {
+    if (!/^en[-_]/i.test(v.lang) || NOVELTY.test(v.name)) continue;
+    const s = (/natural|neural|enhanced|premium|siri|google|network/i.test(v.name) ? 4 : 0) + (v.lang.toUpperCase().endsWith(accent) ? 3 : 0)
+      + ((woman ? WOMEN : MEN).test(v.name) ? 2 : (woman ? MEN : WOMEN).test(v.name) ? -2 : 0);
+    if (s > top) { top = s; best = v; }
+  }
+  return best;
+}
 const sentences = (t) => t.match(/[^.!?]+[.!?]+["”’)]*|[^.!?]+$/g)?.map((s) => s.trim()).filter(Boolean) || [];
 async function speak(text, run) {
   if (MOUTH.pending) placeMouth();
   ensureAudio(); await ctx.resume();   // the mic is opened by startLive, so typing never asks for it
   if (live && !lvlRaf && !reduced) lvlRaf = requestAnimationFrame(levelLoop);
   setState("speaking", "speaking");
-  if (!tts) await ttsReady;   // wait for Echo's voice rather than the robotic device voice
+  if (!tts) await Promise.race([ttsReady, new Promise((ok) => setTimeout(ok, 4000))]);   // prefer Echo's voice, but never stay silent while it downloads
   if (run !== session) return;
   if (tts) {
     // Generate sentence 1, start playing it, and generate the next while it plays.
@@ -178,10 +197,13 @@ async function speak(text, run) {
     rest();
   } else {
     // Fallback only if the natural voice failed to load: device voice. Browsers give no audio, so the mouth pulses on word boundaries.
+    if (!window.speechSynthesis) return rest();   // no device voice: the reply is still on screen
     await new Promise((res) => {
-      const u = new SpeechSynthesisUtterance(text); u.lang = "en-US";
+      const u = new SpeechSynthesisUtterance(text), dv = deviceVoice(); u.lang = dv?.lang || "en-GB"; if (dv) u.voice = dv;
       u.onboundary = () => { drawMouth(0.8, 0.4); setTimeout(() => drawMouth(0.2, 0.3), 120); };
-      u.onend = u.onerror = () => { rest(); res(); };
+      // Some Android voices never fire onend: move on after a generous speaking time so Echo cannot freeze.
+      const guard = setTimeout(() => u.onend(), 3000 + text.length * 90);
+      u.onend = u.onerror = () => { clearTimeout(guard); rest(); res(); };
       speechSynthesis.speak(u);
     });
   }
@@ -234,7 +256,36 @@ async function rehear(said, full = false) {
   } catch {}
   return said;
 }
+// Whisper listening: record, stop after a pause, transcribe on the server. Used where browser listening is missing or unreliable.
+const useWhisper = () => mode !== "kids" && !!window.MediaRecorder && (!SR || PHONE);   // kids audio never leaves the device
+function listenWhisper({ continuous = false, maxMs = 0 } = {}) {
+  return new Promise((resolve) => {
+    const recorder = startRecorder(), t0 = Date.now();
+    if (!recorder || !micAnalyser) { showErr("Microphone blocked. Allow the mic for this site, or type below."); return resolve({ text: "", alts: [], conf: 1, sec: 0, unsure: [] }); }
+    const el = add(LOG[mode], "me", "…"); el.classList.add("live");
+    setState("listening", continuous ? "listening… take your time" : "listening…");
+    let spoke = 0, quiet = 0, floor = 1, done = false, tick = 0;
+    const finish = async () => {
+      if (done) return; done = true; clearInterval(tick); rec = null;
+      if (recorder.state !== "inactive") recorder.stop();
+      const sec = (Date.now() - t0) / 1000;
+      let text = "";
+      if (spoke) { setState("thinking", "catching that…"); const r = await rehear({ recorder: recorder.done }, mode === "test"); if (r.whisper) text = r.text; }
+      el.classList.remove("live"); if (text) el.querySelector(".txt").textContent = text; else el.remove();
+      resolve({ text, alts: [], conf: 1, sec, unsure: [], el, whisper: !!text });
+    };
+    rec = { stop: finish };   // stopListening() and the mic button end it like browser listening
+    tick = setInterval(() => {
+      micAnalyser.getFloatTimeDomainData(micBuf); let s2 = 0; for (const v of micBuf) s2 += v * v;
+      const rms = Math.sqrt(s2 / micBuf.length), now = Date.now();
+      floor = Math.min(floor * 1.002, Math.max(rms, 0.002));   // room noise, rises slowly
+      if (rms > Math.max(0.015, floor * 3)) { spoke ||= now; quiet = 0; } else if (spoke) quiet ||= now;
+      if ((quiet && now - quiet > (continuous ? 3500 : 1600)) || (!spoke && now - t0 > 10000) || (maxMs && now - t0 > maxMs)) finish();
+    }, 100);
+  });
+}
 function listen({ continuous = false, maxMs = 0 } = {}) {
+  if (useWhisper()) return listenWhisper({ continuous, maxMs });
   // Resolves with { text, alts, conf } when the learner stops talking (or maxMs passes).
   return new Promise((resolve) => {
     const el = add(LOG[mode], "me", ""); el.classList.add("live");
@@ -284,16 +335,17 @@ async function turn(run, said) {
   return j;
 }
 async function startLive() {
-  if (!SR) { showErr("This browser can't listen (try Chrome, Edge or Safari). You can type below."); }
+  if (!SR && !useWhisper()) { showErr("This browser can't listen (try Chrome, Edge or Safari). You can type below."); }
   ensureAudio(); await ctx.resume();
   live = true; const run = ++session; showErr("");
-  await getMic(); if (!lvlRaf && !reduced) lvlRaf = requestAnimationFrame(levelLoop);
+  if (!(PHONE && mode === "kids")) await getMic();   // kids on phones: browser listening needs the mic to itself
+  if (!lvlRaf && !reduced) lvlRaf = requestAnimationFrame(levelLoop);
   $("#mic").classList.add("live"); $("#mic").setAttribute("aria-pressed", "true"); $("#mic").setAttribute("aria-label", "Stop talking to Echo");
   try {
     if (mode === "test") { await runTest(run); return; }
     let j = history.length ? null : await turn(run, null);    // Echo speaks first
     let quiet = 0;
-    while (live && run === session && SR) {
+    while (live && run === session && (SR || useWhisper())) {
       let said = await listen();
       if (!live || run !== session) break;
       if (!said.text) { if (++quiet >= 3) { endLive(); setState("idle", "paused, tap to talk again"); } continue; }
@@ -305,13 +357,15 @@ async function startLive() {
 }
 function endLive() { $("#testScope").disabled = false; live = false; session++; stopListening(); stopSpeech(); clearInterval(barTimer); $("#mic").classList.remove("live"); $("#mic").setAttribute("aria-pressed", "false"); $("#mic").setAttribute("aria-label", "Start talking to Echo"); setState("idle"); }
 $("#mic").onclick = () => live ? endLive() : startLive();
+// iPhone only allows the device voice after a tap: speak nothing on the first one.
+if (PHONE && window.speechSynthesis) document.addEventListener("pointerdown", () => speechSynthesis.speak(new SpeechSynthesisUtterance("")), { once: true, capture: true });
 document.querySelector('[data-mode="test"]').addEventListener("click", () => { nextSet ??= freshSet(); });
 document.addEventListener("visibilitychange", () => { if (document.hidden && live) endLive(); });
 
 // typing works in every mode and browser
 $("#typebar").onsubmit = async (e) => {
   e.preventDefault(); const v = $("#typeIn").value.trim(); if (!v) return;
-  $("#typeIn").value = ""; stopListening(); stopSpeech();
+  $("#typeIn").value = ""; stopListening(); stopSpeech(); showErr("");
   const run = live ? session : ++session;
   add(LOG[mode], "me", esc(v));
   try { await turn(run, { text: v, alts: [], conf: 1 }); } catch (e2) { showErr(e2.message); }
@@ -534,7 +588,7 @@ document.querySelectorAll("#voices button").forEach((b) => b.onclick = async () 
   voice = b.dataset.v;
   document.querySelectorAll("#voices button").forEach((x) => x.setAttribute("aria-pressed", x === b));
   stopSpeech(); ensureAudio(); await ctx.resume();
-  if (tts) speak("Hi! I'm Echo. This is how I sound.", session);
+  if (tts || PHONE) speak("Hi! I'm Echo. This is how I sound.", session);
   else { const buf = await fetch(`audio/voice_${voice}.mp3`).then((r) => r.arrayBuffer()).then((a) => ctx.decodeAudioData(a)); setState("speaking"); await playBuffer(buf); rest(); setState("idle"); }
 });
 
